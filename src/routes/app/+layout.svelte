@@ -3,6 +3,7 @@
   import { invalidate } from "$app/navigation";
   import { onMount } from "svelte";
   import "$lib/css/main.css";
+  import Title from "../../lib/components/Title.svelte";
 
   onMount(() => {
     const {
@@ -17,10 +18,13 @@
   });
 </script>
 
-<div class="container">
+<div class="container selection:bg-base-300">
   <div class="drawer drawer-mobile">
     <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
-    <div class="drawer-content flex flex-col items-center justify-center">
+    <div class="drawer-content flex flex-col items-center justify-start p-10">
+      <div class="self-start">
+        <Title>Cycles</Title>
+      </div>
       <slot />
     </div>
     <label
@@ -88,4 +92,3 @@
     </div>
   </div>
 </div>
-
