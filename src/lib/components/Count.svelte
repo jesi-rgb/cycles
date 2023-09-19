@@ -23,17 +23,22 @@
   };
 </script>
 
-<button
-  on:click={updateCurrentCount(habit.id, currentCount)}
-  class="w-[45px] h-[45px] flex flex-row rounded-full border-base-content border-2 cursor-pointer"
->
-  {#if currentCount >= habit.target_count}
-    <span class="mx-auto w-fit self-center text-success">
+{#if currentCount < habit.target_count}
+  <button
+    on:click={updateCurrentCount(habit.id, currentCount)}
+    class="btn btn-circle btn-lg btn-outline text-2xl flex flex-row rounded-full cursor-pointer"
+  >
+    <span>
       {currentCount}⁄{habit.target_count}
     </span>
-  {:else}
-    <span class="mx-auto w-fit self-center">
+  </button>
+{:else}
+  <button
+    on:click={updateCurrentCount(habit.id, currentCount)}
+    class="btn btn-circle btn-lg btn-accent text-3xl font-bold flex flex-row rounded-full cursor-pointer"
+  >
+    <span>
       {currentCount}⁄{habit.target_count}
     </span>
-  {/if}
-</button>
+  </button>
+{/if}
