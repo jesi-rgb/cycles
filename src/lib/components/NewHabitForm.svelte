@@ -23,8 +23,6 @@
         .from("habits")
         .insert(newHabit);
 
-      console.log(data);
-
       if (error) throw error;
     } catch (error) {
       if (error instanceof Error) {
@@ -32,6 +30,9 @@
       }
     } finally {
       loading = false;
+      formTitle = "";
+      formTarget = "";
+      formCategory = "";
     }
   }
 </script>
@@ -78,3 +79,5 @@
     >{loading ? "Loading..." : "Create"}</button
   >
 </form>
+
+<a href="/app" class="btn btn-secondary">back</a>

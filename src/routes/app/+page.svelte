@@ -7,7 +7,10 @@
   import Count from "../../lib/components/Count.svelte";
   import HabitTitle from "../../lib/components/HabitTitle.svelte";
   import NewHabitForm from "../../lib/components/NewHabitForm.svelte";
+  import Habit from "../../lib/components/Habit.svelte";
 
+  const groupBy = (x, f) =>
+    x.reduce((a, b, i) => ((a[f(b, i, x)] ||= []).push(b), a), {});
   const session = $page.data.session;
   const { user } = session;
   let loading = false;
@@ -39,7 +42,8 @@
         .eq("created_by", user.id);
 
       if (data) {
-        habits = data;
+        let groupedHabits = groupBy(data, (h) => h.category);
+        habits = groupedHabits;
       }
 
       if (error && status !== 406) throw error;
@@ -73,19 +77,12 @@
   </div>
 {:else}
   <div class="w-full">
-    {#each categories as { category }}
+    {#each Object.entries(habits) as [category, habits]}
       <div class="divider text-neutral-content font-bold text-2xl">
         {category}
       </div>
       {#each habits as habit}
-        <div class="flex flex-row items-center justify-between mb-5">
-          <div class="w-1/4">
-            <Count {habit} {user} />
-          </div>
-          <div class="w-3/4">
-            <HabitTitle {habit} {user} />
-          </div>
-        </div>
+        <Habit {habit} {user} />
       {/each}
     {/each}
   </div>

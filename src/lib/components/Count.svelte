@@ -28,7 +28,7 @@
 {#if currentCount < habit.target_count}
   <button
     on:click={updateCurrentCount(habit.id, currentCount)}
-    class="btn btn-circle btn-lg btn-outline text-2xl flex flex-row rounded-full cursor-pointer fraction"
+    class="btn btn-circle btn-lg btn-outline text-4xl flex flex-row rounded-full cursor-pointer fraction"
   >
     <span>
       {currentCount}/{habit.target_count}
@@ -42,7 +42,7 @@
       e.target.blur();
       // console.log(e);
     }}
-    class="btn btn-circle btn-lg btn-accent text-3xl font-bold flex flex-row rounded-full cursor-pointer fraction"
+    class="btn btn-circle btn-lg btn-accent text-4xl font-bold flex flex-row rounded-full cursor-pointer fraction"
   >
     <span>
       {currentCount}/{habit.target_count}
