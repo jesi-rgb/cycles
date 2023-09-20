@@ -66,12 +66,12 @@
 </script>
 
 <svelte:head>
-  <title>Supabase + SvelteKit</title>
+  <title>Cycles — {username}</title>
   <meta name="description" content="SvelteKit using supabase-js v2" />
 </svelte:head>
 
 <div class="flex justify-center">
-  <div class="card w-full bg-base-100 border-accent border shadow-md">
+  <div class="card w-full border-2 border-secondary shadow-md">
     <figure class="pt-5">
       <img
         class="rounded-full border-secondary border-2"
@@ -81,7 +81,7 @@
     </figure>
     <div class="card-body">
       <h2 class="self-center card-title">{full_name}</h2>
-      <form class="" on:submit|preventDefault={updateProfile}>
+      <form on:submit|preventDefault={updateProfile}>
         <p class="mb-3">
           <label class="input-group">
             <span>Email</span>
@@ -108,7 +108,7 @@
         <div class="card-actions justify-end">
           <input
             type="submit"
-            class="btn btn-primary"
+            class="btn btn-accent"
             value={loading ? "Loading..." : "Update"}
             disabled={loading}
           />
