@@ -4,33 +4,16 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { supabaseClient } from "$lib/supabaseClient";
-  import Count from "../../lib/components/Count.svelte";
-  import HabitTitle from "../../lib/components/HabitTitle.svelte";
   import NewHabitForm from "../../lib/components/NewHabitForm.svelte";
   import Habit from "../../lib/components/Habit.svelte";
 
   const groupBy = (x, f) =>
     x.reduce((a, b, i) => ((a[f(b, i, x)] ||= []).push(b), a), {});
+
   const session = $page.data.session;
   const { user } = session;
   let loading = false;
-  let categories = [];
   let habits = [];
-
-  const fetchCategories = async () => {
-    try {
-      let { data, error } = await supabaseClient
-        .from("habits")
-        .select("category")
-        .eq("created_by", user.id);
-
-      if (data) {
-        categories = data;
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   const fetchHabits = async () => {
     try {
@@ -57,7 +40,6 @@
   };
 
   onMount(() => {
-    fetchCategories();
     fetchHabits();
   });
 </script>
@@ -69,7 +51,7 @@
 {#if loading}
   <div class="text-6xl">Loading habits...</div>
   <span class="loading loading-spinner loading-lg" />
-{:else if habits.length == 0}
+{:else if habits.length == 0 && loading}
   <div class="my-auto flex flex-col w-fit">
     <div class="text-2xl xl:text-3xl">There are no habits logged, yet.</div>
     <div class="text-2xl xl:text-3xl">How about adding one?</div>
@@ -86,4 +68,19 @@
       {/each}
     {/each}
   </div>
+  <a
+    href="/app/new"
+    class="btn btn-circle btn-secondary btn-md text-6xl font-bold self-end absolute bottom-5"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="32"
+      height="32"
+      fill="#000000"
+      viewBox="0 0 256 256"
+      ><path
+        d="M228,128a12,12,0,0,1-12,12H140v76a12,12,0,0,1-24,0V140H40a12,12,0,0,1,0-24h76V40a12,12,0,0,1,24,0v76h76A12,12,0,0,1,228,128Z"
+      /></svg
+    >
+  </a>
 {/if}

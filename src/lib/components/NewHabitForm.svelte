@@ -61,7 +61,7 @@
         inputmode="numeric"
         min="1"
         class="input input-bordered input-accent"
-        placeholder="12"
+        placeholder="4"
       />
     </div>
     <div class="flex flex-col w-3/4">
@@ -79,5 +79,3 @@
     >{loading ? "Loading..." : "Create"}</button
   >
 </form>
-
-<a href="/app" class="btn btn-secondary">back</a>
