@@ -4,12 +4,12 @@
   import Count from "./Count.svelte";
   import HabitTitle from "./HabitTitle.svelte";
   import {
+    CheckFat,
     CrosshairSimple,
     FloppyDisk,
     PencilSimpleLine,
     Tag,
     TextAa,
-    Upload,
     X,
   } from "phosphor-svelte";
 
@@ -18,12 +18,17 @@
 
   let editDialog;
 
+  let loading = false,
+    success = false;
+
   let dialogTitle = habit.title,
     dialogCount = habit.target_count,
     dialogCategory = habit.category;
 
   const updateHabit = async () => {
     try {
+      loading = true;
+
       let updateData = {
         title: dialogTitle,
         target_count: dialogCount,
@@ -39,11 +44,13 @@
         .single();
 
       habit = updateData;
+      if (data) success = true;
 
       console.log(data);
     } catch (error) {
       console.error(error);
     } finally {
+      loading = false;
     }
   };
 </script>
@@ -124,8 +131,15 @@
       on:click={updateHabit}
       class="btn btn-secondary text-2xl font-thin self-end"
     >
-      <FloppyDisk weight="fill" />
-      <span class="ml-5">update</span>
+      {#if loading}
+        <span class="ml-5">saving...</span>
+      {:else if success}
+        <CheckFat weight="fill" />
+        <span class="ml-5">saved</span>
+      {:else}
+        <FloppyDisk weight="fill" />
+        <span class="ml-5">save</span>
+      {/if}
     </button>
   </div>
 </dialog>

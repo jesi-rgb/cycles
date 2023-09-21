@@ -48,7 +48,7 @@
   on:submit|preventDefault={createHabit}
 >
   <div class="flex flex-col">
-    <label for="habit" class="flex flex-row items-center">
+    <label for="habit" class="flex flex-row items-center text-2xl">
       <span class="mr-2"><ArrowsCounterClockwise weight="fill" /></span
       >Habit</label
     >
@@ -56,13 +56,13 @@
       type="text"
       id="habit"
       bind:value={formTitle}
-      class="input input-bordered input-accent"
-      placeholder="Habit title"
+      class="input input-bordered input-accent border-2"
+      placeholder="Exercise"
     />
   </div>
   <div class="flex space-x-2">
-    <div class="flex flex-col w-1/4">
-      <label for="target" class="flex flex-row items-center">
+    <div class="flex flex-col w-2/4 self-end">
+      <label for="target" class="flex flex-row items-center text-2xl">
         <span class="mr-2"><CrosshairSimple weight="fill" /></span>Target</label
       >
       <input
@@ -71,20 +71,23 @@
         bind:value={formTarget}
         inputmode="numeric"
         min="1"
-        class="input input-bordered input-accent"
+        class="input input-bordered input-accent border-2"
         placeholder="4"
       />
     </div>
-    <div class="flex flex-col w-3/4">
-      <label for="category" class="flex flex-row items-center">
-        <span class="mr-2"><Tag weight="fill" /></span>Target</label
+    <div class="flex flex-col w-2/4">
+      <label
+        for="category"
+        class="flex flex-row items-center text-2xl self-end"
+      >
+        <span class="mr-2"><Tag weight="fill" /></span>Category</label
       >
       <input
         type="select"
         id="category"
         bind:value={formCategory}
-        class="input input-bordered input-accent"
-        placeholder="Category"
+        class="input input-bordered input-accent border-2"
+        placeholder="Self Care"
       />
     </div>
   </div>
