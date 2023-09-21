@@ -27,11 +27,16 @@
 
 {#if currentCount < habit.target_count}
   <button
-    on:click={updateCurrentCount(habit.id, currentCount)}
+    on:click={(e) => {
+      e.preventDefault();
+      updateCurrentCount(habit.id, currentCount);
+    }}
     class="btn btn-circle btn-lg btn-outline text-4xl flex flex-row rounded-full cursor-pointer fraction"
   >
     <span>
-      {currentCount}/{habit.target_count}
+      <sup>{currentCount.toString()}</sup>⁄<sub
+        >{habit.target_count.toString()}</sub
+      >
     </span>
   </button>
 {:else}
@@ -39,22 +44,23 @@
     on:click={(e) => {
       e.preventDefault();
       updateCurrentCount(habit.id, currentCount);
-      e.target.blur();
-      // console.log(e);
     }}
-    class="btn btn-circle btn-lg btn-accent text-4xl font-bold flex flex-row rounded-full cursor-pointer fraction"
+    class="btn btn-circle btn-lg btn-accent text-4xl font-bold flex flex-row rounded-full cursor-pointer fraction completed"
   >
     <span>
-      {currentCount}/{habit.target_count}
+      <sup>{currentCount}</sup>⁄<sub>{habit.target_count}</sub>
     </span>
   </button>
 {/if}
 
 <style>
   .fraction {
+    font-family: "Recursive";
     font-variant-numeric: diagonal-fractions;
-    -moz-font-feature-settings: "frac";
-    -webkit-font-feature-settings: "frac";
-    font-feature-settings: "frac";
+    font-variation-settings: "MONO" 0, "CASL" 0.5;
+    font-weight: 500;
+  }
+  .completed {
+    font-weight: 1000;
   }
 </style>

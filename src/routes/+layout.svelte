@@ -1,4 +1,5 @@
 <script>
-    import '$lib/css/main.css'
+  import "$lib/css/main.css";
 </script>
-<slot/>
+
+<slot />

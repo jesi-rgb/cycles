@@ -40,7 +40,7 @@
       updateTitle(habit.id);
     }
   }}
-  class="text-2xl font-semibold tracking-wide focus:outline-none focus:outline-accent rounded-xl px-2"
+  class="text-2xl tracking-wide focus:outline-none focus:outline-accent rounded-xl px-2"
 >
   {title}
 </div>

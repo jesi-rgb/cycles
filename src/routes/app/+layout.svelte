@@ -18,7 +18,7 @@
   });
 </script>
 
-<div class="container selection:bg-base-300">
+<div class="container selection:bg-neutral-content">
   <div class="drawer drawer-mobile">
     <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col justify-start p-10">
