@@ -27,7 +27,7 @@
         <Title>Cycles</Title>
         <label
           for="menu-drawer"
-          class="btn btn-circle btn-info btn-md text-3xl font-bold self-start"
+          class="btn btn-circle btn-info btn-md text-3xl font-bold self-start lg:hidden"
         >
           <GearSix weight="fill" />
         </label>

@@ -15,6 +15,7 @@
   const { user } = session;
   let loading = false;
   let habits = [];
+  let habitNumber;
 
   const fetchHabits = async () => {
     try {
@@ -26,6 +27,7 @@
         .eq("created_by", user.id);
 
       if (data) {
+        habitNumber = data.length;
         data.sort((h1, h2) => h1.id - h2.id);
         let groupedHabits = groupBy(data, (h) => h.category);
         habits = groupedHabits;
@@ -47,7 +49,7 @@
 </script>
 
 <svelte:head>
-  <title>Cycles — {habits.length} habits</title>
+  <title>Cycles — {habitNumber} habits</title>
 </svelte:head>
 
 {#if loading}
