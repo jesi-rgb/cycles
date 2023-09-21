@@ -34,9 +34,9 @@
     class="btn btn-circle btn-lg btn-outline text-4xl flex flex-row rounded-full cursor-pointer fraction"
   >
     <span>
-      <sup>{currentCount.toString()}</sup>⁄<sub
-        >{habit.target_count.toString()}</sub
-      >
+      <sup>{currentCount.toString()}</sup>⁄<sub>
+        {habit.target_count.toString()}
+      </sub>
     </span>
   </button>
 {:else}

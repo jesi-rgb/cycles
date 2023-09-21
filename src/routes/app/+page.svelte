@@ -25,6 +25,7 @@
         .eq("created_by", user.id);
 
       if (data) {
+        data.sort((h1, h2) => h1.id - h2.id);
         let groupedHabits = groupBy(data, (h) => h.category);
         habits = groupedHabits;
       }

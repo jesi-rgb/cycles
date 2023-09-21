@@ -1,5 +1,6 @@
 <script>
-  import { fly } from "svelte/transition";
+  import { supabaseClient } from "$lib/supabaseClient";
+
   import Count from "./Count.svelte";
   import HabitTitle from "./HabitTitle.svelte";
   import {
@@ -7,6 +8,7 @@
     PencilSimpleLine,
     Tag,
     TextAa,
+    Upload,
     X,
   } from "phosphor-svelte";
 
@@ -15,26 +17,55 @@
 
   let editDialog;
 
-  let dialogTitle, dialogCount, dialogCategory;
+  let dialogTitle = habit.title,
+    dialogCount = habit.target_count,
+    dialogCategory = habit.category;
+
+  const updateHabit = async () => {
+    try {
+      let updateData = {
+        title: dialogTitle,
+        target_count: dialogCount,
+        category: dialogCategory,
+        id: habit.id,
+        created_by: user.id,
+      };
+
+      const { data, error } = await supabaseClient
+        .from("habits")
+        .upsert(updateData)
+        .select()
+        .single();
+
+      habit = updateData;
+
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+    }
+  };
 </script>
 
-<div class="flex flex-row items-center justify-between mb-5">
+<div class="flex flex-row items-center justify-between space-x-3 mb-5">
   <div class="w-1/4">
     <Count {habit} {user} />
   </div>
   <div class="w-3/4">
-    <HabitTitle {habit} {user} />
+    <HabitTitle title={habit.title} />
   </div>
   <button on:click={editDialog.showModal()} class="btn btn-circle">
     <PencilSimpleLine size={30} />
   </button>
 </div>
+
+<!-- dialog to allow edits on the habit -->
 <dialog
   id="edit"
-  class="px-5 md:px-10 pt-4 md:pt-8 pb-7 md:pb-14 rounded-xl ring-8 ring-base-100 border-2 border-accent bg-opacity-90 bg-base-300 backdrop-blur-sm w-[97%] text-xl"
+  class="px-5 md:px-10 pt-4 md:pt-8 pb-7 md:pb-14 rounded-xl ring-8 ring-base-100 bg-gradient-to-b from-base-100/90 to-base-300/90 border-2 border-accent bg-opacity-40 bg-base-300 backdrop-blur-sm w-[97%] text-xl"
   bind:this={editDialog}
 >
-  <div class="flex flex-col space-y-3 w-full" transition:fly>
+  <div class="flex flex-col space-y-5 w-full">
     <form method="dialog" class="mb-10 flex justify-between">
       <!-- if there is a button in form, it will close the modal -->
       <p class="font-bold text-2xl">Edit the properties</p>
@@ -47,13 +78,15 @@
         <TextAa weight="fill" />
         <div class="ml-2">Title</div>
       </div>
-      <div
+      <input
         class="font-bold text-lg bg-opacity-0 bg-black focus:outline-none focus:outline-accent w-full max-w-[50%] overflow-x-scroll whitespace-nowrap text-right"
-        contenteditable
-      >
-        {habit.title}
-      </div>
+        placeholder={dialogTitle}
+        bind:value={dialogTitle}
+        type="text"
+      />
     </div>
+
+    <div class="divider" />
 
     <!--target count-->
     <div class="flex justify-between">
@@ -61,13 +94,16 @@
         <CrosshairSimple weight="fill" />
         <div class="ml-2">Target count</div>
       </div>
-      <span
+      <input
         inputmode="numeric"
-        contenteditable
-        class="font-mono px-3 font-[1000] focus:outline-none focus:outline-accent"
-        >{habit.target_count}</span
-      >
+        type="number"
+        bind:value={dialogCount}
+        class="font-mono font-[1000] focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
+        placeholder={dialogCount}
+      />
     </div>
+
+    <div class="divider" />
 
     <!-- category -->
     <div class="flex justify-between">
@@ -75,13 +111,21 @@
         <Tag weight="fill" />
         <div class="ml-2">Category</div>
       </div>
-      <span
-        inputmode="numeric"
-        contenteditable
-        class="font-bold text-lg bg-opacity-0 bg-black focus:outline-none focus:outline-accent w-full max-w-[50%] overflow-x-scroll whitespace-nowrap text-right"
-        >{habit.category}</span
-      >
+      <input
+        bind:value={dialogCategory}
+        type="text"
+        class="font-bold text-lg bg-opacity-0 bg-black focus:outline-none focus:outline-accent w-min overflow-x-scroll whitespace-nowrap text-right"
+        placeholder={dialogCategory}
+      />
     </div>
+
+    <button
+      on:click={updateHabit}
+      class="btn btn-secondary text-2xl font-thin self-end"
+    >
+      <span class="mr-5">update</span>
+      <Upload weight="fill" />
+    </button>
   </div>
 </dialog>
 

@@ -1,6 +1,14 @@
 <script>
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";
+  import {
+    ArrowCounterClockwise,
+    ArrowsCounterClockwise,
+    CrosshairSimple,
+    Star,
+    Tag,
+    Target,
+  } from "phosphor-svelte";
 
   const session = $page.data.session;
 
@@ -42,7 +50,10 @@
   on:submit|preventDefault={createHabit}
 >
   <div class="flex flex-col">
-    <label for="habit">Habit</label>
+    <label for="habit" class="flex flex-row items-center">
+      <span class="mr-2"><ArrowsCounterClockwise weight="fill" /></span
+      >Habit</label
+    >
     <input
       type="text"
       id="habit"
@@ -53,7 +64,9 @@
   </div>
   <div class="flex space-x-2">
     <div class="flex flex-col w-1/4">
-      <label for="target">Target Count</label>
+      <label for="target" class="flex flex-row items-center">
+        <span class="mr-2"><CrosshairSimple weight="fill" /></span>Target</label
+      >
       <input
         type="number"
         id="target"
@@ -65,7 +78,9 @@
       />
     </div>
     <div class="flex flex-col w-3/4">
-      <label for="category">Category</label>
+      <label for="category" class="flex flex-row items-center">
+        <span class="mr-2"><Tag weight="fill" /></span>Target</label
+      >
       <input
         type="select"
         id="category"
@@ -75,7 +90,8 @@
       />
     </div>
   </div>
-  <button class="btn btn-accent text-xl"
-    >{loading ? "Loading..." : "Create"}</button
+  <button class="btn btn-accent text-xl">
+    <span class="mr-2"><Star weight="fill" /></span>
+    {loading ? "Loading..." : "Create"}</button
   >
 </form>
