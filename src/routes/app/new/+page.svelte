@@ -9,6 +9,6 @@
 
 <NewHabitForm />
 
-<a href="/app" class="btn btn-secondary text-2xl font-bold">
-  <span class="mr-2"> <ArrowLeft weight="bold" /> </span> back</a
+<a href="/app" class="btn btn-secondary text-xl font-bold w-fit">
+  <span class="mr-5"> <ArrowLeft weight="bold" /> </span> back</a
 >

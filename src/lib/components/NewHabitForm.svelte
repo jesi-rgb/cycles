@@ -2,12 +2,10 @@
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";
   import {
-    ArrowCounterClockwise,
     ArrowsCounterClockwise,
     CrosshairSimple,
     Star,
     Tag,
-    Target,
   } from "phosphor-svelte";
 
   const session = $page.data.session;
@@ -90,8 +88,8 @@
       />
     </div>
   </div>
-  <button class="btn btn-accent text-xl">
-    <span class="mr-2"><Star weight="fill" /></span>
+  <button class="btn btn-accent text-2xl">
+    <span class="mr-5"><Star weight="fill" /></span>
     {loading ? "Loading..." : "Create"}</button
   >
 </form>

@@ -5,6 +5,7 @@
   import HabitTitle from "./HabitTitle.svelte";
   import {
     CrosshairSimple,
+    FloppyDisk,
     PencilSimpleLine,
     Tag,
     TextAa,
@@ -123,8 +124,8 @@
       on:click={updateHabit}
       class="btn btn-secondary text-2xl font-thin self-end"
     >
-      <span class="mr-5">update</span>
-      <Upload weight="fill" />
+      <FloppyDisk weight="fill" />
+      <span class="ml-5">update</span>
     </button>
   </div>
 </dialog>
