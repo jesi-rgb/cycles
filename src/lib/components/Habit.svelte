@@ -1,5 +1,6 @@
 <script>
   import { supabaseClient } from "$lib/supabaseClient";
+  import { habits } from "../../stores";
 
   import Count from "./Count.svelte";
   import HabitTitle from "./HabitTitle.svelte";
@@ -10,6 +11,7 @@
     PencilSimpleLine,
     Tag,
     TextAa,
+    Trash,
     X,
   } from "phosphor-svelte";
 
@@ -18,12 +20,36 @@
 
   let editDialog;
 
+  let askUserDelete = false;
+
   let loading = false,
     success = false;
 
   let dialogTitle = habit.title,
     dialogCount = habit.target_count,
     dialogCategory = habit.category;
+
+  const deleteHabit = async () => {
+    try {
+      const { error } = await supabaseClient
+        .from("habits")
+        .delete()
+        .eq("created_by", user.id)
+        .eq("id", habit.id);
+
+      //delete it from store to trigger reactivity
+      habits.set(
+        $habits.filter(
+          (h) => h.id != habit.id || h.created_by != habit.created_by
+        )
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      askUserDelete = false;
+      editDialog.close();
+    }
+  };
 
   const updateHabit = async () => {
     try {
@@ -51,6 +77,7 @@
       console.error(error);
     } finally {
       loading = false;
+      window.location.reload();
     }
   };
 </script>
@@ -127,20 +154,37 @@
       />
     </div>
 
-    <button
-      on:click={updateHabit}
-      class="btn btn-secondary text-2xl font-thin self-end"
-    >
-      {#if loading}
-        <span class="ml-5">saving...</span>
-      {:else if success}
-        <CheckFat weight="fill" />
-        <span class="ml-5">saved</span>
-      {:else}
-        <FloppyDisk weight="fill" />
-        <span class="ml-5">save</span>
-      {/if}
-    </button>
+    <div class="flex justify-between pt-10">
+      <div>
+        {#if !askUserDelete}
+          <button
+            on:click={() => (askUserDelete = true)}
+            class="btn btn-error self-start"
+          >
+            <span class="mr-5"> <Trash weight="fill" /> </span> delete
+          </button>
+        {:else}
+          <button on:click={deleteHabit} class="btn btn-error self-start">
+            <span class="mr-5"> <Trash weight="fill" /> </span> sure?
+          </button>
+        {/if}
+      </div>
+
+      <button
+        on:click={updateHabit}
+        class="btn btn-secondary text-2xl font-thin self-end"
+      >
+        {#if loading}
+          <span class="ml-5">saving...</span>
+        {:else if success}
+          <CheckFat weight="fill" />
+          <span class="ml-5">saved</span>
+        {:else}
+          <FloppyDisk weight="fill" />
+          <span class="ml-5">save</span>
+        {/if}
+      </button>
+    </div>
   </div>
 </dialog>
 

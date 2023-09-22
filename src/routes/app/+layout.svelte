@@ -32,7 +32,9 @@
           <GearSix weight="fill" />
         </label>
       </div>
+      <!-- whole app goes in here -->
       <slot />
+      <!-- whole app goes in here -->
     </div>
     <div class="drawer-side">
       <label for="menu-drawer" class="drawer-overlay" />

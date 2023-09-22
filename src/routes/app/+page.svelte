@@ -2,25 +2,26 @@
   //fetch all habits and display them
 
   import { page } from "$app/stores";
-  import { onMount } from "svelte";
   import { supabaseClient } from "$lib/supabaseClient";
-  import NewHabitForm from "../../lib/components/NewHabitForm.svelte";
+  import { habits } from "../../stores.js";
+  import { onMount } from "svelte";
+
   import Habit from "../../lib/components/Habit.svelte";
-  import { Gear, GearSix, Plus } from "phosphor-svelte";
+  import { Plus } from "phosphor-svelte";
 
   const groupBy = (x, f) =>
     x.reduce((a, b, i) => ((a[f(b, i, x)] ||= []).push(b), a), {});
 
   const session = $page.data.session;
   const { user } = session;
-  let loading = false;
-  let habits = [];
   let habitNumber;
+  let groupedHabits;
+  $: if ($habits != undefined && $habits.length > 0) {
+    groupedHabits = groupBy($habits, (h) => h.category);
+  }
 
   const fetchHabits = async () => {
     try {
-      loading = true;
-
       let { data, error, status } = await supabaseClient
         .from("habits")
         .select("*")
@@ -28,9 +29,11 @@
 
       if (data) {
         habitNumber = data.length;
+
         data.sort((h1, h2) => h1.id - h2.id);
-        let groupedHabits = groupBy(data, (h) => h.category);
-        habits = groupedHabits;
+
+        habits.set(data);
+        groupedHabits = groupBy(data, (h) => h.category);
       }
 
       if (error && status !== 406) throw error;
@@ -38,44 +41,38 @@
       if (error instanceof Error) {
         console.error(error);
       }
-    } finally {
-      loading = false;
     }
   };
 
-  onMount(() => {
-    fetchHabits();
-  });
+  fetchHabits();
 </script>
 
 <svelte:head>
   <title>Cycles — {habitNumber} habits</title>
 </svelte:head>
 
-{#if loading}
-  <div class="text-6xl">Loading habits...</div>
+{#await fetchHabits()}
+  <div class="text-4xl">Loading habits...</div>
   <span class="loading loading-spinner loading-lg" />
-{:else if habits.length == 0 && loading}
-  <div class="my-auto flex flex-col w-fit">
-    <div class="text-2xl xl:text-3xl">There are no habits logged, yet.</div>
-    <div class="text-2xl xl:text-3xl">How about adding one?</div>
-    <NewHabitForm />
-  </div>
-{:else}
-  <div class="w-full">
-    {#each Object.entries(habits) as [category, habits]}
-      <div class="divider text-neutral-content font-bold text-2xl">
-        {category}
-      </div>
-      {#each habits as habit}
-        <Habit {habit} {user} />
+{:then habitsResponse}
+  {#if habits.length == 0}
+    <div>There are no habits created, yet.</div>
+  {:else}
+    <div class="w-full">
+      {#each Object.entries(groupedHabits) as [category, categoryHabits]}
+        <div class="divider text-neutral-content font-bold text-2xl">
+          {category}
+        </div>
+        {#each categoryHabits as habit}
+          <Habit {habit} {user} />
+        {/each}
       {/each}
-    {/each}
-  </div>
-  <a
-    href="/app/new"
-    class="btn btn-circle btn-secondary btn-md text-6xl font-bold self-end absolute bottom-5"
-  >
-    <Plus weight="bold" size={32} />
-  </a>
-{/if}
+    </div>
+    <a
+      href="/app/new"
+      class="btn btn-circle btn-secondary btn-md text-6xl font-bold self-end absolute bottom-5"
+    >
+      <Plus weight="bold" size={32} />
+    </a>
+  {/if}
+{/await}
