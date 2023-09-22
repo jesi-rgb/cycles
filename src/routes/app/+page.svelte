@@ -55,8 +55,15 @@
   <div class="text-4xl">Loading habits...</div>
   <span class="loading loading-spinner loading-lg" />
 {:then habitsResponse}
-  {#if habits.length == 0}
-    <div>There are no habits created, yet.</div>
+  {#if $habits.length == 0}
+    <div class="text-2xl text-center">
+      <div>There are no habits created, yet.</div>
+      <div class="text-3xl mt-10 my-auto h-fit">
+        Let's start by{" "}<a class="underline text-accent" href="/app/new">
+          creating one</a
+        >.
+      </div>
+    </div>
   {:else}
     <div class="w-full">
       {#each Object.entries(groupedHabits) as [category, categoryHabits]}
