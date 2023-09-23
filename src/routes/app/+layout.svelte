@@ -23,11 +23,11 @@
   <div class="drawer drawer-mobile">
     <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col justify-start p-10">
-      <div class="flex flex-row items-center justify-between">
+      <div class="flex flex-row items-center justify-between mb-10">
         <Title>Cycles</Title>
         <label
           for="menu-drawer"
-          class="btn btn-circle btn-info btn-md text-3xl font-bold self-start lg:hidden"
+          class="btn btn-circle btn-info btn-md text-3xl font-bold lg:hidden"
         >
           <GearSix weight="fill" />
         </label>

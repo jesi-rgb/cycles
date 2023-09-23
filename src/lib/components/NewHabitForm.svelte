@@ -1,4 +1,5 @@
 <script>
+  import MultiSelect from "svelte-multiselect";
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";
   import {
@@ -7,11 +8,33 @@
     Star,
     Tag,
   } from "phosphor-svelte";
+  import { onMount } from "svelte";
 
   const session = $page.data.session;
 
+  let selected,
+    categories = [];
+
   let loading = false;
   let formTitle, formTarget, formCategory;
+
+  async function fetchCategories() {
+    try {
+      const { user } = session;
+
+      let { data, error } = await supabaseClient
+        .from("habits")
+        .select("category")
+        .eq("created_by", user.id);
+
+      if (data) {
+        categories = data;
+        console.log(categories);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function createHabit() {
     try {
@@ -41,6 +64,8 @@
       formCategory = "";
     }
   }
+
+  onMount(() => fetchCategories());
 </script>
 
 <form
@@ -82,13 +107,15 @@
       >
         <span class="mr-2"><Tag weight="fill" /></span>Category</label
       >
-      <input
-        type="select"
+      <select
         id="category"
         bind:value={formCategory}
-        class="input input-bordered input-accent border-2"
-        placeholder="Self Care"
-      />
+        class="input input-bordered input-accent border-2 appearance-none"
+      >
+        {#each categories as category}
+          <option value={category.category}>{category.category}</option>
+        {/each}
+      </select>
     </div>
   </div>
   <button class="btn btn-accent text-2xl">
@@ -96,3 +123,47 @@
     {loading ? "Loading..." : "Create"}</button
   >
 </form>
+
+<style>
+  :global(.virtual-list-wrapper) {
+    /* hide scrollbar */
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+
+  :global(.virtual-list-wrapper::-webkit-scrollbar) {
+    /* hide scrollbar */
+    display: none !important;
+  }
+
+  .wrapper {
+    position: relative;
+  }
+
+  :root {
+    --main: #140e78;
+
+    --white: #fff;
+    --main-lighter: #c7d2f8;
+    --accent: #d0a2ff;
+    --accent-darker: #7300ed;
+    --text-color: #fff;
+
+    --sms-active-color: var(--main-lighter);
+
+    --sms-border: 1px solid var(--main-lighter);
+    --sms-options-bg: #fff;
+    --sms-selected-bg: var(--main);
+    --sms-text-color: var(--white);
+    --sms-placeholder-color: var(--main);
+  }
+
+  :global(div.multiselect > svg) {
+    /* top-level wrapper div */
+    color: #140e78;
+  }
+  :global(.remove-all > svg) {
+    /* top-level wrapper div */
+    color: #140e78;
+  }
+</style>
