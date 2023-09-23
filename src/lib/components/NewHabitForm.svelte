@@ -1,5 +1,29 @@
 <script>
-  import MultiSelect from "svelte-multiselect";
+  /* <Select */
+  /*   items={categories} */
+  /*   on:change={handleChange} */
+  /*   bind:filterText */
+  /*   searchable */
+  /*   --background="#282A36" */
+  /*   --input-color="#F8F8F3" */
+  /*   --item-active-background="#FFB86B" */
+  /*   --item-background="#282A36" */
+  /*   --list-background="#282A36" */
+  /*   --list-border="solid 2px #09090C" */
+  /*   --item-hover-bg="#FFB86C" */
+  /*   --item-hover-color="#282A36" */
+  /*   --item-is-active-bg="#FFB86C" */
+  /*   --item-is-active-color="#282A36" */
+  /*   --item-color="#F8F8F3" */
+  /*   --border-focused="solid 2px #FFB86B" */
+  /*   --border="solid 2px #BE95F9" */
+  /*   --border-hover="solid 2px #A36EEC" */
+  /* > */
+  /*   <div slot="item" let:item> */
+  /*     {item.created ? "Add new: " : ""} */
+  /*     {item.label} */
+  /*   </div> */
+  /* </Select> */
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";
   import {
@@ -9,32 +33,13 @@
     Tag,
   } from "phosphor-svelte";
   import { onMount } from "svelte";
+  import SelectionGpt from "./SelectionGPT.svelte";
+  import { habits } from "../../stores";
 
   const session = $page.data.session;
 
-  let selected,
-    categories = [];
-
   let loading = false;
   let formTitle, formTarget, formCategory;
-
-  async function fetchCategories() {
-    try {
-      const { user } = session;
-
-      let { data, error } = await supabaseClient
-        .from("habits")
-        .select("category")
-        .eq("created_by", user.id);
-
-      if (data) {
-        categories = data;
-        console.log(categories);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   async function createHabit() {
     try {
@@ -65,7 +70,11 @@
     }
   }
 
-  onMount(() => fetchCategories());
+  let categories;
+  onMount(() => {
+    console.log($habits);
+    categories = $habits.map((h) => h.category);
+  });
 </script>
 
 <form
@@ -81,7 +90,7 @@
       type="text"
       id="habit"
       bind:value={formTitle}
-      class="input input-bordered input-accent border-2"
+      class="input input-secondary hover:border-secondary-focus focus:input-accent focus:border-accent border-2"
       placeholder="Exercise"
     />
   </div>
@@ -96,7 +105,7 @@
         bind:value={formTarget}
         inputmode="numeric"
         min="1"
-        class="input input-bordered input-accent border-2"
+        class="input input-secondary hover:border-secondary-focus focus:input-accent focus:border-accent border-2"
         placeholder="4"
       />
     </div>
@@ -107,15 +116,10 @@
       >
         <span class="mr-2"><Tag weight="fill" /></span>Category</label
       >
-      <select
-        id="category"
-        bind:value={formCategory}
-        class="input input-bordered input-accent border-2 appearance-none"
-      >
-        {#each categories as category}
-          <option value={category.category}>{category.category}</option>
-        {/each}
-      </select>
+      <SelectionGpt
+        bind:options={categories}
+        bind:selectedOption={formCategory}
+      />
     </div>
   </div>
   <button class="btn btn-accent text-2xl">
@@ -123,47 +127,3 @@
     {loading ? "Loading..." : "Create"}</button
   >
 </form>
-
-<style>
-  :global(.virtual-list-wrapper) {
-    /* hide scrollbar */
-    -ms-overflow-style: none !important;
-    scrollbar-width: none !important;
-  }
-
-  :global(.virtual-list-wrapper::-webkit-scrollbar) {
-    /* hide scrollbar */
-    display: none !important;
-  }
-
-  .wrapper {
-    position: relative;
-  }
-
-  :root {
-    --main: #140e78;
-
-    --white: #fff;
-    --main-lighter: #c7d2f8;
-    --accent: #d0a2ff;
-    --accent-darker: #7300ed;
-    --text-color: #fff;
-
-    --sms-active-color: var(--main-lighter);
-
-    --sms-border: 1px solid var(--main-lighter);
-    --sms-options-bg: #fff;
-    --sms-selected-bg: var(--main);
-    --sms-text-color: var(--white);
-    --sms-placeholder-color: var(--main);
-  }
-
-  :global(div.multiselect > svg) {
-    /* top-level wrapper div */
-    color: #140e78;
-  }
-  :global(.remove-all > svg) {
-    /* top-level wrapper div */
-    color: #140e78;
-  }
-</style>

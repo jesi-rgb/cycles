@@ -1,3 +1,3 @@
-import { writable } from "svelte/store";
+import { persisted } from "svelte-local-storage-store";
 
-export const habits = writable(undefined);
+export const habits = persisted(undefined);
