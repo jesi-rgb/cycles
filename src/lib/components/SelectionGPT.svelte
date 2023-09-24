@@ -5,6 +5,7 @@
 
   // Array of options
   export let options;
+  export let currentlySelected;
   $: optionsUnique = [...new Set(options)];
 
   export let selectedOption = ""; // To store the selected option
@@ -54,7 +55,7 @@
   <input
     type="text"
     class="w-full input input-bordered input-secondary border-2 focus:input-accent"
-    placeholder="Select an option..."
+    placeholder={currentlySelected}
     bind:value={searchTerm}
     on:click={toggleDropdown}
   />

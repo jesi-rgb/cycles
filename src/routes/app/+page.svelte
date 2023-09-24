@@ -15,10 +15,12 @@
   const session = $page.data.session;
   const { user } = session;
   let habitNumber;
-  let groupedHabits;
-  $: if ($habits != undefined && $habits.length > 0) {
-    groupedHabits = groupBy($habits, (h) => h.category);
-  }
+  // let groupedHabits;
+  // $: if ($habits != undefined && $habits.length > 0) {
+  //   groupedHabits = groupBy($habits, (h) => h.category);
+  // }
+  console.log($habits);
+  $: groupedHabits = $habits;
 
   const fetchHabits = async () => {
     try {
@@ -44,7 +46,10 @@
     }
   };
 
-  fetchHabits();
+  onMount(() => {
+    groupedHabits = $habits;
+    fetchHabits();
+  });
 </script>
 
 <svelte:head>

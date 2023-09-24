@@ -2,6 +2,7 @@
   import { supabaseClient } from "$lib/supabaseClient";
   import { habits } from "../../stores";
 
+  import SelectionGpt from "./SelectionGPT.svelte";
   import Count from "./Count.svelte";
   import HabitTitle from "./HabitTitle.svelte";
   import {
@@ -14,6 +15,7 @@
     Trash,
     X,
   } from "phosphor-svelte";
+  import { onMount } from "svelte";
 
   export let habit;
   export let user;
@@ -70,6 +72,12 @@
         .single();
 
       habit = updateData;
+      habits.update((habitsCallback) => {
+        const hIndex = habitsCallback.findIndex(
+          (h) => h.id == habit.id && h.created_by == habit.created_by
+        );
+        habitsCallback[hIndex] = updateData;
+      });
       if (data) success = true;
 
       console.log(data);
@@ -77,9 +85,14 @@
       console.error(error);
     } finally {
       loading = false;
-      window.location.reload();
+      // window.location.reload();
     }
   };
+
+  let categories;
+  onMount(() => {
+    categories = $habits.map((h) => h.category);
+  });
 </script>
 
 <div class="flex flex-row items-center justify-between space-x-3 mb-5">
@@ -146,11 +159,16 @@
         <Tag weight="fill" />
         <div class="ml-2">Category</div>
       </div>
-      <input
-        bind:value={dialogCategory}
-        type="text"
-        class="font-bold text-lg bg-opacity-0 bg-black focus:outline-none focus:outline-accent w-min overflow-x-scroll whitespace-nowrap text-right"
-        placeholder={dialogCategory}
+      <!-- <input -->
+      <!--   bind:value={dialogCategory} -->
+      <!--   type="text" -->
+      <!--   class="font-bold text-lg bg-opacity-0 bg-black focus:outline-none focus:outline-accent w-min overflow-x-scroll whitespace-nowrap text-right" -->
+      <!--   placeholder={dialogCategory} -->
+      <!-- /> -->
+      <SelectionGpt
+        currentlySelected={dialogCategory}
+        bind:options={categories}
+        bind:selectedOption={dialogCategory}
       />
     </div>
 
