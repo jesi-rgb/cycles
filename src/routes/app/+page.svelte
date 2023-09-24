@@ -17,11 +17,6 @@
   let habitNumber;
   $: groupedHabits = groupBy($habits, (h) => h.category);
 
-  // $: if ($habits && $habits.length > 0) {
-  //   groupedHabits = groupBy($habits, (h) => h.category);
-  // }
-
-  $: console.log("page/app", groupedHabits);
   const fetchHabits = async () => {
     try {
       let { data, error, status } = await supabaseClient

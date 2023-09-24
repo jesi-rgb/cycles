@@ -165,7 +165,6 @@
       <!--   placeholder={dialogCategory} -->
       <!-- /> -->
       <SelectionGpt
-        currentlySelected={dialogCategory}
         bind:options={categories}
         bind:selectedOption={dialogCategory}
       />

@@ -5,6 +5,7 @@
   export let user;
 
   let currentCount = habit.current_count;
+  let targetCount = habit.target_count;
 
   const updateCurrentCount = async (id, current) => {
     try {
@@ -23,6 +24,8 @@
       console.error(error);
     }
   };
+  $: ccountLength = currentCount.toString().length;
+  $: tcountLength = targetCount.toString().length;
 </script>
 
 {#if currentCount < habit.target_count}
@@ -33,7 +36,7 @@
     }}
     class="btn btn-circle btn-lg btn-outline text-4xl flex flex-row rounded-full cursor-pointer fraction"
   >
-    <span>
+    <span class={ccountLength + tcountLength >= 4 ? "text-3xl" : ""}>
       <sup>{currentCount.toString()}</sup>⁄<sub>
         {habit.target_count.toString()}
       </sub>
