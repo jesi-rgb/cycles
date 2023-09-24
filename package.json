@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite dev",
-    "host": "vite dev --host 192.168.1.37",
+    "host": "vite dev --host 192.168.1.36",
     "build": "vite build",
     "preview": "vite preview"
   },

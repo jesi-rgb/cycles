@@ -1,16 +1,18 @@
 <script>
+  import { fly } from "svelte/transition";
   let searchTerm = ""; // To store the search term
   let isOpen = false; // To track whether the dropdown is open
 
   // Array of options
   export let options;
+  $: optionsUnique = [...new Set(options)];
+
   export let selectedOption = ""; // To store the selected option
 
   // Function to toggle the dropdown open/close
   function toggleDropdown() {
     isOpen = !isOpen;
   }
-
   function closeDropdown() {
     isOpen = false;
   }
@@ -23,13 +25,28 @@
   }
 
   // Function to filter options based on the search term
-  function filteredOptions() {
-    console.log(options);
-    if (options === undefined || options === null || options.length == 0)
+  // function filteredOptions() {
+  //   options = [...new Set(options)]; //remove duplicates
+  //
+  //   if (options === undefined || options === null || options.length == 0)
+  //     return [];
+  //   return options.filter((option) =>
+  //     option.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  // }
+  $: filteredOptions = optionsUnique?.filter((option) =>
+    option.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  function addNewOption() {
+    if (optionsUnique != undefined) {
+      const newOption = searchTerm;
+      optionsUnique = [newOption, ...optionsUnique];
+      selectedOption = newOption;
+      isOpen = false; // Close the dropdown after adding
+    } else {
       return [];
-    return options.filter((option) =>
-      option.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    }
   }
 </script>
 
@@ -43,16 +60,28 @@
   />
   {#if isOpen}
     <div
+      transition:fly={{ y: -10, duration: 200 }}
       class="absolute top-10 left-0 z-10 w-full bg-base-200 border rounded shadow"
     >
-      {#each filteredOptions() as option}
+      {#if filteredOptions.length === 0 && searchTerm.length > 0}
         <div
           class="p-2 cursor-pointer hover:bg-base-300"
-          on:click={() => handleSelection(option)}
+          on:click={addNewOption}
+          on:blur={closeDropdown}
         >
-          {option}
+          Add new: {searchTerm}
         </div>
-      {/each}
+      {:else if filteredOptions != undefined}
+        {#each filteredOptions as option}
+          <div
+            class="p-2 cursor-pointer hover:bg-base-300"
+            on:blur={closeDropdown}
+            on:click={() => handleSelection(option)}
+          >
+            {option}
+          </div>
+        {/each}
+      {/if}
     </div>
   {/if}
 </div>
