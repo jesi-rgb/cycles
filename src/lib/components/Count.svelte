@@ -8,12 +8,10 @@
   let currentCount = habit.current_count;
   let targetCount = habit.target_count;
 
-  $: percentageValue = (currentCount / habit.target_count) * 100;
-  // $: percentageValue = 50;
-  console.log("percentage", habit.current_count / habit.target_count);
-
   const radius = 33; // Radius of the circle
   const circumference = 2 * Math.PI * radius;
+
+  $: percentageValue = (currentCount / habit.target_count) * 100;
   $: dashArray = (percentageValue / 100) * circumference;
   $: dashOffset = circumference - dashArray;
 
@@ -36,7 +34,6 @@
   };
   $: ccountLength = currentCount.toString().length;
   $: tcountLength = targetCount.toString().length;
-  $: console.log(currentCount, ccountLength);
 </script>
 
 {#if currentCount < habit.target_count}
@@ -78,6 +75,7 @@
     on:click={(e) => {
       e.preventDefault();
       updateCurrentCount(habit.id, currentCount);
+      console.log(e.target);
     }}
     class="relative btn btn-circle btn-lg btn-accent text-4xl font-bold flex flex-row rounded-full cursor-pointer fraction completed"
   >
@@ -87,7 +85,7 @@
       </sub>
     </span>
     <svg
-      class="absolute"
+      class="absolute hover:rotate-360 hover:fill-black transition-transform duration-700 z-10"
       width="100"
       height="100"
       xmlns="http://www.w3.org/2000/svg"
