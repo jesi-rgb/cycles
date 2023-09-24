@@ -15,13 +15,13 @@
   const session = $page.data.session;
   const { user } = session;
   let habitNumber;
-  // let groupedHabits;
-  // $: if ($habits != undefined && $habits.length > 0) {
+  $: groupedHabits = groupBy($habits, (h) => h.category);
+
+  // $: if ($habits && $habits.length > 0) {
   //   groupedHabits = groupBy($habits, (h) => h.category);
   // }
-  console.log($habits);
-  $: groupedHabits = $habits;
 
+  $: console.log("page/app", groupedHabits);
   const fetchHabits = async () => {
     try {
       let { data, error, status } = await supabaseClient

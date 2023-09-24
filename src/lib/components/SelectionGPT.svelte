@@ -25,16 +25,6 @@
     searchTerm = option;
   }
 
-  // Function to filter options based on the search term
-  // function filteredOptions() {
-  //   options = [...new Set(options)]; //remove duplicates
-  //
-  //   if (options === undefined || options === null || options.length == 0)
-  //     return [];
-  //   return options.filter((option) =>
-  //     option.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-  // }
   $: filteredOptions = optionsUnique?.filter((option) =>
     option.toLowerCase().includes(searchTerm.toLowerCase())
   );

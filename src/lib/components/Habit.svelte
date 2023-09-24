@@ -71,21 +71,20 @@
         .select()
         .single();
 
-      habit = updateData;
       habits.update((habitsCallback) => {
         const hIndex = habitsCallback.findIndex(
           (h) => h.id == habit.id && h.created_by == habit.created_by
         );
         habitsCallback[hIndex] = updateData;
+        return habitsCallback;
       });
-      if (data) success = true;
 
-      console.log(data);
+      if (data) success = true;
     } catch (error) {
       console.error(error);
     } finally {
       loading = false;
-      // window.location.reload();
+      editDialog.close();
     }
   };
 
