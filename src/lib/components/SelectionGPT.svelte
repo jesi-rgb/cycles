@@ -1,14 +1,14 @@
 <script>
+  import { X } from "phosphor-svelte";
   import { fly } from "svelte/transition";
-  let searchTerm = ""; // To store the search term
   let isOpen = false; // To track whether the dropdown is open
 
   // Array of options
   export let options;
-  export let currentlySelected;
   $: optionsUnique = [...new Set(options)];
 
   export let selectedOption = ""; // To store the selected option
+  $: searchTerm = selectedOption;
 
   // Function to toggle the dropdown open/close
   function toggleDropdown() {
@@ -22,7 +22,7 @@
   function handleSelection(option) {
     selectedOption = option;
     isOpen = false; // Close the dropdown after selection
-    searchTerm = option;
+    searchTerm = selectedOption;
   }
 
   $: filteredOptions = optionsUnique?.filter((option) =>
@@ -45,9 +45,10 @@
   <input
     type="text"
     class="w-full input input-bordered input-secondary border-2 focus:input-accent"
-    placeholder={currentlySelected}
+    placeholder={"Tag it so it looks cool"}
     bind:value={searchTerm}
     on:click={toggleDropdown}
+    on:blur={closeDropdown}
   />
   {#if isOpen}
     <div
@@ -60,7 +61,7 @@
           on:click={addNewOption}
           on:blur={closeDropdown}
         >
-          Add new: {searchTerm}
+          ✨Add new: {searchTerm}
         </div>
       {:else if filteredOptions != undefined}
         {#each filteredOptions as option}
@@ -75,4 +76,16 @@
       {/if}
     </div>
   {/if}
+  <button
+    class="absolute right-2 w-9 h-9 rounded-full border border-secondary text-secondary top-1/2 -translate-y-1/2 hover:bg-secondary transition-colors group"
+    on:click={(e) => {
+      e.preventDefault();
+      searchTerm = "";
+    }}
+  >
+    <X
+      weight="bold"
+      class="mx-auto group-hover:text-base-100 transition-colors"
+    />
+  </button>
 </div>

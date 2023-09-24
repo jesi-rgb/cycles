@@ -91,7 +91,7 @@
       id="habit"
       bind:value={formTitle}
       class="input input-secondary hover:border-secondary-focus focus:input-accent focus:border-accent border-2"
-      placeholder="Exercise"
+      placeholder="Something to keep track of"
     />
   </div>
   <div class="flex space-x-2">
@@ -106,7 +106,7 @@
         inputmode="numeric"
         min="1"
         class="input input-secondary hover:border-secondary-focus focus:input-accent focus:border-accent border-2"
-        placeholder="4"
+        placeholder="how many times?"
       />
     </div>
     <div class="flex flex-col w-2/4">
