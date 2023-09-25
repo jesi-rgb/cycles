@@ -25,9 +25,11 @@
   /*   </div> */
   /* </Select> */
   import { page } from "$app/stores";
+  import { DateTime } from "luxon";
   import { supabaseClient } from "$lib/supabaseClient";
   import {
     ArrowsCounterClockwise,
+    Calendar,
     CrosshairSimple,
     Star,
     Tag,
@@ -39,7 +41,10 @@
   const session = $page.data.session;
 
   let loading = false;
-  let formTitle, formTarget, formCategory;
+  let formTitle,
+    formTarget,
+    formCycle = "daily",
+    formCategory;
 
   async function createHabit() {
     try {
@@ -54,15 +59,40 @@
         formTarget = 0;
       }
 
+      if (!formCycle) {
+        formCycle = "daily";
+      }
+
       if (!formCategory) {
         formCategory = "No category";
       }
+
+      let nextUpdate;
+
+      if (formCycle == "daily") {
+        nextUpdate = DateTime.now()
+          .plus({ days: 1 })
+          .startOf("day")
+          .set({ hour: 3 });
+      } else {
+        nextUpdate = DateTime.now()
+          .plus({ weeks: 1 })
+          .startOf("week")
+          .set({ hour: 3 });
+      }
+      console.log(
+        nextUpdate.toISO(),
+        nextUpdate.toHTTP(),
+        nextUpdate.toRelative()
+      );
 
       let newHabit = {
         title: formTitle,
         target_count: formTarget,
         category: formCategory,
         created_by: user.id,
+        cycle: formCycle,
+        next_update: nextUpdate.toISO(),
       };
 
       let { data, error } = await supabaseClient
@@ -105,33 +135,39 @@
       placeholder="Something to keep track of"
     />
   </div>
-  <div class="flex space-x-2">
-    <div class="flex flex-col w-2/4 self-end">
-      <label for="target" class="flex flex-row items-center text-2xl">
-        <span class="mr-2"><CrosshairSimple weight="fill" /></span>Target</label
-      >
-      <input
-        type="number"
-        id="target"
-        bind:value={formTarget}
-        inputmode="numeric"
-        min="1"
-        class="input input-secondary hover:border-secondary-focus focus:input-accent focus:border-accent border-2"
-        placeholder="how many times?"
-      />
-    </div>
-    <div class="flex flex-col w-2/4">
-      <label
-        for="category"
-        class="flex flex-row items-center text-2xl self-end"
-      >
-        <span class="mr-2"><Tag weight="fill" /></span>Category</label
-      >
-      <SelectionGpt
-        bind:options={categories}
-        bind:selectedOption={formCategory}
-      />
-    </div>
+  <div class="flex flex-col">
+    <label for="target" class="flex flex-row items-center text-2xl">
+      <span class="mr-2"><CrosshairSimple weight="fill" /></span>Target</label
+    >
+    <input
+      type="number"
+      id="target"
+      bind:value={formTarget}
+      inputmode="numeric"
+      min="1"
+      class="input input-secondary hover:border-secondary-focus focus:input-accent focus:border-accent border-2"
+      placeholder="how many times?"
+    />
+  </div>
+  <div class="flex flex-col">
+    <label for="Period" class="flex flex-row items-center text-2xl">
+      <span class="mr-2"><Calendar weight="fill" /></span>Cycle</label
+    >
+    <SelectionGpt
+      options={["daily", "weekly"]}
+      bind:selectedOption={formCycle}
+      placeholder="Either daily or weekly"
+    />
+  </div>
+  <div class="flex flex-col">
+    <label for="category" class="flex flex-row items-center text-2xl">
+      <span class="mr-2"><Tag weight="fill" /></span>Category</label
+    >
+    <SelectionGpt
+      bind:options={categories}
+      bind:selectedOption={formCategory}
+      placeholder="Helps organize your habits"
+    />
   </div>
   <button class="btn btn-accent text-2xl">
     <span class="mr-5"><Star weight="fill" /></span>

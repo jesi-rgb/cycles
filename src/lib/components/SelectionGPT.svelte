@@ -5,6 +5,7 @@
 
   // Array of options
   export let options;
+  export let placeholder;
   $: optionsUnique = [...new Set(options)];
 
   export let selectedOption = ""; // To store the selected option
@@ -15,7 +16,7 @@
 
   // Function to toggle the dropdown open/close
   function toggleDropdown() {
-    if (searchTerm) isOpen = !isOpen;
+    isOpen = !isOpen;
   }
 
   function closeDropdown() {
@@ -55,7 +56,7 @@
   <input
     type="text"
     class="w-full input input-bordered input-secondary border-2 focus:input-accent"
-    placeholder={"Tag it!"}
+    {placeholder}
     bind:value={searchTerm}
     on:click={toggleDropdown}
     on:blur={closeDropdown}

@@ -15,7 +15,7 @@
     Trash,
     X,
   } from "phosphor-svelte";
-  import { onMount } from "svelte";
+  import { DateTime } from "luxon";
 
   export let habit;
   export let user;
@@ -70,6 +70,8 @@
         category: dialogCategory,
         id: habit.id,
         created_by: user.id,
+        next_update: habit.next_update,
+        cycle: habit.cycle,
       };
 
       const { data, error } = await supabaseClient
@@ -85,7 +87,6 @@
         habitsCallback[hIndex] = updateData;
         return habitsCallback;
       });
-      console.log("habits updated", $habits);
 
       if (data && $habits) success = true;
     } catch (error) {
@@ -104,8 +105,12 @@
   <div class="w-1/4">
     <Count bind:updated bind:currentCount {habit} {user} />
   </div>
-  <div class="w-3/4">
+  <div class="w-3/4 flex items-baseline space-x-1">
     <HabitTitle title={habit.title} />
+    <div class="text-secondary">{habit.cycle}</div>
+    <div class="text-secondary">
+      {new DateTime(habit.next_update).toISO()}
+    </div>
   </div>
   <button on:click={editDialog.showModal()} class="btn btn-circle">
     <PencilSimpleLine size={30} />
