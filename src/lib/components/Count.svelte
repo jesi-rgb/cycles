@@ -1,11 +1,12 @@
 <script>
   import { supabaseClient } from "$lib/supabaseClient";
   import { draw } from "svelte/transition";
+  import { habits } from "../../stores";
 
   export let habit;
   export let user;
 
-  let currentCount = habit?.current_count;
+  let currentCount = habit.current_count;
   let targetCount = habit.target_count;
 
   const radius = 33; // Radius of the circle
@@ -15,15 +16,23 @@
   $: dashArray = (percentageValue / 100) * circumference;
   $: dashOffset = circumference - dashArray;
 
-  const updateCurrentCount = async (id, current) => {
+  const updateCurrentCount = async () => {
     try {
       const { data, error } = await supabaseClient
         .from("habits")
-        .update({ current_count: `${current + 1}` })
+        .update({ current_count: `${currentCount + 1}` })
         .eq("created_by", user.id)
-        .eq("id", id)
+        .eq("id", habit.id)
         .select()
         .single();
+
+      habits.update((habitsCallback) => {
+        const hIndex = habitsCallback.findIndex(
+          (h) => h.id == habit.id && h.created_by == habit.created_by
+        );
+        habitsCallback[hIndex].current_count = currentCount + 1;
+        return habitsCallback;
+      });
 
       if (data) {
         currentCount = data.current_count;
@@ -32,7 +41,7 @@
       console.error(error);
     }
   };
-  $: ccountLength = currentCount?.toString().length;
+  $: ccountLength = currentCount.toString().length;
   $: tcountLength = targetCount.toString().length;
 </script>
 
@@ -40,7 +49,7 @@
   <button
     on:click={(e) => {
       e.preventDefault();
-      updateCurrentCount(habit.id, currentCount);
+      updateCurrentCount();
     }}
     class="relative btn btn-circle btn-lg btn-ghost text-4xl flex flex-row rounded-full cursor-pointer fraction stroke-red-500"
   >
