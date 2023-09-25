@@ -55,7 +55,7 @@
       }
 
       if (!formCategory) {
-        formCategory = "∅ No category";
+        formCategory = "No category";
       }
 
       let newHabit = {

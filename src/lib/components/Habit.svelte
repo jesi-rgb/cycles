@@ -19,6 +19,7 @@
 
   export let habit;
   export let user;
+  export let updated;
 
   let editDialog;
 
@@ -30,6 +31,8 @@
   let dialogTitle = habit.title,
     dialogCount = habit.target_count,
     dialogCategory = habit.category;
+
+  let currentCount = habit.current_count;
 
   $: console.log(dialogCategory);
 
@@ -58,11 +61,12 @@
   const updateHabit = async () => {
     try {
       loading = true;
+      updated = true;
 
       let updateData = {
         title: dialogTitle,
         target_count: dialogCount,
-        current_count: habit.current_count,
+        current_count: currentCount,
         category: dialogCategory,
         id: habit.id,
         created_by: user.id,
@@ -93,15 +97,12 @@
     }
   };
 
-  let categories;
-  onMount(() => {
-    categories = $habits.map((h) => h.category);
-  });
+  $: categories = $habits.map((h) => h.category);
 </script>
 
 <div class="flex flex-row items-center justify-between space-x-3 mb-5">
   <div class="w-1/4">
-    <Count {habit} {user} />
+    <Count bind:updated bind:currentCount {habit} {user} />
   </div>
   <div class="w-3/4">
     <HabitTitle title={habit.title} />

@@ -5,8 +5,9 @@
 
   export let habit;
   export let user;
+  export let updated;
 
-  let currentCount = habit.current_count;
+  export let currentCount = habit.current_count;
   let targetCount = habit.target_count;
 
   const radius = 33; // Radius of the circle
@@ -26,16 +27,18 @@
         .select()
         .single();
 
-      habits.update((habitsCallback) => {
-        const hIndex = habitsCallback.findIndex(
-          (h) => h.id == habit.id && h.created_by == habit.created_by
-        );
-        habitsCallback[hIndex].current_count = currentCount + 1;
-        return habitsCallback;
-      });
-
       if (data) {
         currentCount = data.current_count;
+
+        //update store
+        habits.update((habitsCallback) => {
+          const hIndex = habitsCallback.findIndex(
+            (h) => h.id == habit.id && h.created_by == habit.created_by
+          );
+          habitsCallback[hIndex].current_count = data.current_count;
+          return habitsCallback;
+        });
+        updated = true;
       }
     } catch (error) {
       console.error(error);

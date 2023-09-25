@@ -1,6 +1,7 @@
 <script>
   //fetch all habits and display them
 
+  import { fly } from "svelte/transition";
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";
   import { habits } from "../../stores.js";
@@ -14,6 +15,7 @@
 
   const session = $page.data.session;
   const { user } = session;
+
   let habitNumber;
   $: groupedHabits = groupBy($habits, (h) => h.category);
 
@@ -31,6 +33,9 @@
 
         habits.set(data);
         groupedHabits = groupBy(data, (h) => h.category);
+
+        updated = false;
+        console.log("updated", updated);
       }
 
       if (error && status !== 406) throw error;
@@ -41,8 +46,13 @@
     }
   };
 
+  let updated = false;
+  $: if (updated) {
+    console.log(updated);
+    fetchHabits();
+  }
+
   onMount(() => {
-    groupedHabits = $habits;
     fetchHabits();
   });
 </script>
@@ -56,13 +66,15 @@
   <span class="loading loading-spinner loading-lg" />
 {:then habitsResponse}
   {#if $habits.length == 0}
-    <div class="text-2xl text-center">
+    <div class="text-xl my-auto text-center">
       <div>There are no habits created, yet.</div>
-      <div class="text-3xl mt-10 my-auto h-fit">
-        Let's start by{" "}<a class="underline text-accent" href="/app/new">
-          creating one</a
-        >.
-      </div>
+      <a
+        in:fly={{ y: -20, duration: 500 }}
+        class="btn btn-accent btn-xl my-10"
+        href="/app/new"
+      >
+        create one</a
+      >
     </div>
   {:else}
     <div class="w-full">
@@ -71,7 +83,7 @@
           {category}
         </div>
         {#each categoryHabits as habit}
-          <Habit {habit} {user} />
+          <Habit bind:updated {habit} {user} />
         {/each}
       {/each}
     </div>
