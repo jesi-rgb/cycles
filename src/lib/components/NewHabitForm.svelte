@@ -46,6 +46,18 @@
       loading = true;
       const { user } = session;
 
+      if (!formTitle) {
+        formTitle = "";
+      }
+
+      if (!formTarget) {
+        formTarget = 0;
+      }
+
+      if (!formCategory) {
+        formCategory = "∅ No category";
+      }
+
       let newHabit = {
         title: formTitle,
         target_count: formTarget,
@@ -72,7 +84,6 @@
 
   let categories;
   onMount(() => {
-    console.log($habits);
     categories = $habits.map((h) => h.category);
   });
 </script>

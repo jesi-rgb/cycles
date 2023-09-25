@@ -5,7 +5,7 @@
   export let habit;
   export let user;
 
-  let currentCount = habit.current_count;
+  let currentCount = habit?.current_count;
   let targetCount = habit.target_count;
 
   const radius = 33; // Radius of the circle
@@ -32,7 +32,7 @@
       console.error(error);
     }
   };
-  $: ccountLength = currentCount.toString().length;
+  $: ccountLength = currentCount?.toString().length;
   $: tcountLength = targetCount.toString().length;
 </script>
 

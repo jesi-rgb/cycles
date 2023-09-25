@@ -9,13 +9,23 @@
 
   export let selectedOption = ""; // To store the selected option
   $: searchTerm = selectedOption;
+  $: if (searchTerm == "") {
+    closeDropdown();
+  }
 
   // Function to toggle the dropdown open/close
   function toggleDropdown() {
-    isOpen = !isOpen;
+    if (searchTerm) isOpen = !isOpen;
   }
+
   function closeDropdown() {
     isOpen = false;
+  }
+
+  function openDropdown() {
+    if (!isOpen) {
+      isOpen = true;
+    }
   }
 
   // Function to handle option selection
@@ -45,10 +55,11 @@
   <input
     type="text"
     class="w-full input input-bordered input-secondary border-2 focus:input-accent"
-    placeholder={"Tag it so it looks cool"}
+    placeholder={"Tag it!"}
     bind:value={searchTerm}
     on:click={toggleDropdown}
     on:blur={closeDropdown}
+    on:keydown={openDropdown}
   />
   {#if isOpen}
     <div
@@ -63,7 +74,7 @@
         >
           ✨Add new: {searchTerm}
         </div>
-      {:else if filteredOptions != undefined}
+      {:else}
         {#each filteredOptions as option}
           <div
             class="p-2 cursor-pointer hover:bg-base-300"
@@ -76,16 +87,18 @@
       {/if}
     </div>
   {/if}
-  <button
-    class="absolute right-2 w-9 h-9 rounded-full border border-secondary text-secondary top-1/2 -translate-y-1/2 hover:bg-secondary transition-colors group"
-    on:click={(e) => {
-      e.preventDefault();
-      searchTerm = "";
-    }}
-  >
-    <X
-      weight="bold"
-      class="mx-auto group-hover:text-base-100 transition-colors"
-    />
-  </button>
+  {#if searchTerm}
+    <button
+      class="absolute right-2 w-7 h-7 rounded-full border border-secondary text-secondary top-1/2 -translate-y-1/2 hover:bg-secondary transition-colors group"
+      on:click={(e) => {
+        e.preventDefault();
+        searchTerm = "";
+      }}
+    >
+      <X
+        weight="bold"
+        class="mx-auto group-hover:text-base-100 transition-colors"
+      />
+    </button>
+  {/if}
 </div>

@@ -31,6 +31,8 @@
     dialogCount = habit.target_count,
     dialogCategory = habit.category;
 
+  $: console.log(dialogCategory);
+
   const deleteHabit = async () => {
     try {
       const { error } = await supabaseClient
@@ -60,6 +62,7 @@
       let updateData = {
         title: dialogTitle,
         target_count: dialogCount,
+        current_count: habit.current_count,
         category: dialogCategory,
         id: habit.id,
         created_by: user.id,
@@ -78,12 +81,14 @@
         habitsCallback[hIndex] = updateData;
         return habitsCallback;
       });
+      console.log("habits updated", $habits);
 
-      if (data) success = true;
+      if (data && $habits) success = true;
     } catch (error) {
       console.error(error);
     } finally {
       loading = false;
+      success = false;
       editDialog.close();
     }
   };
@@ -158,12 +163,6 @@
         <Tag weight="fill" />
         <div class="ml-2">Category</div>
       </div>
-      <!-- <input -->
-      <!--   bind:value={dialogCategory} -->
-      <!--   type="text" -->
-      <!--   class="font-bold text-lg bg-opacity-0 bg-black focus:outline-none focus:outline-accent w-min overflow-x-scroll whitespace-nowrap text-right" -->
-      <!--   placeholder={dialogCategory} -->
-      <!-- /> -->
       <SelectionGpt
         bind:options={categories}
         bind:selectedOption={dialogCategory}
