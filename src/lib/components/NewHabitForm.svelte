@@ -80,11 +80,6 @@
           .startOf("week")
           .set({ hour: 3 });
       }
-      console.log(
-        nextUpdate.toISO(),
-        nextUpdate.toHTTP(),
-        nextUpdate.toRelative()
-      );
 
       let newHabit = {
         title: formTitle,

@@ -9,6 +9,7 @@
 
   import Habit from "../../lib/components/Habit.svelte";
   import { Plus } from "phosphor-svelte";
+  import { DateTime } from "luxon";
 
   const groupBy = (x, f) =>
     x.reduce((a, b, i) => ((a[f(b, i, x)] ||= []).push(b), a), {});
@@ -17,6 +18,7 @@
   const { user } = session;
 
   let habitNumber;
+  let groupedHabits = [];
   $: groupedHabits = groupBy($habits, (h) => h.category);
 
   const fetchHabits = async () => {
@@ -29,16 +31,17 @@
       if (data) {
         habitNumber = data.length;
 
-        data.sort((h1, h2) => h1.id - h2.id);
-
-        habits.set(data);
-        groupedHabits = groupBy(data, (h) => h.category);
+        if (data.length > 0) {
+          data.sort((h1, h2) => h1.id - h2.id);
+          let updatedData = await updateTimesAndReset(data);
+          habits.set(updatedData);
+          groupedHabits = groupBy($habits, (h) => h.category);
+        }
 
         updated = false;
-        console.log("updated", updated);
       }
 
-      if (error && status !== 406) throw error;
+      if (error) throw error;
     } catch (error) {
       if (error instanceof Error) {
         console.error(error);
@@ -46,9 +49,55 @@
     }
   };
 
+  async function updateTimesAndReset(data) {
+    // check if any of the habits have expired and
+    // update their next_update propery as well as their
+    // current_count resetting to 0
+
+    const now = DateTime.now();
+    let needsUpserting = false;
+
+    const updatedData = data.map((h) => {
+      const nextUpdateTime = DateTime.fromISO(h.next_update);
+
+      //if we are over the expiring
+      //time for this habit
+
+      if (now > nextUpdateTime) {
+        needsUpserting = true;
+        let updatedTime;
+        if (h.cycle == "daily") {
+          updatedTime = DateTime.now()
+            .plus({ days: 1 })
+            .startOf("day")
+            .set({ hour: 3 });
+        } else {
+          updatedTime = DateTime.now()
+            .plus({ weeks: 1 })
+            .startOf("week")
+            .set({ hour: 3 });
+        }
+        h.next_update = updatedTime.toISO();
+      }
+      return h;
+    });
+
+    if (needsUpserting) {
+      try {
+        const { data, error } = await supabaseClient
+          .from("habits")
+          .upsert(updatedData);
+      } catch (error) {
+        console.log(error);
+      }
+      needsUpserting = false;
+    }
+
+    return updatedData;
+  }
+
   let updated = false;
   $: if (updated) {
-    console.log(updated);
     fetchHabits();
   }
 
@@ -70,7 +119,7 @@
       <div>There are no habits created, yet.</div>
       <a
         in:fly={{ y: -20, duration: 500 }}
-        class="btn btn-accent btn-xl my-10"
+        class="btn btn-accent btn-xl my-10 scale-125"
         href="/app/new"
       >
         create one</a

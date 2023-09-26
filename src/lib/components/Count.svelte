@@ -87,7 +87,6 @@
     on:click={(e) => {
       e.preventDefault();
       updateCurrentCount(habit.id, currentCount);
-      console.log(e.target);
     }}
     class="relative btn btn-circle btn-lg btn-accent text-4xl font-bold flex flex-row rounded-full cursor-pointer fraction completed"
   >

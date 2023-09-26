@@ -34,8 +34,6 @@
 
   let currentCount = habit.current_count;
 
-  $: console.log(dialogCategory);
-
   const deleteHabit = async () => {
     try {
       const { error } = await supabaseClient
@@ -106,10 +104,14 @@
     <Count bind:updated bind:currentCount {habit} {user} />
   </div>
   <div class="w-3/4 flex items-baseline space-x-1">
-    <HabitTitle title={habit.title} />
-    <div class="text-secondary">{habit.cycle}</div>
-    <div class="text-secondary">
-      {new DateTime(habit.next_update).toISO()}
+    <div class="flex flex-col">
+      <HabitTitle title={habit.title} />
+      <div class="flex space-x-3 text-sm">
+        <div class="text-primary">{habit.cycle}</div>
+        <div class="text-secondary">
+          {DateTime.fromISO(habit.next_update).toRelative()}
+        </div>
+      </div>
     </div>
   </div>
   <button on:click={editDialog.showModal()} class="btn btn-circle">
