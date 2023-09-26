@@ -103,11 +103,13 @@
   <div class="w-1/4">
     <Count bind:updated bind:currentCount {habit} {user} />
   </div>
-  <div class="w-3/4 flex items-baseline space-x-1">
-    <div class="flex flex-col">
+  <div class="w-3/4 flex items-center space-x-1 h-28">
+    <div class="flex flex-col justify-evenly h-full my-auto">
       <HabitTitle title={habit.title} />
       <div class="flex space-x-3 text-sm">
-        <div class="text-primary">{habit.cycle}</div>
+        <div class="badge badge-primary badge-outline font-bold">
+          {habit.cycle}
+        </div>
         <div class="text-secondary">
           {DateTime.fromISO(habit.next_update).toRelative()}
         </div>

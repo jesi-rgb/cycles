@@ -103,10 +103,6 @@
   $: if (updated) {
     fetchHabits();
   }
-
-  onMount(() => {
-    fetchHabits();
-  });
 </script>
 
 <svelte:head>
