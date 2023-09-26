@@ -51,7 +51,7 @@
 
   async function updateTimesAndReset(data) {
     // check if any of the habits have expired and
-    // update their next_update propery as well as their
+    // update their next_update property as well as their
     // current_count resetting to 0
 
     const now = DateTime.now();
@@ -77,7 +77,10 @@
             .startOf("week")
             .set({ hour: 3 });
         }
+
+        //update time and current count
         h.next_update = updatedTime.toISO();
+        h.current_count = 0;
       }
       return h;
     });
