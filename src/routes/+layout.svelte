@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-title" content="Cycles" />
   <meta name="application-name" content="Cycles" />
   <meta name="msapplication-TileColor" content="#da532c" />
-  <meta name="theme-color" content="#FFB86B" />
+  <meta name="theme-color" content="#282A36" />
 
   <meta name="author" content="Jesús Rascón" />
   <meta name="description" content="A little helper for your cyclic needs" />
