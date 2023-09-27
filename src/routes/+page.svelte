@@ -3,29 +3,29 @@
   import { onMount } from "svelte";
   import { routeToPage } from "$lib/navigationUtil";
   import { supabaseClient } from "../lib/supabaseClient.js";
-  import { dev } from "$app/environment";
 
   onMount(() => {
     if ($page.data.session) {
-      routeToPage("/app");
+      console.log("redirecting to app", $page.data.session);
+      routeToPage("/app/");
     }
   });
 
   async function signInWithGoogle() {
-    const redirectURL = dev ? window.location : "";
+    /* const redirectURL = dev ? window.location : ""; */
 
-    const { data, error } = await supabaseClient.auth.signInWithOAuth(
-      { provider: "google" },
-      { redirectTo: redirectURL }
-    );
+    const { data, error } = await supabaseClient.auth.signInWithOAuth({
+      provider: "google",
+      /* redirectTo: window.location.origin + "/app/", */
+    });
   }
 </script>
 
 <div class="flex flex-col justify-evenly w-[80%] mx-auto my-auto h-screen">
   <div>
     <h1 class="font-bold text-8xl xl:text-9xl text-center mb-10">Cycles</h1>
-    <p class="text-center italic text-2xl">
-      A little helper for your cyclic needs
+    <p class="text-center italic text-3xl">
+      A little helper for <br /> your cyclic needs
     </p>
   </div>
   <button
@@ -34,8 +34,8 @@
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="32"
-      height="32"
+      width="28"
+      height="28"
       viewBox="0 0 256 256"
       class="fill-secondary-content mr-2"
       ><path
