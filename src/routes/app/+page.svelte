@@ -10,6 +10,7 @@
   import Habit from "../../lib/components/Habit.svelte";
   import { Plus } from "phosphor-svelte";
   import { DateTime } from "luxon";
+  import Spinner from "../../lib/components/Spinner.svelte";
 
   const groupBy = (x, f) =>
     x.reduce((a, b, i) => ((a[f(b, i, x)] ||= []).push(b), a), {});
@@ -65,6 +66,7 @@
 
       if (now > nextUpdateTime) {
         needsUpserting = true;
+
         let updatedTime;
         if (h.cycle == "daily") {
           updatedTime = DateTime.now()
@@ -110,8 +112,10 @@
 </svelte:head>
 
 {#await fetchHabits()}
-  <div class="text-4xl">Loading habits...</div>
-  <span class="loading loading-spinner loading-lg" />
+  <div class="flex space-x-4 items-center">
+    <Spinner />
+    <div class="text-4xl">Loading habits...</div>
+  </div>
 {:then habitsResponse}
   {#if $habits.length == 0}
     <div class="text-xl my-auto text-center">
@@ -126,20 +130,26 @@
     </div>
   {:else}
     <div class="w-full">
-      {#each Object.entries(groupedHabits) as [category, categoryHabits]}
-        <div class="divider text-neutral-content font-bold text-2xl">
-          {category}
+      {#each Object.entries(groupedHabits) as [category, categoryHabits], i}
+        <div in:fly={{ y: -10, duration: 800, delay: 100 * i }}>
+          <div class="divider text-neutral-content font-bold text-2xl">
+            {category}
+          </div>
+          {#each categoryHabits as habit}
+            <Habit bind:updated {habit} {user} />
+          {/each}
         </div>
-        {#each categoryHabits as habit}
-          <Habit bind:updated {habit} {user} />
-        {/each}
       {/each}
     </div>
     <a
       href="/app/new"
-      class="btn btn-circle btn-secondary btn-md text-6xl font-bold self-end absolute bottom-5"
+      class="btn btn-circle btn-secondary btn-md text-6xl font-bold self-end absolute bottom-5 group"
     >
-      <Plus weight="bold" size={32} />
+      <Plus
+        weight="bold"
+        class="group-hover:rotate-90 duration-300 transition-transform"
+        size={32}
+      />
     </a>
   {/if}
 {/await}

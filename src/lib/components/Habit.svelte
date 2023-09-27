@@ -8,14 +8,17 @@
   import {
     CheckFat,
     CrosshairSimple,
+    FlagCheckered,
     FloppyDisk,
     PencilSimpleLine,
+    PlusMinus,
     Tag,
     TextAa,
     Trash,
     X,
   } from "phosphor-svelte";
   import { DateTime } from "luxon";
+  import Spinner from "./Spinner.svelte";
 
   export let habit;
   export let user;
@@ -29,10 +32,11 @@
     success = false;
 
   let dialogTitle = habit.title,
-    dialogCount = habit.target_count,
+    dialogTargetCount = habit.target_count,
+    dialogCurrentCount = habit.current_count,
     dialogCategory = habit.category;
 
-  let currentCount = habit.current_count;
+  $: currentCount = dialogCurrentCount;
 
   const deleteHabit = async () => {
     try {
@@ -63,9 +67,11 @@
 
       let updateData = {
         title: dialogTitle,
-        target_count: dialogCount,
-        current_count: currentCount,
+        target_count: dialogTargetCount,
+        current_count: dialogCurrentCount,
         category: dialogCategory,
+
+        //these remain constant
         id: habit.id,
         created_by: user.id,
         next_update: habit.next_update,
@@ -99,7 +105,9 @@
   $: categories = $habits.map((h) => h.category);
 </script>
 
-<div class="flex flex-row items-center justify-between space-x-3 mb-5">
+<div
+  class="flex flex-row items-center justify-between space-x-3 mb-5 bg-opacity-10 hover:bg-base-200 px-2 transition-colors rounded-lg group"
+>
   <div class="w-1/4">
     <Count bind:updated bind:currentCount {habit} {user} />
   </div>
@@ -107,7 +115,7 @@
     <div class="flex flex-col justify-evenly h-full my-auto">
       <HabitTitle title={habit.title} />
       <div class="flex space-x-3 text-sm">
-        <div class="badge badge-primary badge-outline font-bold">
+        <div class="badge badge-primary badge-outline">
           {habit.cycle}
         </div>
         <div class="text-secondary">
@@ -150,18 +158,35 @@
 
     <div class="divider" />
 
+    <!--current count-->
+    <div class="flex justify-between">
+      <div class="flex items-center">
+        <PlusMinus weight="fill" />
+        <div class="ml-2">Current count</div>
+      </div>
+      <input
+        inputmode="numeric"
+        type="number"
+        bind:value={dialogCurrentCount}
+        class="font-mono font-extrabold focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
+        placeholder={dialogCurrentCount}
+      />
+    </div>
+
+    <div class="divider" />
+
     <!--target count-->
     <div class="flex justify-between">
       <div class="flex items-center">
-        <CrosshairSimple weight="fill" />
+        <FlagCheckered weight="fill" />
         <div class="ml-2">Target count</div>
       </div>
       <input
         inputmode="numeric"
         type="number"
-        bind:value={dialogCount}
-        class="font-mono font-[1000] focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
-        placeholder={dialogCount}
+        bind:value={dialogTargetCount}
+        class="font-mono font-extrabold focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
+        placeholder={dialogTargetCount}
       />
     </div>
 
@@ -200,6 +225,7 @@
         class="btn btn-secondary text-2xl font-thin self-end"
       >
         {#if loading}
+          <Spinner size="28" fill="fill-secondary" />
           <span class="ml-5">saving...</span>
         {:else if success}
           <CheckFat weight="fill" />

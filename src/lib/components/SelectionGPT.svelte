@@ -6,6 +6,7 @@
   // Array of options
   export let options;
   export let placeholder;
+  export let isSearchable = true;
   $: optionsUnique = [...new Set(options)];
 
   export let selectedOption = ""; // To store the selected option
@@ -36,9 +37,14 @@
     searchTerm = selectedOption;
   }
 
-  $: filteredOptions = optionsUnique?.filter((option) =>
-    option.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  let filteredOptions;
+  $: if (!isSearchable) {
+    filteredOptions = optionsUnique;
+  } else {
+    filteredOptions = optionsUnique?.filter((option) =>
+      option.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
 
   function addNewOption() {
     if (optionsUnique != undefined) {

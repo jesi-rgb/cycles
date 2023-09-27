@@ -30,13 +30,14 @@
   import {
     ArrowsCounterClockwise,
     Calendar,
-    CrosshairSimple,
+    FlagCheckered,
     Star,
     Tag,
   } from "phosphor-svelte";
   import { onMount } from "svelte";
   import SelectionGpt from "./SelectionGPT.svelte";
   import { habits } from "../../stores";
+  import FormElement from "./FormElement.svelte";
 
   const session = $page.data.session;
 
@@ -117,24 +118,22 @@
   class="form-control space-y-5 my-10"
   on:submit|preventDefault={createHabit}
 >
-  <div class="flex flex-col">
-    <label for="habit" class="flex flex-row items-center text-2xl">
-      <span class="mr-2"><ArrowsCounterClockwise weight="fill" /></span
-      >Habit</label
-    >
+  <FormElement title="Habit">
+    <ArrowsCounterClockwise slot="icon" weight="fill" />
     <input
+      slot="content"
       type="text"
       id="habit"
       bind:value={formTitle}
       class="input input-secondary hover:border-secondary-focus focus:input-accent focus:border-accent border-2"
-      placeholder="Something to keep track of"
+      placeholder="something to keep track of"
     />
-  </div>
-  <div class="flex flex-col">
-    <label for="target" class="flex flex-row items-center text-2xl">
-      <span class="mr-2"><CrosshairSimple weight="fill" /></span>Target</label
-    >
+  </FormElement>
+
+  <FormElement title="Target">
+    <FlagCheckered slot="icon" weight="fill" />
     <input
+      slot="content"
       type="number"
       id="target"
       bind:value={formTarget}
@@ -143,29 +142,36 @@
       class="input input-secondary hover:border-secondary-focus focus:input-accent focus:border-accent border-2"
       placeholder="how many times?"
     />
-  </div>
-  <div class="flex flex-col">
-    <label for="Period" class="flex flex-row items-center text-2xl">
-      <span class="mr-2"><Calendar weight="fill" /></span>Cycle</label
-    >
+  </FormElement>
+
+  <FormElement title="Cycle">
+    <Calendar slot="icon" weight="fill" />
     <SelectionGpt
+      slot="content"
       options={["daily", "weekly"]}
       bind:selectedOption={formCycle}
+      isSearchable={false}
       placeholder="Either daily or weekly"
     />
-  </div>
-  <div class="flex flex-col">
-    <label for="category" class="flex flex-row items-center text-2xl">
-      <span class="mr-2"><Tag weight="fill" /></span>Category</label
-    >
+  </FormElement>
+
+  <FormElement title="Category">
+    <Tag slot="icon" weight="fill" />
     <SelectionGpt
+      slot="content"
       bind:options={categories}
       bind:selectedOption={formCategory}
-      placeholder="Helps organize your habits"
+      placeholder="helps organize your habits"
     />
-  </div>
-  <button class="btn btn-accent text-2xl">
-    <span class="mr-5"><Star weight="fill" /></span>
+  </FormElement>
+
+  <button class="btn btn-accent text-2xl group">
+    <span class="mr-5"
+      ><Star
+        class="group-hover:-rotate-12 transition-transform"
+        weight="fill"
+      /></span
+    >
     {loading ? "Loading..." : "Create"}</button
   >
 </form>

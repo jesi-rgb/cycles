@@ -9,6 +9,11 @@
 
 <NewHabitForm />
 
-<a href="/app" class="btn btn-secondary text-xl font-bold w-fit">
-  <span class="mr-5"> <ArrowLeft weight="bold" /> </span> back</a
+<a href="/app" class="btn btn-secondary text-xl font-bold w-fit group">
+  <span class="mr-5">
+    <ArrowLeft
+      class="group-hover:-translate-x-1 transition-transform"
+      weight="bold"
+    />
+  </span> back</a
 >

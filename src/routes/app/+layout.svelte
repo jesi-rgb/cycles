@@ -27,9 +27,12 @@
         <Title>Cycles</Title>
         <label
           for="menu-drawer"
-          class="btn btn-circle btn-info btn-md text-3xl font-bold lg:hidden"
+          class="btn btn-circle btn-info btn-md text-3xl font-bold lg:hidden group"
         >
-          <GearSix weight="fill" />
+          <GearSix
+            class="group-hover:rotate-90 duration-300 transition-transform"
+            weight="fill"
+          />
         </label>
       </div>
       <!-- whole app goes in here -->

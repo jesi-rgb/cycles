@@ -3,17 +3,21 @@
   import { onMount } from "svelte";
   import { routeToPage } from "$lib/navigationUtil";
   import { supabaseClient } from "../lib/supabaseClient.js";
+  import { dev } from "$app/environment";
 
   onMount(() => {
     if ($page.data.session) {
-      routeToPage("/app");
+      routeToPage(window.location);
     }
   });
 
   async function signInWithGoogle() {
-    const { data, error } = await supabaseClient.auth.signInWithOAuth({
-      provider: "google",
-    });
+    const redirectURL = dev ? window.location : "https://cycles-sup.vercel.app";
+
+    const { data, error } = await supabaseClient.auth.signInWithOAuth(
+      { provider: "google" },
+      { redirectTo: redirectURL }
+    );
   }
 </script>
 
