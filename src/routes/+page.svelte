@@ -7,12 +7,12 @@
 
   onMount(() => {
     if ($page.data.session) {
-      routeToPage(window.location);
+      routeToPage("/app");
     }
   });
 
   async function signInWithGoogle() {
-    const redirectURL = dev ? window.location : "https://cycles-sup.vercel.app";
+    const redirectURL = dev ? window.location : "";
 
     const { data, error } = await supabaseClient.auth.signInWithOAuth(
       { provider: "google" },
