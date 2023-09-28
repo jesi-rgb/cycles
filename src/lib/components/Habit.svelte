@@ -36,6 +36,8 @@
     dialogCurrentCount = habit.current_count,
     dialogCategory = habit.category;
 
+  let inputTargetCount, inputCurrentCount;
+
   $: currentCount = dialogCurrentCount ? dialogCurrentCount : 0;
 
   const deleteHabit = async () => {
@@ -91,6 +93,9 @@
         habitsCallback[hIndex] = updateData;
         return habitsCallback;
       });
+
+      if (dialogCurrentCount.length <= 0) dialogCurrentCount = 0;
+      if (currentCount.length <= 0) currentCount = 0;
 
       if (data && $habits) success = true;
     } catch (error) {
@@ -167,6 +172,8 @@
       <input
         inputmode="numeric"
         type="number"
+        bind:this={inputCurrentCount}
+        on:click={inputCurrentCount.select()}
         bind:value={dialogCurrentCount}
         class="font-mono font-extrabold focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
         placeholder={dialogCurrentCount}
@@ -184,6 +191,8 @@
       <input
         inputmode="numeric"
         type="number"
+        on:click={inputTargetCount.select()}
+        bind:this={inputTargetCount}
         bind:value={dialogTargetCount}
         class="font-mono font-extrabold focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
         placeholder={dialogTargetCount}
