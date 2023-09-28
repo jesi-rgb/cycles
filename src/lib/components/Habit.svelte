@@ -36,7 +36,7 @@
     dialogCurrentCount = habit.current_count,
     dialogCategory = habit.category;
 
-  $: currentCount = dialogCurrentCount;
+  $: currentCount = dialogCurrentCount ? dialogCurrentCount : 0;
 
   const deleteHabit = async () => {
     try {

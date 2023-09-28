@@ -1,6 +1,7 @@
 <script>
   import { fly } from "svelte/transition";
   import DayProgress from "./DayProgress.svelte";
+  import { onMount } from "svelte";
 
   export let dayProgress;
   const days = ["m", "t", "w", "t", "f", "s", "s"];
