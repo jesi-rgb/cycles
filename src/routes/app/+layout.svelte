@@ -7,7 +7,7 @@
   import {
     GearSix,
     House,
-    Question,
+    Signature,
     SignOut,
     UserCircle,
   } from "phosphor-svelte";
@@ -63,7 +63,7 @@
         </li>
         <li>
           <a href="/about">
-            <Question weight="fill" size={32} />
+            <Signature weight="bold" size={32} />
           </a>
         </li>
         <li class="absolute bottom-0">
