@@ -1,4 +1,5 @@
 <script>
+  import { fly } from "svelte/transition";
   import { onMount } from "svelte";
 
   export let size = 100;
@@ -82,57 +83,60 @@
       />
     {:else}
       <!-- Today's progress -->
-      <defs>
+      {#key dayProgress}
         <text
           x={size / 2}
-          y={size / 2 + 20}
-          class="fill-accent font-mono font-extrabold"
-          stroke-width="3"
+          y={size / 2}
+          font-size="25"
+          class="fill-[#D6D7DB] font-mono font-extrabold recursive"
+          dy="2"
           text-anchor="middle"
-          id="textOuter"
-          dominant-baseline="middle">3</text
+          dominant-baseline="middle">{day.toUpperCase()}</text
         >
-        <mask id="outerStroke">
-          <rect x="0" y="0" width="100%" height="100%" fill="white" />
-          <use xlink:href="#textOuter" fill="#000" />
-        </mask>
-      </defs>
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          fill="none"
+          r={radius}
+          stroke-width="3"
+          class="stroke-primary progress-circle"
+          stroke-dasharray={circumference}
+          stroke-dashoffset={dashOffset}
+          stroke-linecap="round"
+          transform="rotate(-90, {parseInt(size) / 2} {parseInt(size) / 2})"
+        />
 
-      <text
-        x={size / 2}
-        y={size / 2}
-        font-size="25"
-        class="fill-[#D6D7DB] font-mono font-extrabold recursive"
-        dy="2"
-        text-anchor="middle"
-        dominant-baseline="middle">{day.toUpperCase()}</text
-      >
-      <circle
-        cx={size / 2}
-        cy={size / 2}
-        fill="none"
-        r={radius}
-        stroke-width="3"
-        class="stroke-primary progress-circle"
-        stroke-dasharray={circumference}
-        stroke-dashoffset={dashOffset}
-        stroke-linecap="round"
-        transform="rotate(-90, {parseInt(size) / 2} {parseInt(size) / 2})"
-      />
-
-      <use
-        xlink:href="#textOuter"
-        stroke="#282A36"
-        fill="#282A36"
-        mask="url(#outerStroke)"
-      />
-      <text
-        x={size / 2}
-        y={size / 2 + 20}
-        class="fill-accent font-mono font-extrabold recursive"
-        text-anchor="middle"
-        dominant-baseline="middle">{dayProgress}</text
-      >
+        <g in:fly={{ y: -10, duration: 300 }}>
+          <defs>
+            <text
+              x={size / 2}
+              y={size / 2 + 20}
+              class="fill-white font-mono recursive font-extrabold"
+              stroke-width="3"
+              id="textOuter"
+              text-anchor="middle"
+              dominant-baseline="middle">{dayProgress}</text
+            >
+            <mask id="outerStroke">
+              <rect x="0" y="0" width="100%" height="100%" fill="white" />
+              <use xlink:href="#textOuter" fill="#000" />
+            </mask>
+          </defs>
+          <use
+            xlink:href="#textOuter"
+            stroke="#282A36"
+            fill="none"
+            mask="url(#outerStroke)"
+          />
+          <text
+            x={size / 2}
+            y={size / 2 + 20}
+            class="fill-accent font-mono font-extrabold recursive"
+            text-anchor="middle"
+            dominant-baseline="middle">{dayProgress}</text
+          >
+        </g>
+      {/key}
     {/if}
   </svg>
 </div>

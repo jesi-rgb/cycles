@@ -109,7 +109,7 @@
   }
 
   $: dayProgress = $habits.filter((h) => {
-    return h.current_count >= h.target_count;
+    return h.current_count >= h.target_count && h.cycle === "daily";
   }).length;
 </script>
 
@@ -135,7 +135,7 @@
       >
     </div>
   {:else}
-    <div class="sticky -top-10 bg-base-100 bg-opacity-80 backdrop-blur-lg z-10">
+    <div class="sticky -top-10 bg-base-100 z-10">
       <WeekProgress {dayProgress} />
     </div>
     <div class="w-full">
