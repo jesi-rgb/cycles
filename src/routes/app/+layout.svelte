@@ -4,7 +4,13 @@
   import { onMount } from "svelte";
   import "$lib/css/main.css";
   import Title from "../../lib/components/Title.svelte";
-  import { GearSix, House, SignOut, UserCircle } from "phosphor-svelte";
+  import {
+    GearSix,
+    House,
+    Question,
+    SignOut,
+    UserCircle,
+  } from "phosphor-svelte";
 
   onMount(() => {
     const {
@@ -53,6 +59,11 @@
         <li>
           <a href="/app/account/info">
             <UserCircle weight="fill" size={32} />
+          </a>
+        </li>
+        <li>
+          <a href="/about">
+            <Question weight="fill" size={32} />
           </a>
         </li>
         <li class="absolute bottom-0">
