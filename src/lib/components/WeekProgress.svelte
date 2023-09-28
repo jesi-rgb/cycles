@@ -1,4 +1,5 @@
 <script>
+  import { fly } from "svelte/transition";
   import DayProgress from "./DayProgress.svelte";
 
   export let dayProgress;
@@ -6,14 +7,16 @@
   const todayIndex = new Date().getUTCDay() - 1;
 </script>
 
-<div class="flex flex-row justify-between mt-1 mb-5">
+<div class="flex flex-row justify-between mt-1 mb-2">
   {#each days as day, i}
-    <DayProgress
-      size="45"
-      {day}
-      {dayProgress}
-      future={todayIndex < i ? true : false}
-      past={todayIndex > i ? true : false}
-    />
+    <div in:fly={{ x: -5, duration: 200, delay: 50 * i }}>
+      <DayProgress
+        size="45"
+        {day}
+        {dayProgress}
+        future={todayIndex < i ? true : false}
+        past={todayIndex > i ? true : false}
+      />
+    </div>
   {/each}
 </div>

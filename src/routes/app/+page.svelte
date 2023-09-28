@@ -109,7 +109,7 @@
   }
 
   $: dayProgress = $habits.filter((h) => {
-    return h.current_count >= h.target_count && h.cycle === "daily";
+    return h.current_count >= h.target_count;
   }).length;
 </script>
 
@@ -118,9 +118,9 @@
 </svelte:head>
 
 {#await fetchHabits()}
-  <div class="flex space-x-4 items-center">
+  <div class="flex space-x-4 items-center my-auto">
     <Spinner />
-    <div class="text-4xl">Loading habits...</div>
+    <div class="text-4xl font-bold">Loading habits...</div>
   </div>
 {:then habitsResponse}
   {#if $habits.length == 0}
@@ -135,7 +135,7 @@
       >
     </div>
   {:else}
-    <div class="sticky -top-10 bg-base-100 z-10">
+    <div class="sticky -top-10 bg-base-100 z-20">
       <WeekProgress {dayProgress} />
     </div>
     <div class="w-full">

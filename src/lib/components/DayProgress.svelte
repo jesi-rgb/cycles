@@ -76,6 +76,7 @@
         fill="none"
         r={radius}
         stroke-width="3"
+        stroke-opacity=".7"
         class="stroke-secondary progress-circle"
         stroke-dasharray="10"
         stroke-linecap="round"
@@ -106,7 +107,7 @@
           transform="rotate(-90, {parseInt(size) / 2} {parseInt(size) / 2})"
         />
 
-        <g in:fly={{ y: -10, duration: 300 }}>
+        <g in:fly={{ y: -10, duration: 600 }}>
           <defs>
             <text
               x={size / 2}
