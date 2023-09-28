@@ -33,7 +33,7 @@
         habitNumber = data.length;
 
         if (data.length > 0) {
-          data.sort((h1, h2) => h1.id - h2.id);
+          data.sort((h1, h2) => h2.id - h1.id);
           let updatedData = await updateTimesAndReset(data);
           habits.set(updatedData);
           groupedHabits = groupBy($habits, (h) => h.category);

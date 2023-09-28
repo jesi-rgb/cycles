@@ -1,1 +1,7 @@
-<h1 class="text-5xl font-bold"><slot /></h1>
+<h1 class="text-4xl tracking-tight font-bold"><slot /></h1>
+
+<style>
+  h1 {
+    font-variation-settings: "wdth" 75;
+  }
+</style>

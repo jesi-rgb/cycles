@@ -3,7 +3,7 @@
 </script>
 
 <div
-  class="text-2xl tracking-wide truncate font-normal group-hover:font-bold transition-all"
+  class="text-2xl truncate font-normal group-hover:font-extrabold transition-all"
 >
   {title}
 </div>

@@ -24,7 +24,10 @@
     <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col justify-start p-10">
       <div class="flex flex-row items-center justify-between mb-5">
-        <Title>Cycles</Title>
+        <div class="flex space-x-3">
+          <img src="cycles.svg" width="48" alt="" />
+          <Title>Cycles</Title>
+        </div>
         <label
           for="menu-drawer"
           class="btn btn-circle btn-info btn-md text-3xl font-bold lg:hidden group"
