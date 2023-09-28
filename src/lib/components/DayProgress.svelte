@@ -125,7 +125,7 @@
           </defs>
           <use
             xlink:href="#textOuter"
-            stroke="#282A36"
+            class="stroke-base-100"
             fill="none"
             mask="url(#outerStroke)"
           />
