@@ -1,4 +1,5 @@
 <script>
+  import { fly } from "svelte/transition";
   import { supabaseClient } from "$lib/supabaseClient";
   import { habits } from "../../stores";
 
@@ -6,8 +7,8 @@
   import Count from "./Count.svelte";
   import HabitTitle from "./HabitTitle.svelte";
   import {
+    Calendar,
     CheckFat,
-    CrosshairSimple,
     FlagCheckered,
     FloppyDisk,
     PencilSimpleLine,
@@ -34,7 +35,10 @@
   let dialogTitle = habit.title,
     dialogTargetCount = habit.target_count,
     dialogCurrentCount = habit.current_count,
-    dialogCategory = habit.category;
+    dialogCategory = habit.category,
+    dialogCycle = habit.cycle;
+
+  let cycleOptions = ["daily", "weekly"];
 
   let inputTargetCount, inputCurrentCount;
 
@@ -72,13 +76,31 @@
         target_count: dialogTargetCount,
         current_count: dialogCurrentCount,
         category: dialogCategory,
+        cycle: dialogCycle,
 
         //these remain constant
         id: habit.id,
         created_by: user.id,
         next_update: habit.next_update,
-        cycle: habit.cycle,
       };
+
+      // user changed cycle period
+      if (dialogCycle != habit.cycle) {
+        //reset next_update property
+        if (dialogCycle == "daily") {
+          updateData.next_update = DateTime.now()
+            .plus({ days: 1 })
+            .startOf("day")
+            .set({ hour: 3 })
+            .toISO();
+        } else {
+          updateData.next_update = DateTime.now()
+            .plus({ weeks: 1 })
+            .startOf("week")
+            .set({ hour: 3 })
+            .toISO();
+        }
+      }
 
       const { data, error } = await supabaseClient
         .from("habits")
@@ -136,7 +158,7 @@
 
 <!-- dialog to allow edits on the habit -->
 <dialog
-  id="edit"
+  id="edita"
   class="px-5 md:px-10 pt-4 md:pt-8 pb-7 md:pb-14 rounded-xl ring-8 ring-base-100 bg-gradient-to-b from-base-100/90 to-base-300/90 border-2 border-accent bg-opacity-40 bg-base-300 backdrop-blur-sm w-[97%] text-xl"
   bind:this={editDialog}
 >
@@ -201,6 +223,20 @@
 
     <div class="divider" />
 
+    <!-- category -->
+    <div class="flex justify-between">
+      <div class="flex items-center">
+        <Calendar weight="fill" />
+        <div class="ml-2">Cycle</div>
+      </div>
+      <SelectionGpt
+        isSearchable={false}
+        bind:options={cycleOptions}
+        bind:selectedOption={dialogCycle}
+      />
+    </div>
+
+    <div class="divider" />
     <!-- category -->
     <div class="flex justify-between">
       <div class="flex items-center">

@@ -4,23 +4,24 @@
   import { onMount } from "svelte";
   import { routeToPage } from "$lib/navigationUtil";
   import { supabaseClient } from "../lib/supabaseClient.js";
-  import { goto } from "$app/navigation";
 
   let sessionDataExists;
 
   onMount(() => {
     sessionDataExists = false;
     if ($page.data.session) {
+      console.log(sessionDataExists);
       sessionDataExists = true;
       routeToPage("/app");
     }
   });
 
   async function signInWithGoogle() {
-    /* const redirectURL = dev ? window.location : ""; */
+    console.log(window.location.origin + "/app");
 
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: "google",
+      redirectTo: window.location.origin + "/app/",
     });
   }
 </script>
@@ -33,7 +34,11 @@
     class="flex flex-col justify-evenly w-[80%] mx-auto my-auto h-screen"
   >
     <div>
-      <h1 class="font-bold text-8xl xl:text-9xl text-center mb-10">Cycles</h1>
+      <h1
+        class="font-bold text-8xl xl:text-9xl text-center tracking-tighter mb-10"
+      >
+        Cycles
+      </h1>
       <p class="text-center italic text-3xl">
         A little helper for <br /> your cyclic needs
       </p>
