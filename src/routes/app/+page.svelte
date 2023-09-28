@@ -5,12 +5,12 @@
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";
   import { habits } from "../../stores.js";
-  import { onMount } from "svelte";
 
   import Habit from "../../lib/components/Habit.svelte";
   import { Plus } from "phosphor-svelte";
   import { DateTime } from "luxon";
   import Spinner from "../../lib/components/Spinner.svelte";
+  import WeekProgress from "../../lib/components/WeekProgress.svelte";
 
   const groupBy = (x, f) =>
     x.reduce((a, b, i) => ((a[f(b, i, x)] ||= []).push(b), a), {});
@@ -101,10 +101,16 @@
     return updatedData;
   }
 
+  $: console.log(dayProgress);
+
   let updated = false;
   $: if (updated) {
     fetchHabits();
   }
+
+  $: dayProgress = $habits.filter((h) => {
+    return h.current_count >= h.target_count;
+  }).length;
 </script>
 
 <svelte:head>
@@ -129,6 +135,9 @@
       >
     </div>
   {:else}
+    <div class="sticky -top-10 bg-base-100 bg-opacity-80 backdrop-blur-lg z-10">
+      <WeekProgress {dayProgress} />
+    </div>
     <div class="w-full">
       {#each Object.entries(groupedHabits) as [category, categoryHabits], i}
         <div in:fly={{ y: -10, duration: 800, delay: 100 * i }}>

@@ -23,7 +23,7 @@
   <div class="drawer drawer-mobile">
     <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col justify-start p-10">
-      <div class="flex flex-row items-center justify-between mb-10">
+      <div class="flex flex-row items-center justify-between mb-5">
         <Title>Cycles</Title>
         <label
           for="menu-drawer"
