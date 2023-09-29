@@ -1,6 +1,7 @@
 <script>
   //fetch all habits and display them
 
+  import { AES, enc } from "crypto-js";
   import { fly } from "svelte/transition";
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";
@@ -34,7 +35,28 @@
 
         if (data.length > 0) {
           data.sort((h1, h2) => h2.id - h1.id);
-          let updatedData = await updateTimesAndReset(data);
+
+          const decryptedData = data.map((h) => {
+            const decrypted = {
+              title: AES.decrypt(h.title, user.id).toString(enc.Utf8),
+              current_count: AES.decrypt(h.current_count, user.id).toString(
+                enc.Utf8
+              ),
+              target_count: AES.decrypt(h.target_count, user.id).toString(
+                enc.Utf8
+              ),
+              cycle: AES.decrypt(h.cycle, user.id).toString(enc.Utf8),
+              next_update: AES.decrypt(h.next_update, user.id).toString(
+                enc.Utf8
+              ),
+              category: AES.decrypt(h.category, user.id).toString(enc.Utf8),
+              id: h.id,
+              created_by: h.created_by,
+            };
+            return decrypted;
+          });
+
+          let updatedData = await updateTimesAndReset(decryptedData);
           habits.set(updatedData);
           groupedHabits = groupBy($habits, (h) => h.category);
         }

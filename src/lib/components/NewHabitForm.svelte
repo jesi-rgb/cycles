@@ -1,29 +1,5 @@
 <script>
-  /* <Select */
-  /*   items={categories} */
-  /*   on:change={handleChange} */
-  /*   bind:filterText */
-  /*   searchable */
-  /*   --background="#282A36" */
-  /*   --input-color="#F8F8F3" */
-  /*   --item-active-background="#FFB86B" */
-  /*   --item-background="#282A36" */
-  /*   --list-background="#282A36" */
-  /*   --list-border="solid 2px #09090C" */
-  /*   --item-hover-bg="#FFB86C" */
-  /*   --item-hover-color="#282A36" */
-  /*   --item-is-active-bg="#FFB86C" */
-  /*   --item-is-active-color="#282A36" */
-  /*   --item-color="#F8F8F3" */
-  /*   --border-focused="solid 2px #FFB86B" */
-  /*   --border="solid 2px #BE95F9" */
-  /*   --border-hover="solid 2px #A36EEC" */
-  /* > */
-  /*   <div slot="item" let:item> */
-  /*     {item.created ? "Add new: " : ""} */
-  /*     {item.label} */
-  /*   </div> */
-  /* </Select> */
+  import { AES } from "crypto-js";
   import { page } from "$app/stores";
   import { DateTime } from "luxon";
   import { supabaseClient } from "$lib/supabaseClient";
@@ -83,12 +59,13 @@
       }
 
       let newHabit = {
-        title: formTitle,
-        target_count: formTarget,
-        category: formCategory,
+        title: AES.encrypt(formTitle, user.id).toString(),
+        target_count: AES.encrypt(formTarget.toString(), user.id).toString(),
+        current_count: AES.encrypt("0", user.id).toString(),
+        category: AES.encrypt(formCategory.toString(), user.id).toString(),
+        cycle: AES.encrypt(formCycle, user.id).toString(),
+        next_update: AES.encrypt(nextUpdate.toISO(), user.id).toString(),
         created_by: user.id,
-        cycle: formCycle,
-        next_update: nextUpdate.toISO(),
       };
 
       let { data, error } = await supabaseClient
@@ -98,7 +75,7 @@
       if (error) throw error;
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
+        console.error(error);
       }
     } finally {
       loading = false;

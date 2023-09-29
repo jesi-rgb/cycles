@@ -1,5 +1,5 @@
 <script>
-  import { fly } from "svelte/transition";
+  import { AES } from "crypto-js";
   import { supabaseClient } from "$lib/supabaseClient";
   import { habits } from "../../stores";
 
@@ -71,30 +71,18 @@
       loading = true;
       updated = true;
 
-      let updateData = {
-        title: dialogTitle,
-        target_count: dialogTargetCount,
-        current_count: dialogCurrentCount,
-        category: dialogCategory,
-        cycle: dialogCycle,
-
-        //these remain constant
-        id: habit.id,
-        created_by: user.id,
-        next_update: habit.next_update,
-      };
-
+      let nextUpdateDate = habit.next_update;
       // user changed cycle period
       if (dialogCycle != habit.cycle) {
         //reset next_update property
         if (dialogCycle == "daily") {
-          updateData.next_update = DateTime.now()
+          nextUpdateDate = DateTime.now()
             .plus({ days: 1 })
             .startOf("day")
             .set({ hour: 3 })
             .toISO();
         } else {
-          updateData.next_update = DateTime.now()
+          nextUpdateDate = DateTime.now()
             .plus({ weeks: 1 })
             .startOf("week")
             .set({ hour: 3 })
@@ -102,9 +90,39 @@
         }
       }
 
+      const updatedData = {
+        title: dialogTitle,
+        target_count: dialogTargetCount,
+        current_count: dialogCurrentCount,
+        category: dialogCategory,
+        cycle: dialogCycle,
+        id: habit.id,
+        created_by: user.id,
+        next_update: nextUpdateDate,
+      };
+
+      const updateDataEncrypted = {
+        title: AES.encrypt(dialogTitle, user.id).toString(),
+        target_count: AES.encrypt(
+          dialogTargetCount.toString(),
+          user.id
+        ).toString(),
+        current_count: AES.encrypt(
+          dialogCurrentCount.toString(),
+          user.id
+        ).toString(),
+        category: AES.encrypt(dialogCategory, user.id).toString(),
+        cycle: AES.encrypt(dialogCycle, user.id).toString(),
+
+        //these remain constant or are calculated
+        id: habit.id,
+        created_by: user.id,
+        next_update: AES.encrypt(nextUpdateDate, user.id).toString(),
+      };
+
       const { data, error } = await supabaseClient
         .from("habits")
-        .upsert(updateData)
+        .upsert(updateDataEncrypted)
         .select()
         .single();
 
@@ -112,7 +130,7 @@
         const hIndex = habitsCallback.findIndex(
           (h) => h.id == habit.id && h.created_by == habit.created_by
         );
-        habitsCallback[hIndex] = updateData;
+        habitsCallback[hIndex] = updatedData;
         return habitsCallback;
       });
 

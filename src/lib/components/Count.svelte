@@ -1,4 +1,5 @@
 <script>
+  import { AES, enc } from "crypto-js";
   import { supabaseClient } from "$lib/supabaseClient";
   import { draw } from "svelte/transition";
   import { habits } from "../../stores";
@@ -19,23 +20,28 @@
 
   const updateCurrentCount = async () => {
     try {
+      currentCount = parseInt(currentCount) + 1;
+
+      const newCountEncrypted = AES.encrypt(
+        `${currentCount}`,
+        user.id
+      ).toString();
+
       const { data, error } = await supabaseClient
         .from("habits")
-        .update({ current_count: `${currentCount + 1}` })
+        .update({ current_count: newCountEncrypted })
         .eq("created_by", user.id)
         .eq("id", habit.id)
         .select()
         .single();
 
       if (data) {
-        currentCount = data.current_count;
-
         //update store
         habits.update((habitsCallback) => {
           const hIndex = habitsCallback.findIndex(
             (h) => h.id == habit.id && h.created_by == habit.created_by
           );
-          habitsCallback[hIndex].current_count = data.current_count;
+          habitsCallback[hIndex].current_count = currentCount;
           return habitsCallback;
         });
         updated = true;
