@@ -39,11 +39,11 @@
           const decryptedData = data.map((h) => {
             const decrypted = {
               title: AES.decrypt(h.title, user.id).toString(enc.Utf8),
-              current_count: AES.decrypt(h.current_count, user.id).toString(
-                enc.Utf8
+              current_count: parseInt(
+                AES.decrypt(h.current_count, user.id).toString(enc.Utf8)
               ),
-              target_count: AES.decrypt(h.target_count, user.id).toString(
-                enc.Utf8
+              target_count: parseInt(
+                AES.decrypt(h.target_count, user.id).toString(enc.Utf8)
               ),
               cycle: AES.decrypt(h.cycle, user.id).toString(enc.Utf8),
               next_update: AES.decrypt(h.next_update, user.id).toString(
@@ -122,8 +122,6 @@
 
     return updatedData;
   }
-
-  $: console.log(dayProgress);
 
   let updated = false;
   $: if (updated) {
