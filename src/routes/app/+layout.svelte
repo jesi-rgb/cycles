@@ -7,6 +7,7 @@
   import {
     GearSix,
     House,
+    Question,
     Signature,
     SignOut,
     UserCircle,
@@ -56,16 +57,25 @@
             <House weight="fill" size={32} />
           </a>
         </li>
+
         <li>
           <a href="/app/account/info">
             <UserCircle weight="fill" size={32} />
           </a>
         </li>
+
+        <li>
+          <a href="/faq">
+            <Question weight="fill" size={32} />
+          </a>
+        </li>
+
         <li>
           <a href="/about">
             <Signature weight="bold" size={32} />
           </a>
         </li>
+
         <li class="absolute bottom-0">
           <a href="/app/account/logout">
             <SignOut weight="fill" size={32} />
