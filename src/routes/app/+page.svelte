@@ -1,7 +1,8 @@
 <script>
   //fetch all habits and display them
 
-  import { AES, enc } from "crypto-js";
+  import crypto from "crypto-js";
+  const { AES, enc } = crypto;
   import { fly } from "svelte/transition";
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";

@@ -1,5 +1,6 @@
 <script>
-  import { AES } from "crypto-js";
+  import crypto from "crypto-js";
+  const { AES, enc } = crypto;
   import { supabaseClient } from "$lib/supabaseClient";
   import { habits } from "../../stores";
 

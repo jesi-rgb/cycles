@@ -1,5 +1,7 @@
 <script>
-  import { AES } from "crypto-js";
+  import crypto from "crypto-js";
+  const { AES, enc } = crypto;
+
   import { page } from "$app/stores";
   import { DateTime } from "luxon";
   import { supabaseClient } from "$lib/supabaseClient";
