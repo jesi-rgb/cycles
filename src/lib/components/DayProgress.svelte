@@ -1,12 +1,14 @@
 <script>
   import { fly } from "svelte/transition";
   import { onMount } from "svelte";
+  import { DateTime } from "luxon";
 
   export let size = 100;
 
   let radius = size / 2.7;
-  export let day = "m";
 
+  export let day = "m";
+  export let weekDay;
   export let past = false;
   export let future = false;
   export let dayProgress;
@@ -35,10 +37,18 @@
   <svg
     viewBox="0 0 {size} {size}"
     width={size}
-    height={parseInt(size) + 10}
+    height={parseInt(size) + 20}
     xmlns="http://www.w3.org/2000/svg"
   >
     {#if past}
+      <text
+        x={size / 2}
+        font-size="15"
+        class="fill-neutral font-mono font-semibold recursive"
+        text-anchor="middle"
+        dy="-2"
+        dominant-baseline="middle">{weekDay}</text
+      >
       <!-- Render days before today in an understated manner -->
       <text
         x={size / 2}
@@ -62,9 +72,20 @@
     {:else if future}
       <text
         x={size / 2}
+        y={0}
+        font-size="15"
+        class="fill-base-content font-mono font-semibold recursive"
+        opacity=".6"
+        text-anchor="middle"
+        dy="-2"
+        dominant-baseline="middle">{weekDay}</text
+      >
+      <text
+        x={size / 2}
         y={size / 2}
         font-size="20"
-        class="fill-[#D6D7DB] font-mono font-semibold recursive"
+        class="fill-base-content font-mono font-semibold recursive"
+        opacity=".6"
         dy="2"
         text-anchor="middle"
         dominant-baseline="middle">{day.toUpperCase()}</text
@@ -93,6 +114,7 @@
           text-anchor="middle"
           dominant-baseline="middle">{day.toUpperCase()}</text
         >
+
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -137,6 +159,15 @@
           >
         </g>
       {/key}
+      <text
+        x={size / 2}
+        y={0}
+        font-size="15"
+        class="fill-base-content font-mono font-semibold recursive"
+        text-anchor="middle"
+        dy="-2"
+        dominant-baseline="middle">{weekDay}</text
+      >
     {/if}
   </svg>
 </div>

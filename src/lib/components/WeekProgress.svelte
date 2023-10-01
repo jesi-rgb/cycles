@@ -5,6 +5,13 @@
 
   export let dayProgress;
   const days = ["m", "t", "w", "t", "f", "s", "s"];
+
+  //month day for this week's start
+  const weekDays = Array.from({ length: 7 }).map(
+    (d, i) => DateTime.now().startOf("week").plus({ days: i }).day
+  );
+  console.log(weekDays);
+
   const todayIndex = DateTime.now().weekday - 1;
 </script>
 
@@ -12,9 +19,10 @@
   {#each days as day, i}
     <div in:fly={{ x: -5, duration: 200, delay: 50 * i }}>
       <DayProgress
-        size="45"
         {day}
         {dayProgress}
+        size="45"
+        weekDay={weekDays[i]}
         future={todayIndex < i ? true : false}
         past={todayIndex > i ? true : false}
       />

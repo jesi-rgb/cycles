@@ -31,11 +31,12 @@
 {:else}
   <div
     in:fly={{ y: -20, duration: 500 }}
-    class="flex flex-col justify-evenly w-[80%] mx-auto my-auto h-screen"
+    class="flex flex-col justify-evenly mx-auto my-auto h-screen bg-gradient-to-b from-base-100 to-base-300"
   >
-    <div>
+    <div class="flex flex-col items-center">
+      <img src="/cycles.svg" width="100" alt="Cycles logo" />
       <h1
-        class="font-bold text-8xl xl:text-9xl text-center tracking-tighter mb-10"
+        class="font-light font-['Quicksand'] text-8xl xl:text-9xl text-center tracking-tighter mb-10"
       >
         Cycles
       </h1>

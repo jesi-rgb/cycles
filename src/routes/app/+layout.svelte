@@ -33,7 +33,9 @@
       <div class="flex flex-row items-center justify-between mb-5">
         <div class="flex space-x-3">
           <img src="cycles.svg" width="48" alt="" />
-          <Title>Cycles</Title>
+          <div class="font-['Quicksand']">
+            <Title>Cycles</Title>
+          </div>
         </div>
         <label
           for="menu-drawer"
