@@ -14,7 +14,6 @@
   let time = new Date();
   $: hours = time.getHours();
 
-  const TOTAL_HOURS = 24;
   const circumference = 2 * Math.PI * radius;
   $: percentageValue = (hours / 24) * 100;
 

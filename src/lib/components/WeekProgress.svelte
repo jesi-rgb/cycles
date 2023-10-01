@@ -1,11 +1,11 @@
 <script>
   import { fly } from "svelte/transition";
   import DayProgress from "./DayProgress.svelte";
-  import { onMount } from "svelte";
+  import { DateTime } from "luxon";
 
   export let dayProgress;
   const days = ["m", "t", "w", "t", "f", "s", "s"];
-  const todayIndex = new Date().getUTCDay() - 1;
+  const todayIndex = DateTime.now().weekday - 1;
 </script>
 
 <div class="flex flex-row justify-between mt-1 mb-2">
