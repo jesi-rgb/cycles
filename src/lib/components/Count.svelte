@@ -1,6 +1,5 @@
 <script>
-  import crypto from "crypto-js";
-  const { AES, enc } = crypto;
+  import { AES } from "crypto-js";
   import { supabaseClient } from "$lib/supabaseClient";
   import { draw } from "svelte/transition";
   import { habits } from "../../stores";
@@ -24,7 +23,7 @@
       currentCount = parseInt(currentCount) + 1;
 
       const newCountEncrypted = AES.encrypt(
-        `${currentCount}`,
+        currentCount.toString(),
         user.id
       ).toString();
 

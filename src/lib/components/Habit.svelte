@@ -1,6 +1,5 @@
 <script>
-  import crypto from "crypto-js";
-  const { AES, enc } = crypto;
+  import { encryptData } from "$lib/utils.js";
   import { supabaseClient } from "$lib/supabaseClient";
   import { habits } from "../../stores";
 
@@ -14,6 +13,7 @@
     FloppyDisk,
     PencilSimpleLine,
     PlusMinus,
+    Question,
     Tag,
     TextAa,
     Trash,
@@ -80,46 +80,28 @@
           nextUpdateDate = DateTime.now()
             .plus({ days: 1 })
             .startOf("day")
-            .set({ hour: 3 })
-            .toISO();
+            .set({ hour: 3 });
         } else {
           nextUpdateDate = DateTime.now()
             .plus({ weeks: 1 })
             .startOf("week")
-            .set({ hour: 3 })
-            .toISO();
+            .set({ hour: 3 });
         }
       }
 
-      const updatedData = {
-        title: dialogTitle,
-        target_count: dialogTargetCount,
-        current_count: dialogCurrentCount,
-        category: dialogCategory,
-        cycle: dialogCycle,
-        id: habit.id,
-        created_by: user.id,
-        next_update: nextUpdateDate,
-      };
-
-      const updateDataEncrypted = {
-        title: AES.encrypt(dialogTitle, user.id).toString(),
-        target_count: AES.encrypt(
-          dialogTargetCount.toString(),
-          user.id
-        ).toString(),
-        current_count: AES.encrypt(
-          dialogCurrentCount.toString(),
-          user.id
-        ).toString(),
-        category: AES.encrypt(dialogCategory, user.id).toString(),
-        cycle: AES.encrypt(dialogCycle, user.id).toString(),
-
-        //these remain constant or are calculated
-        id: habit.id,
-        created_by: user.id,
-        next_update: AES.encrypt(nextUpdateDate, user.id).toString(),
-      };
+      const updateDataEncrypted = encryptData(
+        {
+          title: dialogTitle,
+          target_count: dialogTargetCount,
+          current_count: dialogCurrentCount,
+          category: dialogCategory,
+          cycle: dialogCycle,
+          next_update: nextUpdateDate.toISO(),
+          created_by: user.id,
+          id: habit.id,
+        },
+        user.id
+      );
 
       const { data, error } = await supabaseClient
         .from("habits")
@@ -275,11 +257,11 @@
             on:click={() => (askUserDelete = true)}
             class="btn btn-error self-start"
           >
-            <span class="mr-5"> <Trash weight="fill" /> </span> delete
+            <span class="mr-5"> <Trash size="28" weight="fill" /> </span> delete
           </button>
         {:else}
           <button on:click={deleteHabit} class="btn btn-error self-start">
-            <span class="mr-5"> <Trash weight="fill" /> </span> sure?
+            <span class="mr-5"> <Question size="28" weight="fill" /> </span> sure?
           </button>
         {/if}
       </div>

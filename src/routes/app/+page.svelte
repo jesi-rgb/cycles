@@ -1,8 +1,7 @@
 <script>
   //fetch all habits and display them
 
-  import crypto from "crypto-js";
-  const { AES, enc } = crypto;
+  import { groupBy, decryptData, updateTimesAndReset } from "$lib/utils.js";
   import { fly } from "svelte/transition";
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";
@@ -13,9 +12,6 @@
   import { DateTime } from "luxon";
   import Spinner from "../../lib/components/Spinner.svelte";
   import WeekProgress from "../../lib/components/WeekProgress.svelte";
-
-  const groupBy = (x, f) =>
-    x.reduce((a, b, i) => ((a[f(b, i, x)] ||= []).push(b), a), {});
 
   const session = $page.data.session;
   const { user } = session;
@@ -38,23 +34,7 @@
           data.sort((h1, h2) => h2.id - h1.id);
 
           const decryptedData = data.map((h) => {
-            const decrypted = {
-              title: AES.decrypt(h.title, user.id).toString(enc.Utf8),
-              current_count: parseInt(
-                AES.decrypt(h.current_count, user.id).toString(enc.Utf8)
-              ),
-              target_count: parseInt(
-                AES.decrypt(h.target_count, user.id).toString(enc.Utf8)
-              ),
-              cycle: AES.decrypt(h.cycle, user.id).toString(enc.Utf8),
-              next_update: AES.decrypt(h.next_update, user.id).toString(
-                enc.Utf8
-              ),
-              category: AES.decrypt(h.category, user.id).toString(enc.Utf8),
-              id: h.id,
-              created_by: h.created_by,
-            };
-            return decrypted;
+            return decryptData(h, user.id);
           });
 
           let updatedData = await updateTimesAndReset(decryptedData);
@@ -73,61 +53,7 @@
     }
   };
 
-  async function updateTimesAndReset(data) {
-    // check if any of the habits have expired and
-    // update their next_update property as well as their
-    // current_count resetting to 0
-
-    const now = DateTime.now();
-    let needsUpserting = false;
-
-    const updatedData = data.map((h) => {
-      const nextUpdateTime = DateTime.fromISO(h.next_update);
-
-      //if we are over the expiring
-      //time for this habit
-
-      if (now > nextUpdateTime) {
-        needsUpserting = true;
-
-        let updatedTime;
-        if (h.cycle == "daily") {
-          updatedTime = DateTime.now()
-            .plus({ days: 1 })
-            .startOf("day")
-            .set({ hour: 3 });
-        } else {
-          updatedTime = DateTime.now()
-            .plus({ weeks: 1 })
-            .startOf("week")
-            .set({ hour: 3 });
-        }
-
-        //update time and current count
-        h.next_update = updatedTime.toISO();
-        h.current_count = 0;
-      }
-      return h;
-    });
-
-    if (needsUpserting) {
-      try {
-        const { data, error } = await supabaseClient
-          .from("habits")
-          .upsert(updatedData);
-      } catch (error) {
-        console.log(error);
-      }
-      needsUpserting = false;
-    }
-
-    return updatedData;
-  }
-
   let updated = false;
-  $: if (updated) {
-    fetchHabits();
-  }
 
   $: dayProgress = $habits.filter((h) => {
     return h.current_count >= h.target_count;

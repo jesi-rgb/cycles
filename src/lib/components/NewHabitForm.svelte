@@ -1,9 +1,8 @@
 <script>
-  import crypto from "crypto-js";
-  const { AES, enc } = crypto;
-
+  import { encryptData } from "$lib/utils.js";
   import { page } from "$app/stores";
   import { DateTime } from "luxon";
+
   import { supabaseClient } from "$lib/supabaseClient";
   import {
     ArrowsCounterClockwise,
@@ -60,15 +59,18 @@
           .set({ hour: 3 });
       }
 
-      let newHabit = {
-        title: AES.encrypt(formTitle, user.id).toString(),
-        target_count: AES.encrypt(formTarget.toString(), user.id).toString(),
-        current_count: AES.encrypt("0", user.id).toString(),
-        category: AES.encrypt(formCategory.toString(), user.id).toString(),
-        cycle: AES.encrypt(formCycle, user.id).toString(),
-        next_update: AES.encrypt(nextUpdate.toISO(), user.id).toString(),
-        created_by: user.id,
-      };
+      let newHabit = encryptData(
+        {
+          title: formTitle,
+          target_count: formTarget,
+          current_count: 0,
+          category: formCategory,
+          cycle: formCycle,
+          next_update: nextUpdate.toISO(),
+          created_by: user.id,
+        },
+        user.id
+      );
 
       let { data, error } = await supabaseClient
         .from("habits")
