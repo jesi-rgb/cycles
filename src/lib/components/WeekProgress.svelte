@@ -10,7 +10,6 @@
   const weekDays = Array.from({ length: 7 }).map(
     (d, i) => DateTime.now().startOf("week").plus({ days: i }).day
   );
-  console.log(weekDays);
 
   const todayIndex = DateTime.now().weekday - 1;
 </script>

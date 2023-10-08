@@ -23,6 +23,7 @@
   import Spinner from "./Spinner.svelte";
 
   export let habit;
+  console.log("[habit.svelte]", habit);
   export let user;
   export let updated;
 

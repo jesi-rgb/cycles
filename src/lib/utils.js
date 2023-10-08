@@ -12,6 +12,7 @@ export function encryptData(data, userId) {
     category: AES.encrypt(data.category, userId).toString(),
     cycle: AES.encrypt(data.cycle, userId).toString(),
     next_update: AES.encrypt(data.next_update, userId).toString(),
+    id: data.id,
     created_by: userId,
   };
 
@@ -31,6 +32,7 @@ export function decryptData(encrypted, userId) {
     category: AES.decrypt(encrypted.category, userId).toString(enc.Utf8),
     cycle: AES.decrypt(encrypted.cycle, userId).toString(enc.Utf8),
     next_update: AES.decrypt(encrypted.next_update, userId).toString(enc.Utf8),
+    id: encrypted.id,
     created_by: userId,
   };
 
