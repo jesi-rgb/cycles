@@ -1,6 +1,8 @@
 import { AES, enc } from "crypto-js";
 import { DateTime } from "luxon";
 
+import { supabaseClient } from "$lib/supabaseClient";
+
 export function encryptData(data, userId) {
   const encrypted = {
     title: AES.encrypt(data.title, userId).toString(),
