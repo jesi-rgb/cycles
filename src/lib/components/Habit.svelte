@@ -23,7 +23,6 @@
   import Spinner from "./Spinner.svelte";
 
   export let habit;
-  console.log("[habit.svelte]", habit);
   export let user;
   export let updated;
 
@@ -81,32 +80,32 @@
           nextUpdateDate = DateTime.now()
             .plus({ days: 1 })
             .startOf("day")
-            .set({ hour: 3 });
+            .set({ hour: 3 })
+            .toISO();
         } else {
           nextUpdateDate = DateTime.now()
             .plus({ weeks: 1 })
             .startOf("week")
-            .set({ hour: 3 });
+            .set({ hour: 3 })
+            .toISO();
         }
       }
 
-      const updateDataEncrypted = encryptData(
-        {
-          title: dialogTitle,
-          target_count: dialogTargetCount,
-          current_count: dialogCurrentCount,
-          category: dialogCategory,
-          cycle: dialogCycle,
-          next_update: nextUpdateDate.toISO(),
-          created_by: user.id,
-          id: habit.id,
-        },
-        user.id
-      );
+      const updatedData = {
+        title: dialogTitle,
+        target_count: dialogTargetCount,
+        current_count: dialogCurrentCount,
+        category: dialogCategory,
+        cycle: dialogCycle,
+        next_update: nextUpdateDate,
+        created_by: user.id,
+        id: habit.id,
+      };
+      const updatedDataEncrypted = encryptData(updatedData, user.id);
 
       const { data, error } = await supabaseClient
         .from("habits")
-        .upsert(updateDataEncrypted)
+        .upsert(updatedDataEncrypted)
         .select()
         .single();
 
