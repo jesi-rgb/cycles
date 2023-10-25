@@ -8,10 +8,7 @@
   let sessionDataExists;
 
   onMount(() => {
-    sessionDataExists = false;
     if ($page.data.session) {
-      console.log(sessionDataExists);
-      sessionDataExists = true;
       routeToPage("/app");
     }
   });
@@ -21,7 +18,7 @@
 
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: "google",
-      redirectTo: window.location.origin + "/app/",
+      // redirectTo: window.location.origin + "/app/",
     });
   }
 </script>

@@ -15,6 +15,7 @@
   font-weight: 400 700;
   font-style: italic;
 }
+
 @font-face {
   font-family: "Recursive";
   src: local("Recursive"), url("/fonts/Recursive.ttf");
