@@ -1,5 +1,6 @@
 <script>
-  import { AES } from "crypto-js";
+  import { AES } from "crypto-es/lib/aes";
+
   import { supabaseClient } from "$lib/supabaseClient";
   import { draw } from "svelte/transition";
   import { habits } from "../../stores";

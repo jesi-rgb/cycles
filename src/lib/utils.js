@@ -1,4 +1,5 @@
-import { AES, enc } from "crypto-js";
+import { AES } from "crypto-es/lib/aes";
+import { Utf8 } from "crypto-es/lib/core";
 import { DateTime } from "luxon";
 
 import { supabaseClient } from "$lib/supabaseClient";
@@ -23,17 +24,15 @@ export function encryptData(data, userId) {
 
 export function decryptData(encrypted, userId) {
   const decrypted = {
-    title: AES.decrypt(encrypted.title, userId).toString(enc.Utf8),
+    title: AES.decrypt(encrypted.title, userId).toString(Utf8),
     target_count: AES.decrypt(
       encrypted.target_count.toString(),
       userId,
-    ).toString(enc.Utf8),
-    current_count: AES.decrypt(encrypted.current_count, userId).toString(
-      enc.Utf8,
-    ),
-    category: AES.decrypt(encrypted.category, userId).toString(enc.Utf8),
-    cycle: AES.decrypt(encrypted.cycle, userId).toString(enc.Utf8),
-    next_update: AES.decrypt(encrypted.next_update, userId).toString(enc.Utf8),
+    ).toString(Utf8),
+    current_count: AES.decrypt(encrypted.current_count, userId).toString(Utf8),
+    category: AES.decrypt(encrypted.category, userId).toString(Utf8),
+    cycle: AES.decrypt(encrypted.cycle, userId).toString(Utf8),
+    next_update: AES.decrypt(encrypted.next_update, userId).toString(Utf8),
     id: encrypted.id,
     created_by: userId,
   };
