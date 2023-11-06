@@ -13,16 +13,22 @@ export async function findEmoji(title) {
   for (let i = 0; i < title_chunks.length; i++) {
     let chunk = title_chunks[0];
     let url = `https://emoji-api.com/emojis?search=${chunk}&access_key=${PUBLIC_EMOJI_KEY}`;
+    let allEmojis = `https://emoji-api.com/emojis?access_key=${PUBLIC_EMOJI_KEY}`;
 
     let response = await fetch(url).then((r) => {
       return r.json();
     });
 
     if (response.status == "error") {
-      emoji = "⭐";
+      let allEmojisResponse = await fetch(allEmojis).then((r) => {
+        return r.json();
+      });
+      let randomEmoji =
+        allEmojisResponse[parseInt(Math.random() * allEmojisResponse.length)]
+          .character;
+      emoji = randomEmoji;
     } else {
       emoji = response[0].character;
-      break;
     }
   }
   return emoji;
