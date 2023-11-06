@@ -6,6 +6,7 @@ import { PUBLIC_EMOJI_KEY } from "$env/static/public";
 import { supabaseClient } from "$lib/supabaseClient";
 
 export async function findEmoji(title) {
+  //generate emoji from text
   let title_chunks = title.split(" ");
   let emoji = "⭐";
 
