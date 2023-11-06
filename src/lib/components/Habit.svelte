@@ -1,5 +1,5 @@
 <script>
-  import { encryptData } from "$lib/utils.js";
+  import { encryptData, findEmoji } from "$lib/utils.js";
   import { supabaseClient } from "$lib/supabaseClient";
   import { habits } from "../../stores";
 
@@ -14,6 +14,7 @@
     PencilSimpleLine,
     PlusMinus,
     Question,
+    Spade,
     Tag,
     TextAa,
     Trash,
@@ -38,6 +39,8 @@
     dialogCurrentCount = habit.current_count,
     dialogCategory = habit.category,
     dialogCycle = habit.cycle;
+
+  let emoji = "🎉";
 
   let cycleOptions = ["daily", "weekly"];
 
@@ -134,12 +137,20 @@
 </script>
 
 <div
-  class="flex flex-row items-center justify-between space-x-3 mb-5 bg-opacity-10 hover:bg-base-200 px-2 transition-colors rounded-lg group"
+  class="flex flex-row items-center justify-between mb-5 bg-opacity-10 hover:bg-base-200 px-2 transition-colors rounded-lg group"
 >
-  <div class="w-1/4">
+  <div class="">
     <Count bind:updated bind:currentCount {habit} {user} />
   </div>
-  <div class="w-3/4 flex items-center space-x-1 h-28">
+  <div class="w-1/6 shrink-0">
+    {#await findEmoji(habit.title)}
+      <div contenteditable class="text-center text-5xl">{"o"}</div>
+    {:then emoji}
+      <div contenteditable class="text-center text-5xl">{emoji}</div>
+    {/await}
+    <!-- <Spade size={32} weight="fill" class="mx-auto" /> -->
+  </div>
+  <div class="w-7/12 flex items-center space-x-1 h-28">
     <div class="flex flex-col justify-evenly h-full my-auto">
       <HabitTitle title={habit.title} />
       <div class="flex space-x-3 text-sm">

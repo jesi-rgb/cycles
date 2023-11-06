@@ -1,8 +1,31 @@
 import { AES } from "crypto-es/lib/aes";
 import { Utf8 } from "crypto-es/lib/core";
 import { DateTime } from "luxon";
+import { PUBLIC_EMOJI_KEY } from "$env/static/public";
 
 import { supabaseClient } from "$lib/supabaseClient";
+
+export async function findEmoji(title) {
+  let title_chunks = title.split(" ");
+  let emoji = "⭐";
+
+  for (let i = 0; i < title_chunks.length; i++) {
+    let chunk = title_chunks[0];
+    let url = `https://emoji-api.com/emojis?search=${chunk}&access_key=${PUBLIC_EMOJI_KEY}`;
+
+    let response = await fetch(url).then((r) => {
+      return r.json();
+    });
+
+    if (response.status == "error") {
+      emoji = "⭐";
+    } else {
+      emoji = response[0].character;
+      break;
+    }
+  }
+  return emoji;
+}
 
 export function encryptData(data, userId) {
   const encrypted = {
