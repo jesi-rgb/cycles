@@ -25,10 +25,7 @@ export function encryptData(data, userId) {
 export function decryptData(encrypted, userId) {
   const decrypted = {
     title: AES.decrypt(encrypted.title, userId).toString(Utf8),
-    target_count: AES.decrypt(
-      encrypted.target_count.toString(),
-      userId,
-    ).toString(Utf8),
+    target_count: AES.decrypt(encrypted.target_count, userId).toString(Utf8),
     current_count: AES.decrypt(encrypted.current_count, userId).toString(Utf8),
     category: AES.decrypt(encrypted.category, userId).toString(Utf8),
     cycle: AES.decrypt(encrypted.cycle, userId).toString(Utf8),
