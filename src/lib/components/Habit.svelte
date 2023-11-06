@@ -144,9 +144,9 @@
   </div>
   <div class="w-1/6 shrink-0">
     {#await findEmoji(habit.title)}
-      <div contenteditable class="text-center text-5xl">{"o"}</div>
+      <div contenteditable class="text-center text-3xl">{"o"}</div>
     {:then emoji}
-      <div contenteditable class="text-center text-5xl">{emoji}</div>
+      <div contenteditable class="text-center text-3xl">{emoji}</div>
     {/await}
     <!-- <Spade size={32} weight="fill" class="mx-auto" /> -->
   </div>
