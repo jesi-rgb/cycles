@@ -8,7 +8,7 @@
   import { habits } from "../../stores.js";
 
   import Habit from "../../lib/components/Habit.svelte";
-  import { Plus } from "phosphor-svelte";
+  import { Plus, Sparkle } from "phosphor-svelte";
   import { DateTime } from "luxon";
   import Spinner from "../../lib/components/Spinner.svelte";
   import WeekProgress from "../../lib/components/WeekProgress.svelte";
@@ -28,6 +28,7 @@
         .eq("created_by", user.id);
 
       if (data) {
+        console.log(data);
         habitNumber = data.length;
 
         if (data.length > 0) {
@@ -40,6 +41,8 @@
           let updatedData = await updateTimesAndReset(decryptedData);
           habits.set(updatedData);
           groupedHabits = groupBy($habits, (h) => h.category);
+        } else {
+          habits.set([]);
         }
 
         updated = false;
@@ -74,11 +77,17 @@
     <div class="text-xl my-auto text-center">
       <div>There are no habits created, yet.</div>
       <a
-        in:fly={{ y: -20, duration: 500 }}
-        class="btn btn-accent btn-xl my-10 scale-125"
+        in:fly={{ y: -5, duration: 200 }}
+        class="btn btn-accent btn-lg my-10 font-bold group"
         href="/app/new"
       >
-        create one</a
+        <span class="inline-block self-center mr-4"
+          ><Sparkle
+            weight="fill"
+            size={35}
+            class="group-hover:rotate-12 transition-transform"
+          /></span
+        > create one</a
       >
     </div>
   {:else}
