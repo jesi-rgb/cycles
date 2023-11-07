@@ -45,7 +45,6 @@ export function encryptData(data, userId) {
     category: AES.encrypt(data.category, userId).toString(),
     cycle: AES.encrypt(data.cycle, userId).toString(),
     next_update: AES.encrypt(data.next_update, userId).toString(),
-    id: data.id,
     created_by: userId,
   };
 

@@ -104,11 +104,11 @@
         created_by: user.id,
         id: habit.id,
       };
-      const updatedDataEncrypted = encryptData(updatedData, user.id);
+      // const updatedDataEncrypted = encryptData(updatedData, user.id);
 
       const { data, error } = await supabaseClient
         .from("habits")
-        .upsert(updatedDataEncrypted)
+        .upsert(updatedData)
         .select()
         .single();
 

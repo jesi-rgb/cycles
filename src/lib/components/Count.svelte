@@ -23,14 +23,14 @@
     try {
       currentCount = parseInt(currentCount) + 1;
 
-      const newCountEncrypted = AES.encrypt(
-        currentCount.toString(),
-        user.id
-      ).toString();
+      // const newCountEncrypted = AES.encrypt(
+      //   currentCount.toString(),
+      //   user.id
+      // ).toString();
 
       const { data, error } = await supabaseClient
         .from("habits")
-        .update({ current_count: newCountEncrypted })
+        .update({ current_count: currentCount })
         .eq("created_by", user.id)
         .eq("id", habit.id)
         .select()

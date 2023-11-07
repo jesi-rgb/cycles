@@ -59,19 +59,17 @@
           .set({ hour: 3 });
       }
 
-      let newHabit = encryptData(
-        {
-          title: formTitle,
-          target_count: formTarget,
-          current_count: 0,
-          category: formCategory,
-          cycle: formCycle,
-          next_update: nextUpdate.toISO(),
-          created_by: user.id,
-        },
-        user.id
-      );
+      let newHabit = {
+        title: formTitle,
+        target_count: formTarget,
+        current_count: 0,
+        category: formCategory,
+        cycle: formCycle,
+        next_update: nextUpdate.toISO(),
+        created_by: user.id,
+      };
 
+      console.log(newHabit);
       let { data, error } = await supabaseClient
         .from("habits")
         .insert(newHabit);
