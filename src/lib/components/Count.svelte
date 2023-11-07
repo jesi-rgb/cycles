@@ -22,11 +22,15 @@
   const updateCurrentCount = async () => {
     try {
       currentCount = parseInt(currentCount) + 1;
-
-      // const newCountEncrypted = AES.encrypt(
-      //   currentCount.toString(),
-      //   user.id
-      // ).toString();
+      //update store
+      habits.update((habitsCallback) => {
+        const hIndex = habitsCallback.findIndex(
+          (h) => h.id == habit.id && h.created_by == habit.created_by
+        );
+        habitsCallback[hIndex].current_count = currentCount.toString();
+        return habitsCallback;
+      });
+      console.log($habits);
 
       const { data, error } = await supabaseClient
         .from("habits")
@@ -36,17 +40,7 @@
         .select()
         .single();
 
-      if (data) {
-        //update store
-        habits.update((habitsCallback) => {
-          const hIndex = habitsCallback.findIndex(
-            (h) => h.id == habit.id && h.created_by == habit.created_by
-          );
-          habitsCallback[hIndex].current_count = currentCount;
-          return habitsCallback;
-        });
-        updated = true;
-      }
+      updated = true;
     } catch (error) {
       console.error(error);
     }

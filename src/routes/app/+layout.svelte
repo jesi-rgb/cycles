@@ -5,6 +5,8 @@
   import "$lib/css/main.css";
   import Title from "../../lib/components/Title.svelte";
   import {
+    ArrowClockwise,
+    CircleHalf,
     GearSix,
     House,
     Question,
@@ -37,15 +39,26 @@
             <Title>Cycles</Title>
           </div>
         </div>
-        <label
-          for="menu-drawer"
-          class="btn btn-circle btn-info btn-md text-3xl font-bold lg:hidden group"
+        <div
+          class="flex items-center justify-between space-x-3
+          "
         >
-          <GearSix
-            class="group-hover:rotate-90 duration-300 transition-transform"
-            weight="fill"
-          />
-        </label>
+          <button
+            on:click={() => location.reload()}
+            class="btn btn-neutral btn-circle btn-md text-3xl"
+          >
+            <ArrowClockwise weight="bold" />
+          </button>
+          <label
+            for="menu-drawer"
+            class="btn btn-circle btn-info btn-md text-3xl font-bold lg:hidden group"
+          >
+            <GearSix
+              class="group-hover:rotate-90 duration-300 transition-transform"
+              weight="fill"
+            />
+          </label>
+        </div>
       </div>
       <!-- whole app goes in here -->
       <slot />

@@ -1,7 +1,7 @@
 <script>
   //fetch all habits and display them
 
-  import { groupBy, decryptData, updateTimesAndReset } from "$lib/utils.js";
+  import { groupBy, updateTimesAndReset } from "$lib/utils.js";
   import { fly } from "svelte/transition";
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";
@@ -28,18 +28,15 @@
         .eq("created_by", user.id);
 
       if (data) {
-        console.log(data);
         habitNumber = data.length;
 
         if (data.length > 0) {
           data.sort((h1, h2) => h2.id - h1.id);
 
-          // const decryptedData = data.map((h) => {
-          //   return decryptData(h, user.id);
-          // });
-
           let updatedData = await updateTimesAndReset(data);
+
           habits.set(updatedData);
+
           groupedHabits = groupBy($habits, (h) => h.category);
         } else {
           habits.set([]);

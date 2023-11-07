@@ -1,5 +1,5 @@
 <script>
-  import { encryptData, findEmoji } from "$lib/utils.js";
+  import { findEmoji } from "$lib/utils.js";
   import { supabaseClient } from "$lib/supabaseClient";
   import { habits } from "../../stores";
 
@@ -14,7 +14,6 @@
     PencilSimpleLine,
     PlusMinus,
     Question,
-    Spade,
     Tag,
     TextAa,
     Trash,
@@ -170,7 +169,6 @@
 
 <!-- dialog to allow edits on the habit -->
 <dialog
-  id="edita"
   class="px-5 md:px-10 pt-4 md:pt-8 pb-7 md:pb-14 rounded-xl ring-8 ring-base-100 bg-gradient-to-b from-base-100/90 to-base-300/90 border-2 border-accent bg-opacity-40 bg-base-300 backdrop-blur-sm w-[97%] text-xl"
   bind:this={editDialog}
 >
@@ -188,7 +186,7 @@
         <div class="ml-2">Title</div>
       </div>
       <input
-        class="font-bold text-lg bg-opacity-0 bg-black focus:outline-none focus:outline-accent w-full max-w-[50%] overflow-x-scroll whitespace-nowrap text-right"
+        class="font-bold input input-bordered text-lg bg-opacity-0 bg-black focus:outline-none focus:outline-accent max-w-[50%] overflow-x-scroll whitespace-nowrap text-right"
         placeholder={dialogTitle}
         bind:value={dialogTitle}
         type="text"
@@ -209,7 +207,7 @@
         bind:this={inputCurrentCount}
         on:click={inputCurrentCount.select()}
         bind:value={dialogCurrentCount}
-        class="font-mono font-extrabold focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
+        class="font-mono font-extrabold input input-bordered focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
         placeholder={dialogCurrentCount}
       />
     </div>
@@ -228,7 +226,7 @@
         on:click={inputTargetCount.select()}
         bind:this={inputTargetCount}
         bind:value={dialogTargetCount}
-        class="font-mono font-extrabold focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
+        class="font-mono input input-bordered font-extrabold focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
         placeholder={dialogTargetCount}
       />
     </div>
