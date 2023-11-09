@@ -1,5 +1,4 @@
 <script>
-  import { findEmoji } from "$lib/utils.js";
   import { supabaseClient } from "$lib/supabaseClient";
   import { habits } from "../../stores";
 
@@ -38,8 +37,6 @@
     dialogCurrentCount = habit.current_count,
     dialogCategory = habit.category,
     dialogCycle = habit.cycle;
-
-  let emoji = "🎉";
 
   let cycleOptions = ["daily", "weekly"];
 
