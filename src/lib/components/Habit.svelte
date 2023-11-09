@@ -38,6 +38,8 @@
     dialogCategory = habit.category,
     dialogCycle = habit.cycle;
 
+  let emoji = "🎉";
+
   let cycleOptions = ["daily", "weekly"];
 
   let inputTargetCount, inputCurrentCount;
