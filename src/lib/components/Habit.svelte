@@ -141,14 +141,6 @@
   <div class="">
     <Count bind:updated bind:currentCount {habit} {user} />
   </div>
-  <div class="w-1/6 shrink-0">
-    {#await findEmoji(habit.title)}
-      <div contenteditable class="text-center text-3xl">{"..."}</div>
-    {:then emoji}
-      <div contenteditable class="text-center text-3xl">{emoji}</div>
-    {/await}
-    <!-- <Spade size={32} weight="fill" class="mx-auto" /> -->
-  </div>
   <div class="w-7/12 flex items-center space-x-1 h-28">
     <div class="flex flex-col justify-evenly h-full my-auto">
       <HabitTitle title={habit.title} />
