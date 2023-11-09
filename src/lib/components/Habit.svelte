@@ -137,10 +137,10 @@
 <div
   class="flex flex-row items-center justify-between mb-5 bg-opacity-10 hover:bg-base-200 px-2 transition-colors rounded-lg group"
 >
-  <div class="">
+  <div class="w-1/3">
     <Count bind:updated bind:currentCount {habit} {user} />
   </div>
-  <div class="w-7/12 flex items-center space-x-1 h-28">
+  <div class="w-2/3 flex items-center space-x-1 h-28">
     <div class="flex flex-col justify-evenly h-full my-auto">
       <HabitTitle title={habit.title} />
       <div class="flex space-x-3 text-sm">
