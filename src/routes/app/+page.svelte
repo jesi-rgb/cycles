@@ -12,6 +12,7 @@
   import { DateTime } from "luxon";
   import Spinner from "../../lib/components/Spinner.svelte";
   import WeekProgress from "../../lib/components/WeekProgress.svelte";
+  import DayChart from "../../lib/components/DayChart.svelte";
 
   const session = $page.data.session;
   const { user } = session;
@@ -91,6 +92,11 @@
     <div class="sticky -top-10 bg-base-100 z-20">
       <WeekProgress {dayProgress} />
     </div>
+
+    <div>
+      <DayChart {user} />
+    </div>
+
     <div class="w-full">
       {#each Object.entries(groupedHabits) as [category, categoryHabits], i}
         <div in:fly={{ y: -10, duration: 800, delay: 100 * i }}>

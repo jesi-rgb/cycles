@@ -135,7 +135,7 @@
 </script>
 
 <div
-  class="flex flex-row items-center justify-between mb-5 bg-opacity-10 hover:bg-base-200 px-2 transition-colors rounded-lg group"
+  class="flex flex-row items-center justify-between mb-5 bg-opacity-10 transition-colors rounded-lg group"
 >
   <div class="w-1/3">
     <Count bind:updated bind:currentCount {habit} {user} />
@@ -153,7 +153,7 @@
       </div>
     </div>
   </div>
-  <button on:click={editDialog.showModal()} class="btn btn-circle">
+  <button on:click={editDialog.showModal()} class="btn btn-circle btn-ghost">
     <PencilSimpleLine size={30} />
   </button>
 </div>
