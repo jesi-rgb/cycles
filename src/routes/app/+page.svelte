@@ -105,7 +105,7 @@
     </div>
     <a
       href="/app/new"
-      class="btn btn-circle btn-secondary btn-md text-6xl font-bold self-end absolute bottom-5 group"
+      class="btn btn-circle btn-secondary btn-md text-6xl font-bold self-end absolute bottom-2 group"
     >
       <Plus
         weight="bold"

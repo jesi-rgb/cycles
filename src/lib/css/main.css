@@ -17,6 +17,19 @@
 }
 
 @font-face {
+  font-family: "Commissioner";
+  src: local("Commissioner"), url("/fonts/Commissioner.ttf");
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: "Commissioner";
+  src: local("Commissioner"), url("/fonts/Commissioner.ttf");
+  font-weight: 100 900;
+  font-style: italic;
+}
+
+@font-face {
   font-family: "Recursive";
   src: local("Recursive"), url("/fonts/Recursive.ttf");
   font-weight: 300 1000;

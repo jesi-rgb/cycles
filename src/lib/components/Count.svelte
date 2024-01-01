@@ -25,12 +25,11 @@
       //update store
       habits.update((habitsCallback) => {
         const hIndex = habitsCallback.findIndex(
-          (h) => h.id == habit.id && h.created_by == habit.created_by
+          (h) => h.id == habit.id && h.created_by == habit.created_by,
         );
         habitsCallback[hIndex].current_count = currentCount.toString();
         return habitsCallback;
       });
-      console.log($habits);
 
       const { data, error } = await supabaseClient
         .from("habits")
@@ -39,6 +38,17 @@
         .eq("id", habit.id)
         .select()
         .single();
+
+      const { dataHistory, errorHistory } = await supabaseClient
+        .from("history")
+        .insert({
+          habit_id: habit.id,
+          user_uuid: user.id,
+          current_count: currentCount,
+          target_count: targetCount,
+          completed: currentCount >= targetCount,
+          type: "update",
+        });
 
       updated = true;
     } catch (error) {
@@ -122,7 +132,9 @@
   .fraction {
     font-family: "Recursive";
     font-variant-numeric: diagonal-fractions;
-    font-variation-settings: "MONO" 0, "CASL" 0.5;
+    font-variation-settings:
+      "MONO" 0,
+      "CASL" 0.5;
     font-weight: 500;
   }
   .completed {

@@ -28,7 +28,7 @@
 {#if loaded}
   <div
     in:fly={{ y: 20, duration: 800 }}
-    class="w-[80%] mx-auto text-xl text-justify tracking-wide my-20"
+    class="w-[80%] xl:w-1/2 mx-auto text-xl text-justify tracking-wide my-20"
   >
     <div class="text-4xl font-bold text-center tracking-tight">
       How does <i>Cycles</i> work?
@@ -74,29 +74,6 @@
       <br />
 
       <div class="flex space-x-4 items-center mb-5">
-        <Vault weight="fill" />
-        <h1 class="text-2xl font-bold">Privacy</h1>
-      </div>
-      <p>
-        This app helps you log data that, we can all agree, is to be protected
-        at all costs. While I highly doubt anyone will log any <i>really</i>
-        sensible data in here that could expose them to any problem, that doesn't
-        mean that it's not worthy of care on my end, as the developer of this little
-        application.
-        <br /><br />
-        Your data (i.e your habits' title, category, counters and dates) are encrypted
-        <Key class="inline-block align-middle" weight="fill" />
-        on device before uploading them to the database they come from and go to.
-        The device you use (laptop, phone, smart fridge) to access the webpage will
-        decrypt the info from the database and present it to you. <br /><br /> While
-        I am not making the absolute best of my abilities to make this data completely
-        impenetrable to an outsider, this small encryption layer should be enough
-        for the scope this piece of software aims to fulfil.
-      </p>
-      <br />
-      <br />
-
-      <div class="flex space-x-4 items-center mb-5">
         <Wrench weight="fill" />
         <h1 class="text-2xl font-bold">Functionality</h1>
       </div>
@@ -123,7 +100,7 @@
           class="group-hover:-translate-x-1 transition-transform"
           weight="bold"
         />
-      </span> back</a
+      </span>BACK</a
     >
   </div>
 {/if}

@@ -6,7 +6,7 @@ module.exports = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
     extend: {
-      fontFamily: { sans: ["Cabin"], mono: ["Recursive"] },
+      fontFamily: { sans: ["Commissioner"], mono: ["Recursive"] },
     },
   },
   plugins: [require("daisyui")],

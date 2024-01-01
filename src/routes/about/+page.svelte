@@ -17,7 +17,7 @@
 {#if loaded}
   <div
     in:fly={{ y: 20, duration: 800 }}
-    class="w-[80%] mx-auto text-xl text-justify tracking-wide my-20"
+    class="w-[80%] xl:w-1/2 mx-auto text-xl text-justify tracking-wide my-20"
   >
     <div class="font-bold tracking-tight text-4xl text-center">
       About Cycles
@@ -60,7 +60,7 @@
           class="group-hover:-translate-x-1 transition-transform"
           weight="bold"
         />
-      </span> back</a
+      </span>BACK</a
     >
   </div>
 {/if}

@@ -69,12 +69,22 @@
         created_by: user.id,
       };
 
-      console.log(newHabit);
       let { data, error } = await supabaseClient
         .from("habits")
-        .insert(newHabit);
+        .insert(newHabit)
+        .select()
+        .single();
 
-      if (error) throw error;
+      const { dataHistory, errorHistory } = await supabaseClient
+        .from("history")
+        .insert({
+          habit_id: data.id,
+          user_uuid: user.id,
+          current_count: 0,
+          target_count: data.target_count,
+          completed: false,
+          type: "create",
+        });
     } catch (error) {
       if (error instanceof Error) {
         console.error(error);

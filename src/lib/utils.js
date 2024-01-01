@@ -1,7 +1,6 @@
 import { AES } from "crypto-es/lib/aes";
 import { Utf8 } from "crypto-es/lib/core";
 import { DateTime } from "luxon";
-import { PUBLIC_EMOJI_KEY } from "$env/static/public";
 
 import { supabaseClient } from "$lib/supabaseClient";
 
