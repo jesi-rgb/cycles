@@ -57,8 +57,8 @@
       //delete it from store to trigger reactivity
       habits.set(
         $habits.filter(
-          (h) => h.id != habit.id || h.created_by != habit.created_by
-        )
+          (h) => h.id != habit.id || h.created_by != habit.created_by,
+        ),
       );
     } catch (error) {
       console.error(error);
@@ -112,7 +112,7 @@
 
       habits.update((habitsCallback) => {
         const hIndex = habitsCallback.findIndex(
-          (h) => h.id == habit.id && h.created_by == habit.created_by
+          (h) => h.id == habit.id && h.created_by == habit.created_by,
         );
         habitsCallback[hIndex] = updatedData;
         return habitsCallback;
@@ -198,7 +198,7 @@
         bind:this={inputCurrentCount}
         on:click={inputCurrentCount.select()}
         bind:value={dialogCurrentCount}
-        class="font-mono font-extrabold input input-bordered focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
+        class="font-mono font-extrabold input input-bordered focus:outline-none w-1/4 focus:outline-accent text-right bg-opacity-0 bg-black"
         placeholder={dialogCurrentCount}
       />
     </div>
@@ -217,7 +217,7 @@
         on:click={inputTargetCount.select()}
         bind:this={inputTargetCount}
         bind:value={dialogTargetCount}
-        class="font-mono input input-bordered font-extrabold focus:outline-none w-1/3 focus:outline-accent text-right bg-opacity-0 bg-black"
+        class="font-mono input input-bordered w-1/4 font-extrabold focus:outline-none focus:outline-accent text-right bg-opacity-0 bg-black"
         placeholder={dialogTargetCount}
       />
     </div>
@@ -255,30 +255,30 @@
         {#if !askUserDelete}
           <button
             on:click={() => (askUserDelete = true)}
-            class="btn btn-error self-start"
+            class="btn btn-error btn-outline self-start"
           >
-            <span class="mr-5"> <Trash size="28" weight="fill" /> </span> delete
+            <span class="mr-5"> <Trash size="28" weight="fill" /> </span> DELETE
           </button>
         {:else}
           <button on:click={deleteHabit} class="btn btn-error self-start">
-            <span class="mr-5"> <Question size="28" weight="fill" /> </span> sure?
+            <span class="mr-5"> <Question size="28" weight="fill" /> </span> SURE?
           </button>
         {/if}
       </div>
 
       <button
         on:click={updateHabit}
-        class="btn btn-secondary text-2xl font-thin self-end"
+        class="btn btn-secondary flex justify-between items-center font-normal text-xl self-end"
       >
         {#if loading}
           <Spinner size="28" fill="fill-secondary" />
-          <span class="ml-5">saving...</span>
+          <span class="ml-5">SAVING...</span>
         {:else if success}
           <CheckFat weight="fill" />
-          <span class="ml-5">saved</span>
+          <span class="ml-5">SAVED</span>
         {:else}
-          <FloppyDisk weight="fill" />
-          <span class="ml-5">save</span>
+          <FloppyDisk size={28} class="" weight="fill" />
+          <span class="">SAVE</span>
         {/if}
       </button>
     </div>

@@ -6,7 +6,6 @@
   import Title from "../../lib/components/Title.svelte";
   import {
     ArrowClockwise,
-    CircleHalf,
     GearSix,
     House,
     Question,
@@ -28,7 +27,7 @@
   });
 </script>
 
-<div class="drawer z-10 w-1/2 lg:drawer-open selection:bg-neutral-content">
+<div class="drawer z-10 xl:w-1/2 lg:drawer-open selection:bg-neutral-content">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content flex flex-col justify-start p-10">
     <div class="flex flex-row items-center justify-between mb-5">
