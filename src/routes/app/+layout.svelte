@@ -59,7 +59,7 @@
     <slot />
     <!-- whole app goes in here -->
   </div>
-  <div class="drawer-side">
+  <div class="drawer-side py-2">
     <label for="menu-drawer" class="drawer-overlay" />
     <ul class="menu bg-base-200 text-base-content min-h-full">
       <li>

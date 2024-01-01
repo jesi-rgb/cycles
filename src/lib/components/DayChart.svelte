@@ -25,11 +25,13 @@
         .ticks(n);
     };
   }
+
   $: bins = bin()
     .value((d) => new Date(d.timestamp))
     .thresholds(thresholdTime(24))(todaysHistory);
 
   $: console.log(bins);
+
   async function fetchHistory() {
     try {
       const { data, error } = await supabaseClient
@@ -52,7 +54,7 @@
   let times = Array(24)
     .fill(0)
     .map((d, i) => i);
-  console.log(times);
+
   $: x = scaleBand(times, [margin.left, width - margin.right - margin.left]);
 
   $: y = scaleLinear(
@@ -61,7 +63,7 @@
   ).nice();
 </script>
 
-<div bind:clientWidth={width} class="">
+<div bind:clientWidth={width}>
   <svg {width} {height}>
     <g transform="translate({margin.left},{height - margin.bottom})">
       <line class="stroke-base-content/30" x1={0} x2={width - margin.right} />
