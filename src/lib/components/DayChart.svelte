@@ -9,10 +9,10 @@
 
   export let user;
   let width = 300;
-  let height = 30;
+  let height = 40;
   let margin = {
     top: 10,
-    bottom: 10,
+    bottom: 14,
     left: 10,
     right: 10,
   };
@@ -83,12 +83,14 @@
           y2={3}
         />
 
-        {#if i % 10 == 0}
+        {#if i % 2 == 0}
           <text
             text-anchor="middle"
             x={x(t)}
-            y={22}
-            class="tabular-nums text-xs fill-base-content font-bold"
+            dx={x.bandwidth() / 2}
+            y={4}
+            alignment-baseline="hanging"
+            class="font-mono text-xs fill-base-content/30 font-bold"
           >
             {t}
           </text>
@@ -97,13 +99,25 @@
     </g>
     <g transform="translate({margin.left},{0})">
       {#each Object.entries(bins) as d, i}
-        <rect
-          x={x(+d[0])}
-          y={y(d[1])}
-          width={x.bandwidth()}
-          height={height - margin.bottom - y(d[1])}
-          class="fill-base-content"
-        />
+        <g class="group">
+          <text
+            class="text-[8px] sm:text-xs fill-base-content opacity-0 group-hover:opacity-80"
+            x={x(+d[0])}
+            dx={x.bandwidth() / 2}
+            text-anchor="middle"
+            y={y(+d[1])}
+            dy={-2}
+          >
+            {+d[1]}
+          </text>
+          <rect
+            x={x(+d[0])}
+            y={y(d[1])}
+            width={x.bandwidth()}
+            height={height - margin.bottom - y(d[1])}
+            class="fill-base-content hover:opacity-50 transition-all"
+          />
+        </g>
       {/each}
     </g>
 

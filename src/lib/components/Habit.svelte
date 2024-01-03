@@ -48,11 +48,13 @@
 
   const deleteHabit = async () => {
     try {
-      const { error } = await supabaseClient
+      const { data, error } = await supabaseClient
         .from("habits")
         .delete()
         .eq("created_by", user.id)
         .eq("id", habit.id);
+
+      console.log("erased:", data);
 
       //delete it from store to trigger reactivity
       habits.set(

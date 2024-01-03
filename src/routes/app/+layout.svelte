@@ -14,8 +14,6 @@
     UserCircle,
   } from "phosphor-svelte";
 
-  import { history } from "../../stores";
-
   onMount(() => {
     const {
       data: { subscription },
@@ -30,7 +28,7 @@
 </script>
 
 <div class="w-full flex">
-  <div class="drawer z-10 xl:w-1/2 lg:drawer-open selection:bg-neutral-content">
+  <div class="drawer z-10 lg:drawer-open selection:bg-neutral-content">
     <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col justify-start p-10">
       <div class="flex flex-row items-center justify-between mb-5">
@@ -97,17 +95,4 @@
       </ul>
     </div>
   </div>
-
-  <!-- dashboard if xl screen -->
-
-  <section class="w-1/2 hidden xl:block border-l border-base-content/30">
-    <div class="p-10">
-      <h1 class="text-3xl font-bold">Daily Stats</h1>
-
-      <p class="text-xl">
-        Today, you've logged a total of <strong>{$history.length}</strong> times.
-        Nice!
-      </p>
-    </div>
-  </section>
 </div>
