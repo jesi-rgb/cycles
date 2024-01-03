@@ -18,17 +18,21 @@
 
   let todaysHistory = [];
 
-  function thresholdTime(n) {
-    return (data, min, max) => {
-      return scaleUtc()
-        .domain([DateTime.now().startOf("day"), DateTime.now().endOf("day")])
-        .ticks(n);
-    };
+  function getHourlyHistogram(events) {
+    let histogram = {};
+
+    for (let i = 0; i < events.length; i++) {
+      const hour = new Date(events[i].timestamp).getHours();
+      if (histogram[hour] == undefined) {
+        histogram[hour] = 1;
+      } else {
+        histogram[hour] += 1;
+      }
+    }
+    return histogram;
   }
 
-  $: bins = bin()
-    .value((d) => new Date(d.timestamp))
-    .thresholds(thresholdTime(24))(todaysHistory);
+  $: bins = getHourlyHistogram(todaysHistory);
 
   $: console.log(bins);
 
@@ -55,10 +59,12 @@
     .fill(0)
     .map((d, i) => i);
 
+  $: console.log(Object.entries(bins));
+
   $: x = scaleBand(times, [margin.left, width - margin.right - margin.left]);
 
   $: y = scaleLinear(
-    [0, max(Object.values(todaysHistory), (d) => d.length)],
+    [0, max(Object.values(bins))],
     [height - margin.bottom, margin.top],
   ).nice();
 </script>
@@ -88,15 +94,17 @@
         {/if}
       {/each}
     </g>
-    {#each times as t, i}
-      <rect
-        x={x(t)}
-        y={y(i / 2)}
-        width={x.bandwidth()}
-        height={height - margin.bottom - y(i / 2)}
-        class="fill-base-content"
-      />
-    {/each}
+    <g transform="translate({margin.left},{0})">
+      {#each Object.entries(bins) as d, i}
+        <rect
+          x={x(+d[0])}
+          y={y(d[1])}
+          width={x.bandwidth()}
+          height={height - margin.bottom - y(d[1])}
+          class="fill-base-content"
+        />
+      {/each}
+    </g>
 
     <g transform="translate({margin.left},{0})">
       <line
