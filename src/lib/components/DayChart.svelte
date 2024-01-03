@@ -5,6 +5,7 @@
   import { supabaseClient } from "$lib/supabaseClient";
   import { onMount } from "svelte";
   import { groupBy } from "$lib/utils.js";
+  import { history } from "../../stores";
 
   export let user;
   let width = 300;
@@ -32,7 +33,7 @@
     return histogram;
   }
 
-  $: bins = getHourlyHistogram(todaysHistory);
+  $: bins = getHourlyHistogram($history);
 
   $: console.log(bins);
 
@@ -45,7 +46,7 @@
         .gte("timestamp", DateTime.now().startOf("day"));
 
       // todaysHistory = groupBy(data, (d) => new Date(d.timestamp).getHours());
-      todaysHistory = data;
+      $history = data;
     } catch (error) {
       console.error(error);
     }

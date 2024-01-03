@@ -14,6 +14,8 @@
     UserCircle,
   } from "phosphor-svelte";
 
+  import { history } from "../../stores";
+
   onMount(() => {
     const {
       data: { subscription },
@@ -27,70 +29,85 @@
   });
 </script>
 
-<div class="drawer z-10 xl:w-1/2 lg:drawer-open selection:bg-neutral-content">
-  <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
-  <div class="drawer-content flex flex-col justify-start p-10">
-    <div class="flex flex-row items-center justify-between mb-5">
-      <div class="flex space-x-3">
-        <img src="cycles.svg" width="48" alt="" />
-        <div class="font-['Quicksand']">
-          <Title>Cycles</Title>
+<div class="w-full flex">
+  <div class="drawer z-10 xl:w-1/2 lg:drawer-open selection:bg-neutral-content">
+    <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex flex-col justify-start p-10">
+      <div class="flex flex-row items-center justify-between mb-5">
+        <div class="flex space-x-3">
+          <img src="cycles.svg" width="48" alt="" />
+          <div class="font-['Quicksand']">
+            <Title>Cycles</Title>
+          </div>
+        </div>
+        <div class="flex items-center justify-between space-x-3">
+          <button
+            on:click={() => location.reload()}
+            class="btn btn-neutral btn-circle btn-md text-3xl"
+          >
+            <ArrowClockwise weight="bold" />
+          </button>
+          <label
+            for="menu-drawer"
+            class="btn btn-circle btn-info btn-md text-3xl font-bold lg:hidden group"
+          >
+            <GearSix
+              class="group-hover:rotate-90 duration-300 transition-transform"
+              weight="fill"
+            />
+          </label>
         </div>
       </div>
-      <div class="flex items-center justify-between space-x-3">
-        <button
-          on:click={() => location.reload()}
-          class="btn btn-neutral btn-circle btn-md text-3xl"
-        >
-          <ArrowClockwise weight="bold" />
-        </button>
-        <label
-          for="menu-drawer"
-          class="btn btn-circle btn-info btn-md text-3xl font-bold lg:hidden group"
-        >
-          <GearSix
-            class="group-hover:rotate-90 duration-300 transition-transform"
-            weight="fill"
-          />
-        </label>
-      </div>
+      <!-- whole app goes in here -->
+      <slot />
+      <!-- whole app goes in here -->
     </div>
-    <!-- whole app goes in here -->
-    <slot />
-    <!-- whole app goes in here -->
+    <div class="drawer-side py-2">
+      <label for="menu-drawer" class="drawer-overlay" />
+      <ul class="menu bg-base-200 text-base-content min-h-full">
+        <li>
+          <a href="/app">
+            <House weight="fill" size={32} />
+          </a>
+        </li>
+
+        <li>
+          <a href="/app/account/info">
+            <UserCircle weight="fill" size={32} />
+          </a>
+        </li>
+
+        <li>
+          <a href="/faq">
+            <Question weight="fill" size={32} />
+          </a>
+        </li>
+
+        <li>
+          <a href="/about">
+            <Signature weight="bold" size={32} />
+          </a>
+        </li>
+
+        <li class="absolute bottom-0">
+          <a href="/app/account/logout">
+            <SignOut weight="fill" size={32} />
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="drawer-side py-2">
-    <label for="menu-drawer" class="drawer-overlay" />
-    <ul class="menu bg-base-200 text-base-content min-h-full">
-      <li>
-        <a href="/app">
-          <House weight="fill" size={32} />
-        </a>
-      </li>
 
-      <li>
-        <a href="/app/account/info">
-          <UserCircle weight="fill" size={32} />
-        </a>
-      </li>
+  <!-- dashboard if xl screen -->
 
-      <li>
-        <a href="/faq">
-          <Question weight="fill" size={32} />
-        </a>
-      </li>
+  <section class="w-1/2 hidden xl:block border-l border-base-content/30">
+    <div class="p-10">
+      <h1 class="text-3xl font-bold">Daily Stats</h1>
 
-      <li>
-        <a href="/about">
-          <Signature weight="bold" size={32} />
-        </a>
-      </li>
-
-      <li class="absolute bottom-0">
-        <a href="/app/account/logout">
-          <SignOut weight="fill" size={32} />
-        </a>
-      </li>
-    </ul>
-  </div>
+      <p class="text-xl">
+        Today, you've logged a total of <strong>{$history.length}</strong> times.
+        Nice!
+      </p>
+    </div>
+  </section>
 </div>

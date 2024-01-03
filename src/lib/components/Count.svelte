@@ -3,7 +3,7 @@
 
   import { supabaseClient } from "$lib/supabaseClient";
   import { draw } from "svelte/transition";
-  import { habits } from "../../stores";
+  import { habits, history } from "../../stores";
 
   export let habit;
   export let user;
@@ -49,6 +49,19 @@
           completed: currentCount >= targetCount,
           type: "update",
         });
+
+      $history = [
+        ...$history,
+        {
+          habit_id: habit.id,
+          timestamp: Date.now(),
+          user_uuid: user.id,
+          current_count: currentCount,
+          target_count: targetCount,
+          completed: currentCount >= targetCount,
+          type: "update",
+        },
+      ];
 
       updated = true;
     } catch (error) {
