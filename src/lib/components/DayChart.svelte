@@ -12,7 +12,7 @@
   let height = 40;
   let margin = {
     top: 10,
-    bottom: 15,
+    bottom: 18,
     left: 4,
     right: 4,
   };
