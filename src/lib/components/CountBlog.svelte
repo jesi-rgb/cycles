@@ -66,7 +66,7 @@
       </sub>
     </span>
     <svg
-      class="absolute hover:rotate-360 hover:fill-black transition-transform duration-700 z-10"
+      class="absolute hover:rotate-360 hover:fill-black transition-transform duration-700 z-3"
       width="100"
       height="100"
       xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +101,9 @@
   .fraction {
     font-family: "Recursive";
     font-variant-numeric: diagonal-fractions;
-    font-variation-settings: "MONO" 0, "CASL" 0.5;
+    font-variation-settings:
+      "MONO" 0,
+      "CASL" 0.5;
     font-weight: 500;
   }
   .completed {

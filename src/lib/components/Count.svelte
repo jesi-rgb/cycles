@@ -120,7 +120,7 @@
       </sub>
     </span>
     <svg
-      class="absolute hover:rotate-360 hover:fill-black transition-transform duration-700 z-10"
+      class="absolute hover:rotate-360 hover:fill-black transition-transform duration-700"
       width="100"
       height="100"
       xmlns="http://www.w3.org/2000/svg"

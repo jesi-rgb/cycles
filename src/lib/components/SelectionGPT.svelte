@@ -42,7 +42,7 @@
     filteredOptions = optionsUnique;
   } else {
     filteredOptions = optionsUnique?.filter((option) =>
-      option.toLowerCase().includes(searchTerm.toLowerCase())
+      option.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   }
 
@@ -71,7 +71,7 @@
   {#if isOpen}
     <div
       transition:fly={{ y: -10, duration: 200 }}
-      class="absolute top-10 left-0 z-10 w-full bg-base-200 border rounded shadow"
+      class="absolute top-10 left-0 w-full bg-base-200 border rounded shadow"
     >
       {#if filteredOptions.length === 0 && searchTerm.length > 0}
         <div

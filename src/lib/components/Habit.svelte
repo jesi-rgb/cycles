@@ -280,7 +280,7 @@
           <span class="ml-5">SAVED</span>
         {:else}
           <FloppyDisk size={28} class="" weight="fill" />
-          <span class="">SAVE</span>
+          <span class="ml-5">SAVE</span>
         {/if}
       </button>
     </div>

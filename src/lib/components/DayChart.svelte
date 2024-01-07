@@ -70,7 +70,7 @@
   ).nice();
 </script>
 
-<div bind:clientWidth={width}>
+<div class="" bind:clientWidth={width}>
   <svg {width} {height}>
     <g transform="translate({margin.left},{height - margin.bottom})">
       <line class="stroke-base-content/30" x1={0} x2={width - margin.right} />
