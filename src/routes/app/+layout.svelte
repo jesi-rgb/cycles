@@ -61,9 +61,9 @@
     </div>
     <!-- whole app goes in here -->
   </div>
-  <div class="drawer-side py-2 z-50">
+  <div class="drawer-side z-[100]">
     <label for="menu-drawer" class="drawer-overlay" />
-    <ul class="menu bg-base-200 text-base-content min-h-full">
+    <ul class="menu bg-base-200 text-base-content min-h-full py-5">
       <li>
         <a href="/app">
           <House weight="fill" size={32} />
@@ -88,9 +88,9 @@
         </a>
       </li>
 
-      <li class="absolute bottom-0">
+      <li class="absolute bottom-5 text-error">
         <a href="/app/account/logout">
-          <SignOut weight="fill" size={32} />
+          <SignOut weight="bold" size={32} />
         </a>
       </li>
     </ul>
