@@ -14,7 +14,9 @@
   const todayIndex = DateTime.now().weekday - 1;
 </script>
 
-<div class="z-10 bg-base-100 flex flex-row justify-between mt-1 mb-2">
+<div
+  class="z-10 bg-base-100 w-full mx-auto px-5 pt-3 rounded-xl flex flex-row justify-between mt-1 mb-2"
+>
   {#each days as day, i}
     <div in:fly={{ x: -5, duration: 200, delay: 50 * i }}>
       <DayProgress

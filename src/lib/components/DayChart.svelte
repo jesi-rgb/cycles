@@ -1,23 +1,21 @@
 <script>
-  import { scaleLinear, scaleUtc, scaleBand, scaleTime } from "d3-scale";
-  import { max, bin } from "d3-array";
+  import { scaleLinear, scaleBand } from "d3-scale";
+  import { max } from "d3-array";
   import { DateTime } from "luxon";
   import { supabaseClient } from "$lib/supabaseClient";
   import { onMount } from "svelte";
-  import { groupBy } from "$lib/utils.js";
   import { history } from "../../stores";
 
   export let user;
+
   let width = 300;
   let height = 40;
   let margin = {
     top: 10,
-    bottom: 14,
-    left: 10,
-    right: 10,
+    bottom: 15,
+    left: 4,
+    right: 4,
   };
-
-  let todaysHistory = [];
 
   function getHourlyHistogram(events) {
     let histogram = {};
@@ -34,8 +32,6 @@
   }
 
   $: bins = getHourlyHistogram($history);
-
-  $: console.log(bins);
 
   async function fetchHistory() {
     try {
@@ -60,9 +56,7 @@
     .fill(0)
     .map((d, i) => i);
 
-  $: console.log(Object.entries(bins));
-
-  $: x = scaleBand(times, [margin.left, width - margin.right - margin.left]);
+  $: x = scaleBand(times, [0, width - margin.right]);
 
   $: y = scaleLinear(
     [0, max(Object.values(bins))],
@@ -70,7 +64,7 @@
   ).nice();
 </script>
 
-<div class="" bind:clientWidth={width}>
+<div class="mx-auto w-full" bind:clientWidth={width}>
   <svg {width} {height}>
     <g transform="translate({margin.left},{height - margin.bottom})">
       <line class="stroke-base-content/30" x1={0} x2={width - margin.right} />
@@ -88,9 +82,9 @@
             text-anchor="middle"
             x={x(t)}
             dx={x.bandwidth() / 2}
-            y={4}
+            y={5}
             alignment-baseline="hanging"
-            class="font-mono text-xs fill-base-content/30 font-bold"
+            class="tabular-nums text-xs fill-base-content/30"
           >
             {t}
           </text>
@@ -119,14 +113,6 @@
           />
         </g>
       {/each}
-    </g>
-
-    <g transform="translate({margin.left},{0})">
-      <line
-        class="stroke-base-content/30"
-        y1={margin.top}
-        y2={height - margin.bottom}
-      />
     </g>
   </svg>
 </div>

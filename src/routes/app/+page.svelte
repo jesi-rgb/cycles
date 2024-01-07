@@ -103,7 +103,7 @@
           >
         </div>
       {:else}
-        <div class="sticky top-0 bg-base-100">
+        <div class="sticky z-[99] top-0 rounded-xl bg-base-100">
           <WeekProgress {dayProgress} />
         </div>
 
