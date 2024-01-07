@@ -56,7 +56,9 @@
       </div>
     </div>
     <!-- whole app goes in here -->
-    <slot />
+    <div class="selection:bg-neutral-content/30">
+      <slot />
+    </div>
     <!-- whole app goes in here -->
   </div>
   <div class="drawer-side py-2 z-50">
