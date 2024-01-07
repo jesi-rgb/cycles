@@ -1,5 +1,5 @@
 <script>
-  import { ArrowLeft } from "phosphor-svelte";
+  import ArrowLeft from "phosphor-svelte/lib/ArrowLeft";
   import { fly } from "svelte/transition";
   import { onMount } from "svelte";
 

@@ -1,14 +1,12 @@
 <script>
-  import {
-    ArrowLeft,
-    BookOpen,
-    Key,
-    Lock,
-    Moon,
-    Pizza,
-    Vault,
-    Wrench,
-  } from "phosphor-svelte";
+  import ArrowLeft from "phosphor-svelte/lib/ArrowLeft";
+  import BookOpen from "phosphor-svelte/lib/BookOpen";
+  import Key from "phosphor-svelte/lib/Key";
+  import Lock from "phosphor-svelte/lib/Lock";
+  import Moon from "phosphor-svelte/lib/Moon";
+  import Pizza from "phosphor-svelte/lib/Pizza";
+  import Vault from "phosphor-svelte/lib/Vault";
+  import Wrench from "phosphor-svelte/lib/Wrench";
   import { fly } from "svelte/transition";
   import { onMount } from "svelte";
   import Count from "../../lib/components/Count.svelte";

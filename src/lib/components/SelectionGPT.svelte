@@ -1,5 +1,5 @@
 <script>
-  import { X } from "phosphor-svelte";
+  import X from "phosphor-svelte/lib/X";
   import { fly } from "svelte/transition";
   let isOpen = false; // To track whether the dropdown is open
 

@@ -5,19 +5,19 @@
   import SelectionGpt from "./SelectionGPT.svelte";
   import Count from "./Count.svelte";
   import HabitTitle from "./HabitTitle.svelte";
-  import {
-    Calendar,
-    CheckFat,
-    FlagCheckered,
-    FloppyDisk,
-    PencilSimpleLine,
-    PlusMinus,
-    Question,
-    Tag,
-    TextAa,
-    Trash,
-    X,
-  } from "phosphor-svelte";
+
+  import Calendar from "phosphor-svelte/lib/Calendar";
+  import CheckFat from "phosphor-svelte/lib/CheckFat";
+  import FlagCheckered from "phosphor-svelte/lib/FlagCheckered";
+  import FloppyDisk from "phosphor-svelte/lib/FloppyDisk";
+  import PencilSimpleLine from "phosphor-svelte/lib/PencilSimpleLine";
+  import PlusMinus from "phosphor-svelte/lib/PlusMinus";
+  import Question from "phosphor-svelte/lib/Question";
+  import Tag from "phosphor-svelte/lib/Tag";
+  import TextAa from "phosphor-svelte/lib/TextAa";
+  import Trash from "phosphor-svelte/lib/Trash";
+  import X from "phosphor-svelte/lib/X";
+
   import { DateTime } from "luxon";
   import Spinner from "./Spinner.svelte";
 

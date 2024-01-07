@@ -1,6 +1,6 @@
 <script>
   import NewHabitForm from "../../../lib/components/NewHabitForm.svelte";
-  import { ArrowLeft } from "phosphor-svelte";
+  import ArrowLeft from "phosphor-svelte/lib/ArrowLeft";
 </script>
 
 <div class="text-xl">

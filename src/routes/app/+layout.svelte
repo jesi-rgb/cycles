@@ -4,15 +4,14 @@
   import { onMount } from "svelte";
   import "$lib/css/main.css";
   import Title from "../../lib/components/Title.svelte";
-  import {
-    ArrowClockwise,
-    GearSix,
-    House,
-    Question,
-    Signature,
-    SignOut,
-    UserCircle,
-  } from "phosphor-svelte";
+
+  import ArrowClockwise from "phosphor-svelte/lib/ArrowClockwise";
+  import GearSix from "phosphor-svelte/lib/GearSix";
+  import House from "phosphor-svelte/lib/House";
+  import Question from "phosphor-svelte/lib/Question";
+  import Signature from "phosphor-svelte/lib/Signature";
+  import SignOut from "phosphor-svelte/lib/SignOut";
+  import UserCircle from "phosphor-svelte/lib/UserCircle";
 
   onMount(() => {
     const {

@@ -4,13 +4,13 @@
   import { DateTime } from "luxon";
 
   import { supabaseClient } from "$lib/supabaseClient";
-  import {
-    ArrowsCounterClockwise,
-    Calendar,
-    FlagCheckered,
-    Star,
-    Tag,
-  } from "phosphor-svelte";
+
+  import ArrowsCounterClockwise from "phosphor-svelte/lib/ArrowsCounterClockwise";
+  import Calendar from "phosphor-svelte/lib/Calendar";
+  import FlagCheckered from "phosphor-svelte/lib/FlagCheckered";
+  import Star from "phosphor-svelte/lib/Star";
+  import Tag from "phosphor-svelte/lib/Tag";
+
   import { onMount } from "svelte";
   import SelectionGpt from "./SelectionGPT.svelte";
   import { habits } from "../../stores";

@@ -8,7 +8,8 @@
   import { habits } from "../../stores.js";
 
   import Habit from "../../lib/components/Habit.svelte";
-  import { Plus, Sparkle } from "phosphor-svelte";
+  import Plus from "phosphor-svelte/lib/Plus";
+  import Sparkle from "phosphor-svelte/lib/Sparkle";
   import Spinner from "../../lib/components/Spinner.svelte";
   import WeekProgress from "../../lib/components/WeekProgress.svelte";
   import DayChart from "../../lib/components/DayChart.svelte";
