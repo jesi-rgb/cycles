@@ -65,12 +65,7 @@
 
   let interval;
   onMount(() => {
-    interval = setInterval(() => {
-      fetchHabits();
-    }, 1000 * 10);
-  });
-  onDestroy(() => {
-    clearInterval(interval);
+    fetchHabits();
   });
 </script>
 
