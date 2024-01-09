@@ -42,7 +42,7 @@
       }
 
       if (!formCategory) {
-        formCategory = "No category";
+        formCategory = "";
       }
 
       let nextUpdate;
@@ -154,13 +154,15 @@
     />
   </FormElement>
 
-  <button class="btn btn-accent text-2xl group">
+  <button
+    class="btn btn-accent bg-gradient-to-b from-accent to-accent-content/10 text-2xl group"
+  >
     <span class="mr-5"
       ><Star
         class="group-hover:-rotate-12 transition-transform"
         weight="fill"
       /></span
     >
-    {loading ? "Loading..." : "Create"}</button
-  >
+    {loading ? "LOADING..." : "CREATE"}
+  </button>
 </form>
