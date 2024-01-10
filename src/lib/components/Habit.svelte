@@ -32,11 +32,11 @@
   let loading = false,
     success = false;
 
-  let dialogTitle = habit.title,
-    dialogTargetCount = habit.target_count,
-    dialogCurrentCount = habit.current_count,
-    dialogCategory = habit.category,
-    dialogCycle = habit.cycle;
+  let dialogTitle = habit.title;
+  let dialogTargetCount = habit.target_count;
+  let dialogCurrentCount = habit.current_count;
+  let dialogCategory = habit.category;
+  let dialogCycle = habit.cycle;
 
   let emoji = "🎉";
 

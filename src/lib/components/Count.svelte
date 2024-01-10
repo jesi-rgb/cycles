@@ -61,8 +61,6 @@
         },
       ];
 
-      console.log("hiostiry", $history);
-
       updated = true;
     } catch (error) {
       console.error(error);
@@ -78,7 +76,7 @@
       e.preventDefault();
       updateCurrentCount();
     }}
-    class="relative btn btn-circle btn-lg btn-ghost text-4xl flex flex-row rounded-full cursor-pointer fraction stroke-red-500"
+    class="relative btn btn-circle btn-lg btn-ghost text-4xl flex flex-row rounded-full cursor-pointer fraction"
   >
     <svg
       class="absolute"
@@ -92,7 +90,7 @@
         cy="50"
         r={radius}
         fill="none"
-        stroke-width="3"
+        stroke-width="4"
         class="stroke-secondary progress-circle"
         stroke-dasharray={circumference}
         stroke-dashoffset={dashOffset}
@@ -156,6 +154,6 @@
   }
 
   .progress-circle {
-    transition: stroke-dashoffset 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: stroke-dasharray 0.8s cubic-bezier(0.19, 1, 0.22, 1);
   }
 </style>
