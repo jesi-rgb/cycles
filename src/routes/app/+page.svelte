@@ -22,8 +22,6 @@
   let habitNumber;
   $: groupedHabits = groupBy($habits, (h) => h.category);
 
-  $: console.log(groupedHabits);
-
   const fetchHabits = async () => {
     try {
       let { data: habitData, error } = await supabaseClient
@@ -72,6 +70,7 @@
   }).length;
 
   onMount(() => {
+    console.log($habits.length);
     habits.set([]);
     history.set([]);
     fetchHabits();
@@ -82,17 +81,17 @@
   <title>Cycles — {habitNumber} habits</title>
 </svelte:head>
 
-{#if $habits.length == 0}
+{#await fetchHabits()}
   <div class="flex space-x-4 items-center my-32">
     <Spinner />
     <div class="text-4xl font-bold">Loading habits...</div>
   </div>
-{:else}
+{:then habitLoaded}
   <div class="lg:flex mb-10">
     <div class="lg:w-1/2 lg:p-10">
       {#if $habits.length == 0}
-        <div class="text-xl my-auto text-center">
-          <div>There are no habits created, yet.</div>
+        <div class="text-xl text-center my-32">
+          <div class="text-3xl">There are no habits created, yet.</div>
           <a
             in:fly={{ y: -5, duration: 200 }}
             class="btn btn-accent btn-lg my-10 font-bold group"
@@ -104,7 +103,7 @@
                 size={35}
                 class="group-hover:rotate-12 transition-transform"
               /></span
-            > create one</a
+            > CREATE ONE</a
           >
         </div>
       {:else}
@@ -139,4 +138,4 @@
     <!-- dashboard if xl screen -->
     <Dashboard />
   </div>
-{/if}
+{/await}

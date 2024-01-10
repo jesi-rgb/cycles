@@ -59,7 +59,7 @@
         (h) => h.id != habit.id || h.created_by != habit.created_by,
       );
 
-      const { historyData } = await supabaseClient
+      const { data: historyData } = await supabaseClient
         .from("history")
         .select("*")
         .eq("user_uuid", user.id);
