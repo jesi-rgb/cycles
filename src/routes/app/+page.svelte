@@ -20,8 +20,9 @@
   const { user } = session;
 
   let habitNumber;
-  let groupedHabits = [];
   $: groupedHabits = groupBy($habits, (h) => h.category);
+
+  $: console.log(groupedHabits);
 
   const fetchHabits = async () => {
     try {
@@ -43,7 +44,6 @@
           let updatedData = await updateTimesAndReset(habitData);
 
           habits.set(updatedData);
-          // $habits = updatedData;
 
           groupedHabits = groupBy($habits, (h) => h.category);
         } else {
@@ -72,6 +72,8 @@
   }).length;
 
   onMount(() => {
+    habits.set([]);
+    history.set([]);
     fetchHabits();
   });
 </script>
@@ -81,7 +83,7 @@
 </svelte:head>
 
 {#if $habits.length == 0}
-  <div class="flex space-x-4 items-center my-auto">
+  <div class="flex space-x-4 items-center my-32">
     <Spinner />
     <div class="text-4xl font-bold">Loading habits...</div>
   </div>

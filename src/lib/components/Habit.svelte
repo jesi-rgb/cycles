@@ -54,8 +54,6 @@
         .eq("created_by", user.id)
         .eq("id", habit.id);
 
-      console.log("erased:", data);
-
       //delete it from store to trigger reactivity
       $habits = $habits.filter(
         (h) => h.id != habit.id || h.created_by != habit.created_by,
@@ -66,7 +64,7 @@
         .select("*")
         .eq("user_uuid", user.id);
 
-      $history = historyData;
+      history.set(historyData);
     } catch (error) {
       console.error(error);
     } finally {
@@ -243,6 +241,7 @@
         isSearchable={false}
         bind:options={cycleOptions}
         bind:selectedOption={dialogCycle}
+        placeholder=""
       />
     </div>
 
@@ -256,6 +255,7 @@
       <SelectionGpt
         bind:options={categories}
         bind:selectedOption={dialogCategory}
+        placeholder=""
       />
     </div>
 
