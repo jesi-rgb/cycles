@@ -1,6 +1,4 @@
 <script>
-  import { AES } from "crypto-es/lib/aes";
-
   import { supabaseClient } from "$lib/supabaseClient";
   import { draw } from "svelte/transition";
   import { habits, history } from "../../stores";
@@ -53,8 +51,8 @@
       $history = [
         ...$history,
         {
-          habit_id: habit.id,
           timestamp: Date.now(),
+          habit_id: habit.id,
           user_uuid: user.id,
           current_count: currentCount,
           target_count: targetCount,
@@ -62,6 +60,8 @@
           type: "update",
         },
       ];
+
+      console.log("hiostiry", $history);
 
       updated = true;
     } catch (error) {
@@ -148,10 +148,11 @@
     font-variation-settings:
       "MONO" 0,
       "CASL" 0.5;
-    font-weight: 500;
+    font-weight: 390;
   }
   .completed {
     font-weight: 1000;
+    filter: drop-shadow(0px 0px 6px #ffb86ca3);
   }
 
   .progress-circle {

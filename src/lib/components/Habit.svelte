@@ -1,6 +1,6 @@
 <script>
   import { supabaseClient } from "$lib/supabaseClient";
-  import { habits } from "../../stores";
+  import { habits, history } from "../../stores";
 
   import SelectionGpt from "./SelectionGPT.svelte";
   import Count from "./Count.svelte";
@@ -57,11 +57,16 @@
       console.log("erased:", data);
 
       //delete it from store to trigger reactivity
-      habits.set(
-        $habits.filter(
-          (h) => h.id != habit.id || h.created_by != habit.created_by,
-        ),
+      $habits = $habits.filter(
+        (h) => h.id != habit.id || h.created_by != habit.created_by,
       );
+
+      const { historyData } = await supabaseClient
+        .from("history")
+        .select("*")
+        .eq("user_uuid", user.id);
+
+      $history = historyData;
     } catch (error) {
       console.error(error);
     } finally {
@@ -140,7 +145,9 @@
   class="flex flex-row items-center justify-between mb-5 bg-opacity-10 transition-colors rounded-lg group"
 >
   <div class="w-1/3">
-    <Count bind:updated bind:currentCount {habit} {user} />
+    {#key currentCount}
+      <Count bind:updated bind:currentCount {habit} {user} />
+    {/key}
   </div>
   <div class="w-2/3 flex items-center space-x-1 h-28">
     <div class="flex flex-col justify-evenly h-full my-auto">

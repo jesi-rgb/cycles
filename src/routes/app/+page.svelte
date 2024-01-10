@@ -5,7 +5,7 @@
   import { fly } from "svelte/transition";
   import { page } from "$app/stores";
   import { supabaseClient } from "$lib/supabaseClient";
-  import { habits } from "../../stores.js";
+  import { habits, history } from "../../stores.js";
 
   import Habit from "../../lib/components/Habit.svelte";
   import Plus from "phosphor-svelte/lib/Plus";
@@ -25,21 +25,25 @@
 
   const fetchHabits = async () => {
     try {
-      let { data, error, status } = await supabaseClient
+      let { data: habitData, error } = await supabaseClient
         .from("habits")
         .select("*")
         .eq("created_by", user.id);
 
-      if (data) {
-        habitNumber = data.length;
+      let { data: historyData, errorHistory } = await supabaseClient
+        .from("history")
+        .select("*")
+        .eq("user_uuid", user.id);
 
-        if (data.length > 0) {
-          data.sort((h1, h2) => h2.id - h1.id);
+      if (habitData) {
+        if (habitData.length > 0) {
+          habitNumber = habitData.length;
+          habitData.sort((h1, h2) => h2.id - h1.id);
 
-          let updatedData = await updateTimesAndReset(data);
+          let updatedData = await updateTimesAndReset(habitData);
 
-          // habits.set(updatedData);
-          $habits = updatedData;
+          habits.set(updatedData);
+          // $habits = updatedData;
 
           groupedHabits = groupBy($habits, (h) => h.category);
         } else {
@@ -47,6 +51,10 @@
         }
 
         updated = false;
+      }
+
+      if (historyData || $history == undefined) {
+        $history = historyData;
       }
 
       if (error) throw error;
@@ -63,7 +71,6 @@
     return h.current_count >= h.target_count;
   }).length;
 
-  let interval;
   onMount(() => {
     fetchHabits();
   });
@@ -103,13 +110,9 @@
           <WeekProgress {dayProgress} />
         </div>
 
-        <div class="">
-          <DayChart {user} />
-        </div>
-
         <div class="w-full">
           {#each Object.entries(groupedHabits) as [category, categoryHabits], i}
-            <div in:fly={{ y: -10, duration: 800, delay: 100 * i }}>
+            <div>
               <div class="divider text-neutral-content font-bold text-2xl">
                 {category}
               </div>
@@ -121,7 +124,7 @@
         </div>
         <a
           href="/app/new"
-          class="btn btn-circle btn-secondary btn-md text-6xl font-bold absolute bottom-2 group"
+          class="btn btn-circle btn-secondary btn-md text-6xl font-bold right-10 absolute group"
         >
           <Plus
             weight="bold"

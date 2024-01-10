@@ -14,8 +14,6 @@
   });
 
   async function signInWithGoogle() {
-    console.log(window.location.origin + "/app");
-
     const { data, error } = await supabaseClient.auth.signInWithOAuth({
       provider: "google",
       // redirectTo: window.location.origin + "/app/",

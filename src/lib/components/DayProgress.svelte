@@ -23,9 +23,12 @@
   $: dashOffset = circumference - dashArray;
 
   onMount(() => {
-    const interval = setInterval(() => {
-      time = new Date();
-    }, 1000 * 60 * 60);
+    const interval = setInterval(
+      () => {
+        time = new Date();
+      },
+      1000 * 60 * 60,
+    );
 
     return () => {
       clearInterval(interval);
@@ -108,7 +111,7 @@
         <text
           x={size / 2}
           y={size / 2}
-          font-size="25"
+          font-size="23"
           class="fill-[#D6D7DB] font-mono font-extrabold recursive"
           dy="2"
           text-anchor="middle"
@@ -174,6 +177,8 @@
 
 <style>
   .recursive {
-    font-variation-settings: "MONO" 0, "CASL" 0.5;
+    font-variation-settings:
+      "MONO" 0,
+      "CASL" 0.5;
   }
 </style>
