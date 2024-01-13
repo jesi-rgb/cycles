@@ -8,6 +8,7 @@
   import { habits, history } from "../../stores.js";
 
   import Habit from "../../lib/components/Habit.svelte";
+  import EmptyState from "../../lib/components/EmptyState.svelte";
   import Plus from "phosphor-svelte/lib/Plus";
   import Sparkle from "phosphor-svelte/lib/Sparkle";
   import Spinner from "../../lib/components/Spinner.svelte";
@@ -16,11 +17,17 @@
   import { onDestroy, onMount } from "svelte";
   import Dashboard from "../../lib/components/Dashboard.svelte";
 
+  import VisibilityChange from "svelte-visibility-change";
+
   const session = $page.data.session;
   const { user } = session;
 
+  let visibilityState;
+
   let habitNumber;
   $: groupedHabits = groupBy($habits, (h) => h.category);
+
+  $: console.log(groupedHabits);
 
   const fetchHabits = async () => {
     try {
@@ -43,7 +50,7 @@
 
           habits.set(updatedData);
 
-          groupedHabits = groupBy($habits, (h) => h.category);
+          // groupedHabits = groupBy($habits, (h) => h.category);
         } else {
           habits.set([]);
         }
@@ -70,7 +77,6 @@
   }).length;
 
   onMount(() => {
-    console.log($habits.length);
     habits.set([]);
     history.set([]);
     fetchHabits();
@@ -87,55 +93,42 @@
     <div class="text-4xl font-bold">Loading habits...</div>
   </div>
 {:then habitLoaded}
-  <div class="lg:flex mb-10">
-    <div class="lg:w-1/2 lg:p-10">
-      {#if $habits.length == 0}
-        <div class="text-xl text-center my-32">
-          <div class="text-3xl">There are no habits created, yet.</div>
-          <a
-            in:fly={{ y: -5, duration: 200 }}
-            class="btn btn-accent btn-lg my-10 font-bold group"
-            href="/app/new"
-          >
-            <span class="inline-block self-center mr-4"
-              ><Sparkle
-                weight="fill"
-                size={35}
-                class="group-hover:rotate-12 transition-transform"
-              /></span
-            > CREATE ONE</a
-          >
-        </div>
-      {:else}
-        <div class="sticky z-[99] top-0 rounded-xl bg-base-100">
-          <WeekProgress {dayProgress} />
-        </div>
+  <!-- <div class="lg:flex mb-10"> -->
+  <div class="lg:w-1/2 lg:p-10">
+    {#if $habits.length == 0}
+      <EmptyState />
+    {:else}
+      <div class="sticky z-[99] top-0 rounded-xl bg-base-100">
+        <WeekProgress {dayProgress} />
+      </div>
 
-        <div class="w-full">
-          {#each Object.entries(groupedHabits) as [category, categoryHabits], i}
-            <div>
-              <div class="divider text-neutral-content font-bold text-2xl">
-                {category}
-              </div>
-              {#each categoryHabits as habit}
-                <Habit bind:updated {habit} {user} />
-              {/each}
+      <div class="w-full">
+        {#each Object.entries(groupedHabits) as [category, categoryHabits], i}
+          <div>
+            <div class="divider text-neutral-content font-bold text-2xl">
+              {category}
             </div>
-          {/each}
-        </div>
-        <a
-          href="/app/new"
-          class="btn btn-circle btn-secondary btn-md text-6xl font-bold right-10 absolute group"
-        >
-          <Plus
-            weight="bold"
-            class="group-hover:rotate-90 duration-300 transition-transform"
-            size={32}
-          />
-        </a>
-      {/if}
-    </div>
-    <!-- dashboard if xl screen -->
-    <Dashboard />
+            {#each categoryHabits as habit}
+              <Habit bind:updated {habit} {user} />
+            {/each}
+          </div>
+        {/each}
+      </div>
+      <a
+        href="/app/new"
+        class="btn btn-circle btn-secondary btn-md text-6xl font-bold right-10 absolute group"
+      >
+        <Plus
+          weight="bold"
+          class="group-hover:rotate-90 duration-300 transition-transform"
+          size={32}
+        />
+      </a>
+    {/if}
   </div>
+  <!-- dashboard if xl screen -->
+  <!-- <Dashboard /> -->
+  <!-- </div> -->
 {/await}
+
+<VisibilityChange bind:state={visibilityState} on:visible={fetchHabits} />

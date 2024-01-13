@@ -7,7 +7,7 @@
   export let user;
   export let updated;
 
-  export let currentCount = habit.current_count;
+  export let currentCount;
   let targetCount = habit.target_count;
 
   const radius = 33; // Radius of the circle

@@ -37,14 +37,15 @@
   let dialogCurrentCount = habit.current_count;
   let dialogCategory = habit.category;
   let dialogCycle = habit.cycle;
-
-  let emoji = "🎉";
+  $: console.log("[habit]", habit.current_count);
 
   let cycleOptions = ["daily", "weekly"];
 
   let inputTargetCount, inputCurrentCount;
 
-  $: currentCount = dialogCurrentCount ? dialogCurrentCount : 0;
+  $: currentCount = habit.current_count
+    ? habit.current_count
+    : dialogCurrentCount;
 
   const deleteHabit = async () => {
     try {
