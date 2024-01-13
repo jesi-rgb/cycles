@@ -14,7 +14,6 @@
   import Spinner from "../../lib/components/Spinner.svelte";
   import WeekProgress from "../../lib/components/WeekProgress.svelte";
   import DayChart from "../../lib/components/DayChart.svelte";
-  import { onDestroy, onMount } from "svelte";
   import Dashboard from "../../lib/components/Dashboard.svelte";
 
   import VisibilityChange from "svelte-visibility-change";
@@ -26,8 +25,6 @@
 
   let habitNumber;
   $: groupedHabits = groupBy($habits, (h) => h.category);
-
-  $: console.log(groupedHabits);
 
   const fetchHabits = async () => {
     try {
@@ -75,12 +72,6 @@
   $: dayProgress = $habits.filter((h) => {
     return h.current_count >= h.target_count;
   }).length;
-
-  onMount(() => {
-    habits.set([]);
-    history.set([]);
-    fetchHabits();
-  });
 </script>
 
 <svelte:head>

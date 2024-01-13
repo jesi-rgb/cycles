@@ -154,6 +154,6 @@
   }
 
   .progress-circle {
-    transition: stroke-dasharray 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: stroke-dashoffset 0.8s cubic-bezier(0.19, 1, 0.22, 1);
   }
 </style>

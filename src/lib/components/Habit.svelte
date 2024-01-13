@@ -37,7 +37,6 @@
   let dialogCurrentCount = habit.current_count;
   let dialogCategory = habit.category;
   let dialogCycle = habit.cycle;
-  $: console.log("[habit]", habit.current_count);
 
   let cycleOptions = ["daily", "weekly"];
 
