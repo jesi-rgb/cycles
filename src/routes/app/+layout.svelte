@@ -26,6 +26,19 @@
   });
 </script>
 
+<head>
+  <meta
+    name="theme-color"
+    media="(prefers-color-scheme: light)"
+    content="white"
+  />
+  <meta
+    name="theme-color"
+    media="(prefers-color-scheme: dark)"
+    content="#282A36"
+  />
+</head>
+
 <div class="drawer lg:drawer-open selection:bg-primary/20">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content flex flex-col justify-start p-10">
