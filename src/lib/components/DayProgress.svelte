@@ -47,7 +47,7 @@
       <text
         x={size / 2}
         font-size="15"
-        class="fill-neutral font-mono font-semibold recursive"
+        class="fill-neutral/20 dark:fill-neutral font-mono font-semibold recursive"
         text-anchor="middle"
         dy="-2"
         dominant-baseline="middle">{weekDay}</text
@@ -57,7 +57,7 @@
         x={size / 2}
         y={size / 2}
         font-size="20"
-        class="fill-neutral font-mono font-semibold recursive"
+        class="fill-neutral/20 dark:fill-neutral font-mono font-semibold recursive"
         text-anchor="middle"
         dy="2"
         dominant-baseline="middle">{day.toUpperCase()}</text
@@ -68,7 +68,7 @@
         fill="none"
         r={radius}
         stroke-width="4"
-        class="stroke-neutral progress-circle"
+        class="stroke-neutral/20 dark:stroke-neutral progress-circle"
         stroke-linecap="round"
         transform="rotate(-90, {parseInt(size) / 2} {parseInt(size) / 2})"
       />
@@ -112,7 +112,7 @@
           x={size / 2}
           y={size / 2}
           font-size="23"
-          class="fill-[#D6D7DB] font-mono font-extrabold recursive"
+          class="fill-base-content font-mono font-extrabold recursive"
           dy="2"
           text-anchor="middle"
           dominant-baseline="middle">{day.toUpperCase()}</text
@@ -136,7 +136,7 @@
             <text
               x={size / 2}
               y={size / 2 + 20}
-              class="fill-white font-mono recursive font-extrabold"
+              class="fill-base-content font-mono recursive font-extrabold"
               stroke-width="3"
               id="textOuter"
               text-anchor="middle"
