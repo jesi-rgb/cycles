@@ -110,9 +110,9 @@
       e.preventDefault();
       updateCurrentCount(habit.id, currentCount);
     }}
-    class="relative btn btn-circle btn-lg btn-accent text-4xl font-bold flex flex-row rounded-full cursor-pointer fraction completed"
+    class="relative btn btn-circle btn-lg btn-secondary dark:btn-accent text-4xl flex flex-row rounded-full cursor-pointer fraction"
   >
-    <span class={ccountLength + tcountLength >= 4 ? "text-3xl " : ""}>
+    <span class:text-3xl={ccountLength + tcountLength >= 4} class="font-[1000]">
       <sup>{currentCount.toString()}</sup>⁄<sub>
         {habit.target_count.toString()}
       </sub>

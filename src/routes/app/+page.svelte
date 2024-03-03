@@ -96,7 +96,7 @@
       <div class="w-full">
         {#each Object.entries(groupedHabits) as [category, categoryHabits], i}
           <div>
-            <div class="divider text-neutral-content font-bold text-2xl">
+            <div class="divider text-base-content/50 font-bold text-2xl">
               {category}
             </div>
             {#each categoryHabits as habit}
@@ -107,7 +107,7 @@
       </div>
       <a
         href="/app/new"
-        class="btn btn-circle btn-secondary btn-md text-6xl font-bold right-10 absolute group"
+        class="btn btn-circle btn-secondary absolute bottom-10 btn-md text-6xl font-bold right-10 group"
       >
         <Plus
           weight="bold"

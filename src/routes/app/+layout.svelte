@@ -26,7 +26,7 @@
   });
 </script>
 
-<div class="drawer lg:drawer-open selection:bg-neutral-content">
+<div class="drawer lg:drawer-open selection:bg-primary/20">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
   <div class="drawer-content flex flex-col justify-start p-10">
     <div class="flex flex-row items-center justify-between mb-5">
@@ -55,7 +55,7 @@
       </div>
     </div>
     <!-- whole app goes in here -->
-    <div class="selection:bg-neutral-content/30">
+    <div class="">
       <slot />
     </div>
     <!-- whole app goes in here -->

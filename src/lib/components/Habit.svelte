@@ -151,10 +151,14 @@
     <div class="flex flex-col justify-evenly h-full my-auto">
       <HabitTitle title={habit.title} />
       <div class="flex space-x-3 text-sm">
-        <div class="badge badge-primary badge-outline">
+        <div
+          class:badge-primary={habit.cycle == "weekly"}
+          class:badge-secondary={habit.cycle == "daily"}
+          class="badge badge-outline font-semibold"
+        >
           {habit.cycle}
         </div>
-        <div class="text-secondary">
+        <div class="text-base-content lining-nums font-medium">
           {DateTime.fromISO(habit.next_update).toRelative()}
         </div>
       </div>
@@ -167,7 +171,7 @@
 
 <!-- dialog to allow edits on the habit -->
 <dialog
-  class="px-5 md:px-10 pt-4 md:pt-8 pb-7 md:pb-14 rounded-xl ring-8 ring-base-100 bg-gradient-to-b from-base-100/90 to-base-300/90 border-2 border-accent bg-opacity-40 bg-base-300 backdrop-blur-sm w-[97%] text-xl"
+  class="px-5 md:px-10 pt-4 md:pt-8 pb-7 md:pb-14 rounded-xl ring-8 ring-base-100 bg-base-100 border-2 border-accent backdrop-blur-sm w-[97%] text-xl"
   bind:this={editDialog}
 >
   <div class="flex flex-col space-y-5 w-full">
