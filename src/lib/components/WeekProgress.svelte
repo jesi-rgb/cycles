@@ -1,32 +1,32 @@
 <script>
-  import { fly } from "svelte/transition";
-  import DayProgress from "./DayProgress.svelte";
-  import { DateTime } from "luxon";
+    import { fly } from 'svelte/transition'
+    import DayProgress from './DayProgress.svelte'
+    import { DateTime } from 'luxon'
 
-  export let dayProgress;
-  const days = ["m", "t", "w", "t", "f", "s", "s"];
+    export let dayProgress
+    const days = ['m', 't', 'w', 't', 'f', 's', 's']
 
-  //month day for this week's start
-  const weekDays = Array.from({ length: 7 }).map(
-    (d, i) => DateTime.now().startOf("week").plus({ days: i }).day,
-  );
+    //month day for this week's start
+    const weekDays = Array.from({ length: 7 }).map(
+        (d, i) => DateTime.now().startOf('week').plus({ days: i }).day
+    )
 
-  const todayIndex = DateTime.now().weekday - 1;
+    const todayIndex = DateTime.now().weekday - 1
 </script>
 
 <div
-  class="z-10 bg-base-100 w-full px-1 md:px-5 pt-3 rounded-xl flex flex-row justify-between mt-1 mb-2"
+    class="z-10 bg-base-100 w-full px-1 md:px-5 pt-3 rounded-xl flex flex-row justify-between mt-1 mb-2 shadow-md shadow-base-100"
 >
-  {#each days as day, i}
-    <div in:fly={{ x: -5, duration: 200, delay: 50 * i }}>
-      <DayProgress
-        {day}
-        {dayProgress}
-        size="40"
-        weekDay={weekDays[i]}
-        future={todayIndex < i ? true : false}
-        past={todayIndex > i ? true : false}
-      />
-    </div>
-  {/each}
+    {#each days as day, i}
+        <div in:fly={{ x: -5, duration: 200, delay: 50 * i }}>
+            <DayProgress
+                {day}
+                {dayProgress}
+                size="40"
+                weekDay={weekDays[i]}
+                future={todayIndex < i ? true : false}
+                past={todayIndex > i ? true : false}
+            />
+        </div>
+    {/each}
 </div>

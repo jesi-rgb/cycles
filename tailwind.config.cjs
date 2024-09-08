@@ -6,13 +6,13 @@ module.exports = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
     extend: {
-      fontFamily: { sans: ["Plein", "Commissioner"], mono: ["Recursive"] },
+      fontFamily: { sans: ["Plein"], mono: ["Recursive"] },
     },
   },
   plugins: [require("daisyui")],
   daisyui: {
     logs: false,
-    themes: ["emerald", "dracula"],
+    themes: ["dracula"],
     darkTheme: "dracula",
   },
 };
