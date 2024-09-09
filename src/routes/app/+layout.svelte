@@ -27,26 +27,7 @@
 </script>
 
 <svelte:head>
-    <!-- <meta -->
-    <!--     name="theme-color" -->
-    <!--     media="(prefers-color-scheme: light)" -->
-    <!--     content="#FFFFFF" -->
-    <!-- /> -->
-    <!-- <meta -->
-    <!--     name="theme-color" -->
-    <!--     media="(prefers-color-scheme: dark)" -->
-    <!--     content="#282A36" -->
-    <!-- /> -->
-    <meta
-        name="theme-color"
-        content="#319197"
-        media="(prefers-color-scheme: light)"
-    />
-    <meta
-        name="theme-color"
-        content="#872e4e"
-        media="(prefers-color-scheme: dark)"
-    />
+    <meta name="theme-color" content="#282A36" />
 </svelte:head>
 
 <div class="drawer lg:drawer-open selection:bg-primary/20">
@@ -55,7 +36,7 @@
         <div class="flex flex-row items-center justify-between mb-5">
             <div class="flex space-x-3">
                 <img src="cycles.svg" width="48" alt="" />
-                <div class="font-['Quicksand']">
+                <div class="font-light">
                     <Title>Cycles</Title>
                 </div>
             </div>

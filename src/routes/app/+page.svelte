@@ -103,16 +103,18 @@
                     </div>
                 {/each}
             </div>
-            <a
-                href="/app/new"
-                class="btn btn-circle btn-secondary sticky bottom-10 btn-md text-6xl font-bold left-[300px] group drop-shadow-xl"
-            >
-                <Plus
-                    weight="bold"
-                    class="group-hover:rotate-90 duration-300 transition-transform"
-                    size={32}
-                />
-            </a>
+            <div class="shadow-xl">
+                <a
+                    href="/app/new"
+                    class="btn btn-circle btn-secondary fixed bottom-4 btn-md text-6xl font-bold right-4 group shadow-xl"
+                >
+                    <Plus
+                        weight="bold"
+                        class="group-hover:rotate-90 duration-300 transition-transform"
+                        size={32}
+                    />
+                </a>
+            </div>
         {/if}
     </div>
 {/await}
