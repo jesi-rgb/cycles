@@ -1,39 +1,39 @@
 <script>
-    import { fly } from 'svelte/transition'
-    import { onMount } from 'svelte'
-    import { DateTime } from 'luxon'
+    import { fly } from "svelte/transition";
+    import { onMount } from "svelte";
+    import { DateTime } from "luxon";
 
-    export let size = 100
+    export let size = 100;
 
-    let radius = size / 2.7
+    let radius = size / 2.7;
 
-    export let day = 'm'
-    export let weekDay
-    export let past = false
-    export let future = false
-    export let dayProgress
+    export let day = "m";
+    export let weekDay;
+    export let past = false;
+    export let future = false;
+    export let dayProgress;
 
-    let time = new Date()
-    $: hours = time.getHours()
+    let time = new Date();
+    $: hours = time.getHours();
 
-    const circumference = 2 * Math.PI * radius
-    $: percentageValue = (hours / 24) * 100
+    const circumference = 2 * Math.PI * radius;
+    $: percentageValue = (hours / 24) * 100;
 
-    $: dashArray = (percentageValue / 100) * circumference
-    $: dashOffset = circumference - dashArray
+    $: dashArray = (percentageValue / 100) * circumference;
+    $: dashOffset = circumference - dashArray;
 
     onMount(() => {
         const interval = setInterval(
             () => {
-                time = new Date()
+                time = new Date();
             },
-            1000 * 60 * 60
-        )
+            1000 * 60 * 60,
+        );
 
         return () => {
-            clearInterval(interval)
-        }
-    })
+            clearInterval(interval);
+        };
+    });
 </script>
 
 <div class="w-fit">
@@ -131,7 +131,7 @@
                     stroke-dashoffset={dashOffset}
                     stroke-linecap="round"
                     transform="rotate(-90, {parseInt(size) / 2} {parseInt(
-                        size
+                        size,
                     ) / 2})"
                 />
 
@@ -188,7 +188,7 @@
 <style>
     .recursive {
         font-variation-settings:
-            'MONO' 0,
-            'CASL' 0.5;
+            "MONO" 0,
+            "CASL" 0.5;
     }
 </style>

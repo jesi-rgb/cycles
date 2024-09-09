@@ -56,7 +56,9 @@
     .fill(0)
     .map((d, i) => i);
 
-  $: x = scaleBand(times, [0, width - margin.right]);
+  $: x = scaleBand(times, [0, width - margin.right])
+    .padding(0.1)
+    .align(0.5);
 
   $: y = scaleLinear(
     [0, max(Object.values(bins))],
@@ -81,10 +83,9 @@
           <text
             text-anchor="middle"
             x={x(t)}
-            dx={x.bandwidth() / 2}
-            y={5}
+            y={11}
             alignment-baseline="hanging"
-            class="tabular-nums text-xs fill-base-content/30"
+            class="tabular-nums text-[8px] fill-base-content/30 font-mono"
           >
             {t}
           </text>
@@ -94,22 +95,12 @@
     <g transform="translate({margin.left},{0})">
       {#each Object.entries(bins) as d, i}
         <g class="group">
-          <text
-            class="text-[8px] sm:text-xs fill-base-content opacity-0 group-hover:opacity-80"
-            x={x(+d[0])}
-            dx={x.bandwidth() / 2}
-            text-anchor="middle"
-            y={y(+d[1])}
-            dy={-2}
-          >
-            {+d[1]}
-          </text>
           <rect
-            x={x(+d[0])}
+            x={x(+d[0]) - x.bandwidth() / 2}
             y={y(d[1])}
             width={x.bandwidth()}
             height={height - margin.bottom - y(d[1])}
-            class="fill-base-content hover:opacity-50 transition-all"
+            class="stroke-base-content/50 fill-base-100 hover:opacity-50 transition-all"
           />
         </g>
       {/each}
