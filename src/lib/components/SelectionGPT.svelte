@@ -1,64 +1,64 @@
 <script>
-    import X from 'phosphor-svelte/lib/X'
-    import { fly } from 'svelte/transition'
-    let isOpen = false // To track whether the dropdown is open
+    import X from "phosphor-svelte/lib/X";
+    import { fly } from "svelte/transition";
+    let isOpen = false; // To track whether the dropdown is open
 
     // Array of options
-    export let options
-    export let placeholder
-    export let isSearchable = true
-    $: optionsUnique = [...new Set(options)]
+    export let options;
+    export let placeholder;
+    export let isSearchable = true;
+    $: optionsUnique = [...new Set(options)];
 
-    export let selectedOption = '' // To store the selected option
-    $: searchTerm = selectedOption
-    $: if (searchTerm == '') {
-        closeDropdown()
+    export let selectedOption = ""; // To store the selected option
+    $: searchTerm = selectedOption;
+    $: if (searchTerm == "") {
+        closeDropdown();
     }
 
     // Function to toggle the dropdown open/close
     function toggleDropdown() {
-        isOpen = !isOpen
+        isOpen = !isOpen;
     }
 
     function closeDropdown() {
-        isOpen = false
+        isOpen = false;
     }
 
     function openDropdown() {
         if (!isOpen) {
-            isOpen = true
+            isOpen = true;
         }
     }
 
     // Function to handle option selection
     function handleSelection(option) {
-        selectedOption = option
-        isOpen = false // Close the dropdown after selection
-        searchTerm = selectedOption
+        selectedOption = option;
+        isOpen = false; // Close the dropdown after selection
+        searchTerm = selectedOption;
     }
 
-    let filteredOptions
+    let filteredOptions;
     $: if (!isSearchable) {
-        filteredOptions = optionsUnique
+        filteredOptions = optionsUnique;
     } else {
         filteredOptions = optionsUnique?.filter((option) =>
-            option.toLowerCase().includes(searchTerm.toLowerCase())
-        )
+            option.toLowerCase().includes(searchTerm.toLowerCase()),
+        );
     }
 
     function addNewOption() {
         if (optionsUnique != undefined) {
-            const newOption = searchTerm
-            optionsUnique = [newOption, ...optionsUnique]
-            selectedOption = newOption
-            isOpen = false // Close the dropdown after adding
+            const newOption = searchTerm;
+            optionsUnique = [newOption, ...optionsUnique];
+            selectedOption = newOption;
+            isOpen = false; // Close the dropdown after adding
         } else {
-            return []
+            return [];
         }
     }
 </script>
 
-<div class="relative">
+<div class="relative w-full">
     <input
         type="text"
         class="w-full input input-bordered input-secondary border-2 focus:input-accent"
@@ -71,7 +71,7 @@
     {#if isOpen}
         <div
             transition:fly={{ y: -10, duration: 200 }}
-            class="absolute top-10 left-0 bg-base-200 border rounded shadow"
+            class="absolute w-full z-10 top-10 left-0 bg-base-200 border border-neutral rounded shadow-md shadow-base-100"
         >
             {#if filteredOptions.length === 0 && searchTerm.length > 0}
                 <div
@@ -84,7 +84,7 @@
             {:else}
                 {#each filteredOptions as option}
                     <div
-                        class="p-2 cursor-pointer hover:bg-base-300"
+                        class="p-3 cursor-pointer hover:bg-base-300"
                         on:blur={closeDropdown}
                         on:click={() => handleSelection(option)}
                     >
@@ -98,8 +98,8 @@
         <button
             class="absolute right-2 w-7 h-7 rounded-full border border-secondary text-secondary top-1/2 -translate-y-1/2 hover:bg-secondary transition-colors group"
             on:click={(e) => {
-                e.preventDefault()
-                searchTerm = ''
+                e.preventDefault();
+                searchTerm = "";
             }}
         >
             <X
